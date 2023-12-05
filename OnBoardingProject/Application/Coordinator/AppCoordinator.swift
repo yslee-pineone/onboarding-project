@@ -7,8 +7,6 @@
 
 import UIKit
 
-import Swinject
-
 class AppCoordinator: CoordinatorProtocol {
     let dependency: Dependency
     var navigationController: UINavigationController
@@ -16,7 +14,6 @@ class AppCoordinator: CoordinatorProtocol {
     
     struct Dependency {
         let navigationController: UINavigationController
-        let container: Container
     }
     
     init(
@@ -27,8 +24,8 @@ class AppCoordinator: CoordinatorProtocol {
     }
     
     func start() {
-        let dependency = TabbarCoordinator.Dependency(navigationController: self.navigationController,
-                                                      container: self.dependency.container
+        let dependency = TabbarCoordinator.Dependency(
+            navigationController: self.navigationController
         )
         
         let tabbarCoordinator = TabbarCoordinator(dependency: dependency)

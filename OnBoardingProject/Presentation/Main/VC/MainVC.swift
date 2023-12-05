@@ -7,8 +7,17 @@
 
 import UIKit
 
+import RxSwift
+import RxCocoa
+import Then
+import SnapKit
+
 class MainVC: UIViewController {
     let viewModel: MainViewModel
+    
+    let tableView = UITableView().then {
+        $0.backgroundColor = .systemBackground
+    }
     
     init(
         viewModel: MainViewModel
@@ -29,6 +38,6 @@ class MainVC: UIViewController {
 
 extension MainVC {
     func attribute() {
-        self.view.backgroundColor = .yellow
+        self.view.backgroundColor = .systemBackground
     }
 }

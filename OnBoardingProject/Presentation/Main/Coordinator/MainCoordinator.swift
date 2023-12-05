@@ -7,8 +7,6 @@
 
 import UIKit
 
-import Swinject
-
 class MainCoordinator: CoordinatorProtocol {
     let dependency: Dependency
     var navigationController: UINavigationController
@@ -16,8 +14,6 @@ class MainCoordinator: CoordinatorProtocol {
     
     struct Dependency {
         let navigationController: UINavigationController
-        let container: Container
-        let mainVC: MainVC
     }
     
     init(
@@ -28,6 +24,8 @@ class MainCoordinator: CoordinatorProtocol {
     }
     
     func start() {
-        self.navigationController.pushViewController(self.dependency.mainVC, animated: true)
+        let viewModel = MainViewModel()
+        let mainVC = MainVC(viewModel: viewModel)
+        self.navigationController.pushViewController(mainVC, animated: true)
     }
 }

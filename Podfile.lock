@@ -1,4 +1,5 @@
 PODS:
+  - Alamofire (5.8.1)
   - Differentiator (5.0.0)
   - Kingfisher (7.10.0)
   - RxCocoa (6.6.0):
@@ -15,21 +16,21 @@ PODS:
     - RxSwift (= 6.6.0)
   - RxSwift (6.6.0)
   - SnapKit (5.6.0)
-  - Swinject (2.8.3)
   - Then (3.0.0)
 
 DEPENDENCIES:
+  - Alamofire
   - Kingfisher
   - RxCocoa
   - RxDataSources
   - RxOptional
   - RxSwift
   - SnapKit
-  - Swinject
   - Then
 
 SPEC REPOS:
   trunk:
+    - Alamofire
     - Differentiator
     - Kingfisher
     - RxCocoa
@@ -38,10 +39,10 @@ SPEC REPOS:
     - RxRelay
     - RxSwift
     - SnapKit
-    - Swinject
     - Then
 
 SPEC CHECKSUMS:
+  Alamofire: 3ca42e259043ee0dc5c0cdd76c4bc568b8e42af7
   Differentiator: e8497ceab83c1b10ca233716d547b9af21b9344d
   Kingfisher: a18f05d3b6d37d8650ee4a3e61d57a28fc6207f6
   RxCocoa: 44a80de90e25b739b5aeaae3c8c371a32e3343cc
@@ -50,9 +51,8 @@ SPEC CHECKSUMS:
   RxRelay: 45eaa5db8ee4fb50e5ebd57deec0159e97fa51e6
   RxSwift: a4b44f7d24599f674deebd1818eab82e58410632
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
-  Swinject: 893c9a543000ac2f10ee4cbaf0933c6992c935d5
   Then: 844265ae87834bbe1147d91d5d41a404da2ec27d
 
-PODFILE CHECKSUM: b9f36670f794a73e80b2931feeb70809dc4c840f
+PODFILE CHECKSUM: 5554c31180525952cb8bb2f232b935a46e8816e9
 
 COCOAPODS: 1.14.3

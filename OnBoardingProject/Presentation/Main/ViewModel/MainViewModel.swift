@@ -11,9 +11,11 @@ import RxSwift
 import RxCocoa
 
 class MainViewModel {
-    init(
+    let bookListLoad: BookListLoadProtocol
     
+    init(
+        bookListLoad: BookListLoadProtocol
     ) {
-        
+        self.bookListLoad = bookListLoad
     }
 }

@@ -17,20 +17,18 @@
 		C3EE7DD62B1ED5B400DC64A1 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7DD52B1ED5B400DC64A1 /* MainVC.swift */; };
 		C3EE7DDB2B1ED5D200DC64A1 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7DDA2B1ED5D200DC64A1 /* MainViewModel.swift */; };
 		C3EE7DDE2B1ED5DC00DC64A1 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7DDD2B1ED5DC00DC64A1 /* MainCoordinator.swift */; };
-		C3EE7DE52B1ED62900DC64A1 /* URLSession+.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7DE42B1ED62900DC64A1 /* URLSession+.swift */; };
 		C3EE7DE72B1ED64600DC64A1 /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7DE62B1ED64600DC64A1 /* URLSessionProtocol.swift */; };
 		C3EE7DEC2B1ED72600DC64A1 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7DEB2B1ED72600DC64A1 /* AppCoordinator.swift */; };
 		C3EE7DEE2B1EDCE100DC64A1 /* TabbarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7DED2B1EDCE100DC64A1 /* TabbarCoordinator.swift */; };
 		C3EE7DF02B1EDCEA00DC64A1 /* TabbarCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7DEF2B1EDCEA00DC64A1 /* TabbarCategory.swift */; };
-		C3EE7DF42B1EE5E300DC64A1 /* MainAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7DF32B1EE5E300DC64A1 /* MainAssembly.swift */; };
 		C3EE7DF62B1EEA9700DC64A1 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7DF52B1EEA9700DC64A1 /* NetworkService.swift */; };
 		C3EE7DF82B1EEAA100DC64A1 /* NetworkServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7DF72B1EEAA100DC64A1 /* NetworkServiceProtocol.swift */; };
-		C3EE7DFA2B1EEB2400DC64A1 /* URLMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7DF92B1EEB2400DC64A1 /* URLMethod.swift */; };
 		C3EE7E002B1EEFF100DC64A1 /* BookListLoad.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7DFF2B1EEFF100DC64A1 /* BookListLoad.swift */; };
-		C3EE7E052B1EF03B00DC64A1 /* BookListDataDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7E042B1EF03B00DC64A1 /* BookListDataDTO.swift */; };
+		C3EE7E052B1EF03B00DC64A1 /* BookListData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7E042B1EF03B00DC64A1 /* BookListData.swift */; };
 		C3EE7E082B1EF15C00DC64A1 /* URLRequestConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7E072B1EF15C00DC64A1 /* URLRequestConfiguration.swift */; };
 		C3EE7E0B2B1EF57000DC64A1 /* BookListLoadProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7E0A2B1EF57000DC64A1 /* BookListLoadProtocol.swift */; };
-		C3EE7E0D2B1EF58B00DC64A1 /* DataAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7E0C2B1EF58B00DC64A1 /* DataAssembly.swift */; };
+		C3EE7E102B1EF9A900DC64A1 /* MainTableVIewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7E0F2B1EF9A900DC64A1 /* MainTableVIewCell.swift */; };
+		C3EE7E132B1EFE4500DC64A1 /* StandardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7E122B1EFE4500DC64A1 /* StandardTableViewCell.swift */; };
 		F511477E3A8584DA95BCD4FC /* Pods_OnBoardingProject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 698D0B01EEDB991075DBCB3C /* Pods_OnBoardingProject.framework */; };
 /* End PBXBuildFile section */
 
@@ -50,20 +48,18 @@
 		C3EE7DD52B1ED5B400DC64A1 /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
 		C3EE7DDA2B1ED5D200DC64A1 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		C3EE7DDD2B1ED5DC00DC64A1 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
-		C3EE7DE42B1ED62900DC64A1 /* URLSession+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+.swift"; sourceTree = "<group>"; };
 		C3EE7DE62B1ED64600DC64A1 /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		C3EE7DEB2B1ED72600DC64A1 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		C3EE7DED2B1EDCE100DC64A1 /* TabbarCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarCoordinator.swift; sourceTree = "<group>"; };
 		C3EE7DEF2B1EDCEA00DC64A1 /* TabbarCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarCategory.swift; sourceTree = "<group>"; };
-		C3EE7DF32B1EE5E300DC64A1 /* MainAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainAssembly.swift; sourceTree = "<group>"; };
 		C3EE7DF52B1EEA9700DC64A1 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		C3EE7DF72B1EEAA100DC64A1 /* NetworkServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceProtocol.swift; sourceTree = "<group>"; };
-		C3EE7DF92B1EEB2400DC64A1 /* URLMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLMethod.swift; sourceTree = "<group>"; };
 		C3EE7DFF2B1EEFF100DC64A1 /* BookListLoad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListLoad.swift; sourceTree = "<group>"; };
-		C3EE7E042B1EF03B00DC64A1 /* BookListDataDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListDataDTO.swift; sourceTree = "<group>"; };
+		C3EE7E042B1EF03B00DC64A1 /* BookListData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListData.swift; sourceTree = "<group>"; };
 		C3EE7E072B1EF15C00DC64A1 /* URLRequestConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRequestConfiguration.swift; sourceTree = "<group>"; };
 		C3EE7E0A2B1EF57000DC64A1 /* BookListLoadProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListLoadProtocol.swift; sourceTree = "<group>"; };
-		C3EE7E0C2B1EF58B00DC64A1 /* DataAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataAssembly.swift; sourceTree = "<group>"; };
+		C3EE7E0F2B1EF9A900DC64A1 /* MainTableVIewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableVIewCell.swift; sourceTree = "<group>"; };
+		C3EE7E122B1EFE4500DC64A1 /* StandardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,7 +115,8 @@
 				C3EE7DE92B1ED6BE00DC64A1 /* Resource */,
 				C3EE7DC92B1ED4B000DC64A1 /* Application */,
 				C3EE7DE82B1ED67700DC64A1 /* Presentation */,
-				C3EE7DE12B1ED60000DC64A1 /* Data */,
+				C3EE7E012B1EEFF800DC64A1 /* Model */,
+				C3EE7DE12B1ED60000DC64A1 /* Networking */,
 				C3EE7DCB2B1ED4ED00DC64A1 /* CommonStyle */,
 				C3EE7DCA2B1ED4E800DC64A1 /* Common */,
 			);
@@ -133,7 +130,6 @@
 				C3DCAF1F2B1EBF4600CF40B9 /* SceneDelegate.swift */,
 				C3DCAF282B1EBF4800CF40B9 /* LaunchScreen.storyboard */,
 				C3DCAF2B2B1EBF4800CF40B9 /* Info.plist */,
-				C3EE7DF22B1EE5D800DC64A1 /* DI */,
 				C3EE7DEA2B1ED71C00DC64A1 /* Coordinator */,
 			);
 			path = Application;
@@ -152,6 +148,7 @@
 			children = (
 				C3EE7DCF2B1ED54500DC64A1 /* FontStyle.swift */,
 				C3EE7DD12B1ED57300DC64A1 /* PaddingStyle.swift */,
+				C3EE7E122B1EFE4500DC64A1 /* StandardTableViewCell.swift */,
 			);
 			path = CommonStyle;
 			sourceTree = "<group>";
@@ -167,6 +164,7 @@
 		C3EE7DD32B1ED5A700DC64A1 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				C3EE7E0E2B1EF96C00DC64A1 /* View */,
 				C3EE7DDC2B1ED5D500DC64A1 /* Coordinator */,
 				C3EE7DD72B1ED5B700DC64A1 /* ViewModel */,
 				C3EE7DD42B1ED5AF00DC64A1 /* VC */,
@@ -198,13 +196,13 @@
 			path = Coordinator;
 			sourceTree = "<group>";
 		};
-		C3EE7DE12B1ED60000DC64A1 /* Data */ = {
+		C3EE7DE12B1ED60000DC64A1 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
-				C3EE7DFE2B1EEFC400DC64A1 /* Repository */,
+				C3EE7E062B1EF10900DC64A1 /* BookListLoad */,
 				C3EE7DE22B1ED60600DC64A1 /* NetworkService */,
 			);
-			path = Data;
+			path = Networking;
 			sourceTree = "<group>";
 		};
 		C3EE7DE22B1ED60600DC64A1 /* NetworkService */ = {
@@ -212,7 +210,6 @@
 			children = (
 				C3EE7DFB2B1EEF5000DC64A1 /* Entity */,
 				C3EE7DE32B1ED60F00DC64A1 /* Protocol */,
-				C3EE7DE42B1ED62900DC64A1 /* URLSession+.swift */,
 				C3EE7DF52B1EEA9700DC64A1 /* NetworkService.swift */,
 			);
 			path = NetworkService;
@@ -261,45 +258,26 @@
 			path = Entity;
 			sourceTree = "<group>";
 		};
-		C3EE7DF22B1EE5D800DC64A1 /* DI */ = {
-			isa = PBXGroup;
-			children = (
-				C3EE7DF32B1EE5E300DC64A1 /* MainAssembly.swift */,
-				C3EE7E0C2B1EF58B00DC64A1 /* DataAssembly.swift */,
-			);
-			path = DI;
-			sourceTree = "<group>";
-		};
 		C3EE7DFB2B1EEF5000DC64A1 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
 				C3EE7E072B1EF15C00DC64A1 /* URLRequestConfiguration.swift */,
-				C3EE7DF92B1EEB2400DC64A1 /* URLMethod.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
 		};
-		C3EE7DFE2B1EEFC400DC64A1 /* Repository */ = {
+		C3EE7E012B1EEFF800DC64A1 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				C3EE7E062B1EF10900DC64A1 /* BookListLoad */,
+				C3EE7E042B1EF03B00DC64A1 /* BookListData.swift */,
 			);
-			path = Repository;
-			sourceTree = "<group>";
-		};
-		C3EE7E012B1EEFF800DC64A1 /* DTO */ = {
-			isa = PBXGroup;
-			children = (
-				C3EE7E042B1EF03B00DC64A1 /* BookListDataDTO.swift */,
-			);
-			path = DTO;
+			path = Model;
 			sourceTree = "<group>";
 		};
 		C3EE7E062B1EF10900DC64A1 /* BookListLoad */ = {
 			isa = PBXGroup;
 			children = (
 				C3EE7E092B1EF56900DC64A1 /* Protocol */,
-				C3EE7E012B1EEFF800DC64A1 /* DTO */,
 				C3EE7DFF2B1EEFF100DC64A1 /* BookListLoad.swift */,
 			);
 			path = BookListLoad;
@@ -311,6 +289,14 @@
 				C3EE7E0A2B1EF57000DC64A1 /* BookListLoadProtocol.swift */,
 			);
 			path = Protocol;
+			sourceTree = "<group>";
+		};
+		C3EE7E0E2B1EF96C00DC64A1 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C3EE7E0F2B1EF9A900DC64A1 /* MainTableVIewCell.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -429,23 +415,21 @@
 			files = (
 				C3EE7DEC2B1ED72600DC64A1 /* AppCoordinator.swift in Sources */,
 				C3EE7DF02B1EDCEA00DC64A1 /* TabbarCategory.swift in Sources */,
+				C3EE7E132B1EFE4500DC64A1 /* StandardTableViewCell.swift in Sources */,
 				C3EE7E002B1EEFF100DC64A1 /* BookListLoad.swift in Sources */,
-				C3EE7DF42B1EE5E300DC64A1 /* MainAssembly.swift in Sources */,
 				C3EE7DE72B1ED64600DC64A1 /* URLSessionProtocol.swift in Sources */,
 				C3EE7DDB2B1ED5D200DC64A1 /* MainViewModel.swift in Sources */,
 				C3EE7E0B2B1EF57000DC64A1 /* BookListLoadProtocol.swift in Sources */,
-				C3EE7E0D2B1EF58B00DC64A1 /* DataAssembly.swift in Sources */,
-				C3EE7DFA2B1EEB2400DC64A1 /* URLMethod.swift in Sources */,
 				C3EE7DDE2B1ED5DC00DC64A1 /* MainCoordinator.swift in Sources */,
-				C3EE7DE52B1ED62900DC64A1 /* URLSession+.swift in Sources */,
 				C3EE7E082B1EF15C00DC64A1 /* URLRequestConfiguration.swift in Sources */,
-				C3EE7E052B1EF03B00DC64A1 /* BookListDataDTO.swift in Sources */,
+				C3EE7E052B1EF03B00DC64A1 /* BookListData.swift in Sources */,
 				C3EE7DF82B1EEAA100DC64A1 /* NetworkServiceProtocol.swift in Sources */,
 				C3DCAF1E2B1EBF4600CF40B9 /* AppDelegate.swift in Sources */,
 				C3EE7DD62B1ED5B400DC64A1 /* MainVC.swift in Sources */,
 				C3DCAF202B1EBF4600CF40B9 /* SceneDelegate.swift in Sources */,
 				C3EE7DF62B1EEA9700DC64A1 /* NetworkService.swift in Sources */,
 				C3EE7DD02B1ED54500DC64A1 /* FontStyle.swift in Sources */,
+				C3EE7E102B1EF9A900DC64A1 /* MainTableVIewCell.swift in Sources */,
 				C3EE7DCE2B1ED50800DC64A1 /* CoordinatorProtocol.swift in Sources */,
 				C3EE7DEE2B1EDCE100DC64A1 /* TabbarCoordinator.swift in Sources */,
 				C3EE7DD22B1ED57300DC64A1 /* PaddingStyle.swift in Sources */,

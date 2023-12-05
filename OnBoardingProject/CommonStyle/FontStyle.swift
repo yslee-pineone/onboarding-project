@@ -8,9 +8,10 @@
 import Foundation
 
 enum FontStyle: CGFloat {
-    case small = 12
+    case small = 10
+    case midSmall = 14
     case mid = 16
-    case titleBig = 24
+    case titleBig = 18
         
     var ofSize: CGFloat {
         self.rawValue

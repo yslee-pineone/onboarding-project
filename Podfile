@@ -15,6 +15,6 @@ pod 'RxOptional'
 pod 'Then'
 pod 'SnapKit'
 pod 'Kingfisher'
-pod 'Swinject'
+pod 'Alamofire'
 
 end
