@@ -23,6 +23,14 @@
 		C3EE7DEE2B1EDCE100DC64A1 /* TabbarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7DED2B1EDCE100DC64A1 /* TabbarCoordinator.swift */; };
 		C3EE7DF02B1EDCEA00DC64A1 /* TabbarCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7DEF2B1EDCEA00DC64A1 /* TabbarCategory.swift */; };
 		C3EE7DF42B1EE5E300DC64A1 /* MainAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7DF32B1EE5E300DC64A1 /* MainAssembly.swift */; };
+		C3EE7DF62B1EEA9700DC64A1 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7DF52B1EEA9700DC64A1 /* NetworkService.swift */; };
+		C3EE7DF82B1EEAA100DC64A1 /* NetworkServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7DF72B1EEAA100DC64A1 /* NetworkServiceProtocol.swift */; };
+		C3EE7DFA2B1EEB2400DC64A1 /* URLMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7DF92B1EEB2400DC64A1 /* URLMethod.swift */; };
+		C3EE7E002B1EEFF100DC64A1 /* BookListLoad.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7DFF2B1EEFF100DC64A1 /* BookListLoad.swift */; };
+		C3EE7E052B1EF03B00DC64A1 /* BookListDataDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7E042B1EF03B00DC64A1 /* BookListDataDTO.swift */; };
+		C3EE7E082B1EF15C00DC64A1 /* URLRequestConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7E072B1EF15C00DC64A1 /* URLRequestConfiguration.swift */; };
+		C3EE7E0B2B1EF57000DC64A1 /* BookListLoadProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7E0A2B1EF57000DC64A1 /* BookListLoadProtocol.swift */; };
+		C3EE7E0D2B1EF58B00DC64A1 /* DataAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7E0C2B1EF58B00DC64A1 /* DataAssembly.swift */; };
 		F511477E3A8584DA95BCD4FC /* Pods_OnBoardingProject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 698D0B01EEDB991075DBCB3C /* Pods_OnBoardingProject.framework */; };
 /* End PBXBuildFile section */
 
@@ -48,6 +56,14 @@
 		C3EE7DED2B1EDCE100DC64A1 /* TabbarCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarCoordinator.swift; sourceTree = "<group>"; };
 		C3EE7DEF2B1EDCEA00DC64A1 /* TabbarCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarCategory.swift; sourceTree = "<group>"; };
 		C3EE7DF32B1EE5E300DC64A1 /* MainAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainAssembly.swift; sourceTree = "<group>"; };
+		C3EE7DF52B1EEA9700DC64A1 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		C3EE7DF72B1EEAA100DC64A1 /* NetworkServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceProtocol.swift; sourceTree = "<group>"; };
+		C3EE7DF92B1EEB2400DC64A1 /* URLMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLMethod.swift; sourceTree = "<group>"; };
+		C3EE7DFF2B1EEFF100DC64A1 /* BookListLoad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListLoad.swift; sourceTree = "<group>"; };
+		C3EE7E042B1EF03B00DC64A1 /* BookListDataDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListDataDTO.swift; sourceTree = "<group>"; };
+		C3EE7E072B1EF15C00DC64A1 /* URLRequestConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRequestConfiguration.swift; sourceTree = "<group>"; };
+		C3EE7E0A2B1EF57000DC64A1 /* BookListLoadProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListLoadProtocol.swift; sourceTree = "<group>"; };
+		C3EE7E0C2B1EF58B00DC64A1 /* DataAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataAssembly.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -185,6 +201,7 @@
 		C3EE7DE12B1ED60000DC64A1 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				C3EE7DFE2B1EEFC400DC64A1 /* Repository */,
 				C3EE7DE22B1ED60600DC64A1 /* NetworkService */,
 			);
 			path = Data;
@@ -193,8 +210,10 @@
 		C3EE7DE22B1ED60600DC64A1 /* NetworkService */ = {
 			isa = PBXGroup;
 			children = (
+				C3EE7DFB2B1EEF5000DC64A1 /* Entity */,
 				C3EE7DE32B1ED60F00DC64A1 /* Protocol */,
 				C3EE7DE42B1ED62900DC64A1 /* URLSession+.swift */,
+				C3EE7DF52B1EEA9700DC64A1 /* NetworkService.swift */,
 			);
 			path = NetworkService;
 			sourceTree = "<group>";
@@ -203,6 +222,7 @@
 			isa = PBXGroup;
 			children = (
 				C3EE7DE62B1ED64600DC64A1 /* URLSessionProtocol.swift */,
+				C3EE7DF72B1EEAA100DC64A1 /* NetworkServiceProtocol.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -245,8 +265,52 @@
 			isa = PBXGroup;
 			children = (
 				C3EE7DF32B1EE5E300DC64A1 /* MainAssembly.swift */,
+				C3EE7E0C2B1EF58B00DC64A1 /* DataAssembly.swift */,
 			);
 			path = DI;
+			sourceTree = "<group>";
+		};
+		C3EE7DFB2B1EEF5000DC64A1 /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				C3EE7E072B1EF15C00DC64A1 /* URLRequestConfiguration.swift */,
+				C3EE7DF92B1EEB2400DC64A1 /* URLMethod.swift */,
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
+		C3EE7DFE2B1EEFC400DC64A1 /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				C3EE7E062B1EF10900DC64A1 /* BookListLoad */,
+			);
+			path = Repository;
+			sourceTree = "<group>";
+		};
+		C3EE7E012B1EEFF800DC64A1 /* DTO */ = {
+			isa = PBXGroup;
+			children = (
+				C3EE7E042B1EF03B00DC64A1 /* BookListDataDTO.swift */,
+			);
+			path = DTO;
+			sourceTree = "<group>";
+		};
+		C3EE7E062B1EF10900DC64A1 /* BookListLoad */ = {
+			isa = PBXGroup;
+			children = (
+				C3EE7E092B1EF56900DC64A1 /* Protocol */,
+				C3EE7E012B1EEFF800DC64A1 /* DTO */,
+				C3EE7DFF2B1EEFF100DC64A1 /* BookListLoad.swift */,
+			);
+			path = BookListLoad;
+			sourceTree = "<group>";
+		};
+		C3EE7E092B1EF56900DC64A1 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				C3EE7E0A2B1EF57000DC64A1 /* BookListLoadProtocol.swift */,
+			);
+			path = Protocol;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -365,14 +429,22 @@
 			files = (
 				C3EE7DEC2B1ED72600DC64A1 /* AppCoordinator.swift in Sources */,
 				C3EE7DF02B1EDCEA00DC64A1 /* TabbarCategory.swift in Sources */,
+				C3EE7E002B1EEFF100DC64A1 /* BookListLoad.swift in Sources */,
 				C3EE7DF42B1EE5E300DC64A1 /* MainAssembly.swift in Sources */,
 				C3EE7DE72B1ED64600DC64A1 /* URLSessionProtocol.swift in Sources */,
 				C3EE7DDB2B1ED5D200DC64A1 /* MainViewModel.swift in Sources */,
+				C3EE7E0B2B1EF57000DC64A1 /* BookListLoadProtocol.swift in Sources */,
+				C3EE7E0D2B1EF58B00DC64A1 /* DataAssembly.swift in Sources */,
+				C3EE7DFA2B1EEB2400DC64A1 /* URLMethod.swift in Sources */,
 				C3EE7DDE2B1ED5DC00DC64A1 /* MainCoordinator.swift in Sources */,
 				C3EE7DE52B1ED62900DC64A1 /* URLSession+.swift in Sources */,
+				C3EE7E082B1EF15C00DC64A1 /* URLRequestConfiguration.swift in Sources */,
+				C3EE7E052B1EF03B00DC64A1 /* BookListDataDTO.swift in Sources */,
+				C3EE7DF82B1EEAA100DC64A1 /* NetworkServiceProtocol.swift in Sources */,
 				C3DCAF1E2B1EBF4600CF40B9 /* AppDelegate.swift in Sources */,
 				C3EE7DD62B1ED5B400DC64A1 /* MainVC.swift in Sources */,
 				C3DCAF202B1EBF4600CF40B9 /* SceneDelegate.swift in Sources */,
+				C3EE7DF62B1EEA9700DC64A1 /* NetworkService.swift in Sources */,
 				C3EE7DD02B1ED54500DC64A1 /* FontStyle.swift in Sources */,
 				C3EE7DCE2B1ED50800DC64A1 /* CoordinatorProtocol.swift in Sources */,
 				C3EE7DEE2B1EDCE100DC64A1 /* TabbarCoordinator.swift in Sources */,
