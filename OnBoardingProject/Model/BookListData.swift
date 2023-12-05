@@ -7,12 +7,13 @@
 
 import Foundation
 
+
 struct BookListData: Decodable {
     let page: String?
     let books: [BookData]
 }
 
-struct BookData: Decodable {
+struct BookData: Decodable{
     let title: String
     let subtitle: String
     let isbn13: String

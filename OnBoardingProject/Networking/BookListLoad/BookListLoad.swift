@@ -10,18 +10,18 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-class BookListLoad: BookListLoadProtocol {
+class BookListLoad {
     let networkService: NetworkServiceProtocol
     
     init(
-        networkService: NetworkServiceProtocol
+        networkService: NetworkServiceProtocol = NetworkService()
     ) {
         self.networkService = networkService
     }
     
     func newBookListRequest() -> Observable<BookListData> {
         let urlComponents = self.setURLComponents(query: nil, page: nil)
-     
+       
         return self.networkService.request(
             urlComponents: urlComponents,
             decodingType: BookListData.self

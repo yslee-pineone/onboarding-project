@@ -13,20 +13,32 @@ import Kingfisher
 
 class StandardTableViewCell: UITableViewCell {
     let mainView = UIView().then {
-        $0.layer.cornerRadius = 20
-        $0.backgroundColor = .lightGray
+        $0.layer.cornerRadius = 16
+        $0.backgroundColor = .systemGray6
     }
     
-    let bookImageView = UIImageView()
+    let bookImageView = UIImageView().then {
+        $0.contentMode = .scaleToFill
+    }
     
     let browserIcon = UIImageView().then {
         $0.image = UIImage(systemName: "safari")
     }
     
     let stackView = UIStackView().then {
-        $0.backgroundColor = .gray
-        $0.distribution = .equalSpacing
-        $0.alignment = .fill
+        $0.layer.cornerRadius = 16
+        $0.sideCornerRound([.layerMinXMaxYCorner, .layerMaxXMaxYCorner])
+        $0.layoutMargins = UIEdgeInsets(
+            top: PaddingStyle.standard.ofSize, 
+            left: PaddingStyle.standard.ofSize,
+            bottom: PaddingStyle.standard.ofSize,
+            right: PaddingStyle.standard.ofSize
+        )
+        $0.isLayoutMarginsRelativeArrangement = true
+        $0.backgroundColor = .systemGray5
+        $0.spacing = 4
+        $0.distribution = .equalCentering
+        $0.alignment = .center
         $0.axis = .vertical
     }
     
@@ -51,7 +63,7 @@ class StandardTableViewCell: UITableViewCell {
     let priceTitle = UILabel().then {
         $0.textColor = .black
         $0.textAlignment = .center
-        $0.font = .systemFont(ofSize: FontStyle.small.ofSize)
+        $0.font = .systemFont(ofSize: FontStyle.midSmall.ofSize)
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -68,12 +80,14 @@ class StandardTableViewCell: UITableViewCell {
 extension StandardTableViewCell {
     private func attribute() {
         self.backgroundColor = .clear
+        self.selectionStyle = .none
     }
     
     private func layout() {
         self.addSubview(self.mainView)
         self.mainView.snp.makeConstraints {
-            $0.edges.equalToSuperview().inset(PaddingStyle.standard.ofSize)
+            $0.leading.trailing.equalToSuperview().inset(PaddingStyle.big.ofSize)
+            $0.top.bottom.equalToSuperview().inset(PaddingStyle.standard.ofSize)
         }
         
         [self.bookImageView, self.stackView, self.browserIcon]
@@ -82,13 +96,16 @@ extension StandardTableViewCell {
             }
         
         self.bookImageView.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview().inset(PaddingStyle.standard.ofSize)
-            $0.height.equalTo(60)
+            $0.top.equalToSuperview().inset(PaddingStyle.standard.ofSize)
+            $0.centerX.equalToSuperview()
+            $0.width.equalTo(120)
+            $0.height.equalTo(160)
         }
         
         self.stackView.snp.makeConstraints {
-            $0.leading.trailing.bottom.equalTo(self.bookImageView)
+            $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(self.bookImageView.snp.bottom).offset(PaddingStyle.standard.ofSize)
+            $0.bottom.equalToSuperview()
         }
         
         self.browserIcon.snp.makeConstraints {
@@ -101,6 +118,10 @@ extension StandardTableViewCell {
             .forEach {
                 self.stackView.addArrangedSubview($0)
             }
+        
+        self.mainView.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(PaddingStyle.standard.ofSize)
+        }
     }
     
     func cellDataSet(data: BookData) {

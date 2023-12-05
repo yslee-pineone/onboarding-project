@@ -16,7 +16,7 @@ class NetworkService: NetworkServiceProtocol {
     func request<T: Decodable>(
         urlComponents: URLComponents,
         decodingType: T.Type
-    ) -> Single<Result<T, URLError>>{
+    ) -> Observable<Result<T, URLError>>{
         guard let url = urlComponents.url else {return .just(.failure(.init(.badURL)))}
         
         return Observable.create { observer -> Disposable in
@@ -31,7 +31,6 @@ class NetworkService: NetworkServiceProtocol {
                 }
             return Disposables.create()
         }
-        .asSingle()
             
     }
 }

@@ -11,10 +11,38 @@ import RxSwift
 import RxCocoa
 
 class MainViewModel {
-    let bookListLoad: BookListLoadProtocol
+    let bookListLoad: BookListLoad
+    let nowCellData = BehaviorRelay<[BookData]>(value: [])
+    
+    let bag = DisposeBag()
+    
+    struct Input {
+        let refreshEvent: Observable<Void>
+    }
+    
+    struct Output {
+        let cellData: Driver<[BookData]>
+    }
+    
+    func transform(input: Input) -> Output {
+        input.refreshEvent
+            .withUnretained(self)
+            .debug()
+            .flatMap { viewModel, _ in
+                viewModel.bookListLoad.newBookListRequest()
+            }
+            .map {$0.books}
+            .bind(to: self.nowCellData)
+            .disposed(by: self.bag)
+        
+        return Output(
+            cellData: self.nowCellData
+                .asDriver(onErrorDriveWith: .empty())
+        )
+    }
     
     init(
-        bookListLoad: BookListLoadProtocol
+        bookListLoad: BookListLoad
     ) {
         self.bookListLoad = bookListLoad
     }

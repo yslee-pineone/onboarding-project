@@ -10,23 +10,41 @@ import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
-    var appCoordinator: AppCoordinator!
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         self.window = UIWindow(windowScene: windowScene)
-        let rootNavigationController = UINavigationController()
+    
+        let tabbarController = UITabBarController()
         
-        self.window?.rootViewController = rootNavigationController
+        let navigations = TabbarCategory.allCases.map { [weak self] category in
+            self?.createNavigationController(category: category) ?? UINavigationController()
+        }
+        
+        tabbarController.setViewControllers(navigations, animated: true)
+        
+        self.window?.rootViewController = tabbarController
         self.window?.makeKeyAndVisible()
-        
-        let dependency = AppCoordinator.Dependency(
-            navigationController: rootNavigationController
-        )
-        
-        self.appCoordinator = AppCoordinator(dependency: dependency)
-        self.appCoordinator.start()
-        
     }
 }
 
+extension SceneDelegate {
+    func createTabbarItem(category: TabbarCategory) -> UITabBarItem {
+        UITabBarItem(title: category.title, image: category.icon, tag: category.number)
+    }
+    
+    func createNavigationController(category: TabbarCategory) -> UINavigationController {
+        let navigationController = UINavigationController()
+        navigationController.tabBarItem = self.createTabbarItem(category: category)
+        
+        switch category {
+        case .new:
+            let mainViewModel = MainViewModel(bookListLoad: BookListLoad())
+            navigationController.pushViewController(MainVC(viewModel: mainViewModel), animated: true)
+        case .search: 
+            break
+        }
+        
+        return navigationController
+    }
+}

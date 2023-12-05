@@ -9,6 +9,7 @@ import Foundation
 
 enum PaddingStyle: CGFloat {
     case standard = 12
+    case big = 24
         
     var ofSize: CGFloat {
         self.rawValue
