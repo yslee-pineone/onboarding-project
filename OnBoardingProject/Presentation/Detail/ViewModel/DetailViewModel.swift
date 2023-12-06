@@ -19,11 +19,12 @@ class DetailViewModel {
     let bag = DisposeBag()
     
     struct Input {
-        let viewDidDisappear: Observable<Void>
+        let didDisappearMemoContents: Observable<String>
     }
     
     struct Output {
         let bookData: Driver<BookData>
+        let memoData: Driver<String>
     }
     
     func transform(input: Input) -> Output {
@@ -31,9 +32,18 @@ class DetailViewModel {
             .bind(to: self.nowBookData)
             .disposed(by: self.bag)
         
+        input.didDisappearMemoContents
+            .withUnretained(self)
+            .subscribe(onNext: { viewModel, contents in
+                viewModel.model.memoSave(bookID: viewModel.bookID, contents: contents)
+            })
+            .disposed(by: self.bag)
+        
         return Output(
             bookData: self.nowBookData
-                .asDriver(onErrorDriveWith: .empty())
+                .asDriver(onErrorDriveWith: .empty()),
+            memoData: self.model.memoRequest(bookID: self.bookID)
+                .asDriver(onErrorJustReturn: "")
         )
     }
     

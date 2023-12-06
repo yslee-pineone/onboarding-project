@@ -44,4 +44,20 @@ class DetailModel {
         }
         .asObservable()
     }
+    
+    func memoRequest(bookID id: String) -> Single<String> {
+        Single<String>.create { single in
+            if let contents = UserDefaults.standard.string(forKey: id) {
+                single(.success(contents))
+            } else {
+                single(.failure(UserDefaultError.notContents))
+            }
+            
+            return Disposables.create()
+        }
+    }
+    
+    func memoSave(bookID id:String, contents: String) {
+        UserDefaults.standard.setValue(contents, forKey: id)
+    }
 }

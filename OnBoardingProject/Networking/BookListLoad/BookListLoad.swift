@@ -33,7 +33,6 @@ class BookListLoad {
             }
             return value
         }
-        .asObservable()
     }
     
     func searchBookListRequest(query: String, page: String) -> Observable<BookListData> {
@@ -50,7 +49,6 @@ class BookListLoad {
             }
             return value
         }
-        .asObservable()
     }
 }
 
