@@ -17,6 +17,13 @@ class SearchVC: UIViewController {
     var searchBarVC: SearchBarVC!
     let searchResultVC: SearchResultVC
     
+    let tableView = UITableView().then {
+        $0.separatorStyle = .none
+        $0.rowHeight = UITableView.automaticDimension
+        $0.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.id)
+        $0.backgroundColor = .systemBackground
+    }
+    
     let bag = DisposeBag()
     
     init(
@@ -36,6 +43,7 @@ class SearchVC: UIViewController {
     
     override func viewDidLoad() {
         self.attribute()
+        self.layout()
         self.bind()
     }
 }
@@ -49,6 +57,13 @@ extension SearchVC {
         self.navigationItem.searchController = self.searchBarVC
     }
     
+    func layout() {
+        self.view.addSubview(self.tableView)
+        self.tableView.snp.makeConstraints {
+            $0.edges.equalTo(self.view.safeAreaLayoutGuide)
+        }
+    }
+    
     func bind() {
         let input = SearchViewModel.Input(
             searchText: self.searchBarVC.searchBar.rx.text
@@ -57,6 +72,7 @@ extension SearchVC {
             nextDisplayIndex: self.searchResultVC.tableView.rx.willDisplayCell
                 .map {$0.indexPath}
         )
+        
         let output = self.viewModel.transform(input: input)
         output.cellData
             .drive(self.searchResultVC.tableView.rx.items) { tableView, row, data in
@@ -75,7 +91,27 @@ extension SearchVC {
             .drive(self.searchResultVC.noSearchListLabel.rx.isHidden)
             .disposed(by: self.bag)
         
-        self.searchResultVC.tableView.rx.modelSelected(BookData.self)
+        output.cellData
+            .filter {!$0.isEmpty}
+            .drive(self.tableView.rx.items) { tableView, row, data in
+                guard let cell = tableView.dequeueReusableCell(
+                    withIdentifier: SearchTableViewCell.id, for: IndexPath(row: row, section: 0)) as? SearchTableViewCell
+                else {return UITableViewCell()}
+                
+                cell.cellDataSet(data: data)
+                
+                return cell
+            }
+            .disposed(by: self.bag)
+       
+        let bookListTap = Observable.merge(
+            self.searchResultVC.tableView.rx.modelSelected(BookData.self)
+                .asObservable(),
+            self.tableView.rx.modelSelected(BookData.self)
+                .asObservable()
+        )
+        
+        bookListTap
             .map {$0.isbn13}
             .bind(to: self.rx.detailVCPush)
             .disposed(by: self.bag)

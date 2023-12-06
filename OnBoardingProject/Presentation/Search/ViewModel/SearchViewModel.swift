@@ -30,7 +30,6 @@ class SearchViewModel {
         input.searchText
             .distinctUntilChanged()
             .withUnretained(self)
-            .debug()
             .flatMapLatest { viewModel, query in
                 viewModel.nowPage = 1
                 return viewModel.model.bookListSearch(query: query, nextPage: "\(viewModel.nowPage)")
