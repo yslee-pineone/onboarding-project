@@ -25,6 +25,7 @@ class NetworkService: NetworkServiceProtocol {
                     switch data.result {
                     case .success(let value):
                         observer.onNext(.success(value))
+                        observer.onCompleted()
                     case .failure(let error):
                         observer.onError(error)
                     }
