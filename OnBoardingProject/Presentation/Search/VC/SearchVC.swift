@@ -112,7 +112,7 @@ extension SearchVC {
         )
         
         bookListTap
-            .map {$0.isbn13}
+            .map {$0.bookID}
             .bind(to: self.rx.detailVCPush)
             .disposed(by: self.bag)
     }

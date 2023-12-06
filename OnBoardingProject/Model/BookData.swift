@@ -8,14 +8,23 @@
 import Foundation
 
 struct BookData: Decodable{
-    let title: String
-    let subtitle: String
-    let isbn13: String
+    let mainTitle: String
+    let subTitle: String
+    let bookID: String
     let price: String
-    let image: String
-    let url: String
+    let imageString: String
+    let urlString: String
+    
+    enum CodingKeys: String, CodingKey {
+        case mainTitle = "title"
+        case subTitle = "subtitle"
+        case bookID = "isbn13"
+        case price = "price"
+        case imageString = "image"
+        case urlString = "url"
+    }
     
     var imageURL: URL? {
-        URL(string: self.image)
+        URL(string: self.imageString)
     }
 }

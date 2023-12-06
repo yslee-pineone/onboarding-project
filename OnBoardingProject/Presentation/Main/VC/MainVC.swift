@@ -84,7 +84,7 @@ private extension MainVC {
             .disposed(by: self.bag)
         
         self.tableView.rx.modelSelected(BookData.self)
-            .map {$0.isbn13}
+            .map {$0.bookID}
             .subscribe(self.rx.detailVCPush)
             .disposed(by: self.bag)
     }

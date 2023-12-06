@@ -78,10 +78,10 @@ extension StandardInfoView {
     }
     
     func infoViewDataSet(_ data: BookData) {
-        self.mainTitle.text = data.title
-        self.subTitle.text = data.subtitle
+        self.mainTitle.text = data.mainTitle
+        self.subTitle.text = data.subTitle
         self.priceTitle.text = data.price
-        self.idTitle.text = data.isbn13
-        self.urlTitle.text = data.url
+        self.idTitle.text = data.bookID
+        self.urlTitle.text = data.urlString
     }
 }

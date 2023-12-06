@@ -125,10 +125,10 @@ extension StandardTableViewCell {
     }
     
     func cellDataSet(data: BookData) {
-        self.mainTitle.text = data.title
-        self.subTitle.text = data.subtitle
+        self.mainTitle.text = data.mainTitle
+        self.subTitle.text = data.subTitle
         self.priceTitle.text = data.price
-        self.idTitle.text = data.isbn13
+        self.idTitle.text = data.bookID
         self.bookImageView.kf.setImage(with: data.imageURL)
     }
 }

@@ -209,7 +209,7 @@ extension Reactive where Base: DetailVC {
         return Binder(base) { base, data in
             base.infoView.infoViewDataSet(data)
             
-            if data.url != "로딩 중" {
+            if data.urlString != "로딩 중" {
                 base.bookImageView.kf.setImage(with: data.imageURL)
             }
         }

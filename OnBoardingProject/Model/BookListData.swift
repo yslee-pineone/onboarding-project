@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 struct BookListData: Decodable {
     let page: String?
     let books: [BookData]
