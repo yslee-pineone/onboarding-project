@@ -82,6 +82,11 @@ private extension MainVC {
             .map {_ in}
             .drive(self.rx.refreshEnd)
             .disposed(by: self.bag)
+        
+        self.tableView.rx.modelSelected(BookData.self)
+            .map {$0.isbn13}
+            .subscribe(self.rx.detailVCPush)
+            .disposed(by: self.bag)
     }
 }
 
@@ -89,6 +94,16 @@ extension Reactive where Base: MainVC {
     var refreshEnd: Binder<Void> {
         return Binder(base) { base, _ in
             base.refresh.endRefreshing()
+        }
+    }
+    
+    var detailVCPush: Binder<String> {
+        return Binder(base) { base, id in
+            let viewModel = DetailViewModel(id: id)
+            let vc = DetailVC(viewModel: viewModel)
+            vc.hidesBottomBarWhenPushed = true
+            
+            base.navigationController?.pushViewController(vc, animated: true)
         }
     }
 }

@@ -26,6 +26,10 @@ enum URLRequestConfiguration {
     }
     
     enum Detail: String {
-        case path = "/1.0/book"
+        case path = "/1.0/books"
+        
+        func queryAdd(id: String) -> String {
+            self.rawValue + "/" + id
+        }
     }
 }
