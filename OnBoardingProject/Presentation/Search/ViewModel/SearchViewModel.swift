@@ -40,7 +40,7 @@ class SearchViewModel {
         input.nextDisplayIndex
             .withUnretained(self)
             .filter { viewModel, index in
-                (viewModel.nowPage * 8) <= (index.section * 8) + index.row
+                (viewModel.nowPage * 8) - 3 <= (index.section * 8) + index.row
             }
             .withLatestFrom(input.searchText)
             .withUnretained(self)

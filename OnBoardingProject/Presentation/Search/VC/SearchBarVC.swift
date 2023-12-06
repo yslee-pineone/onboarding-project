@@ -22,7 +22,7 @@ class SearchBarVC: UISearchController {
     }
 }
 
-extension SearchBarVC {
+private extension SearchBarVC {
     func attribute() {
         self.searchBar.placeholder = "검색어를 입력해보세요."
     }

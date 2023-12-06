@@ -32,9 +32,9 @@ class SearchVC: UIViewController {
     ) {
         self.viewModel = viewModel
         self.searchResultVC = searchResultVC
-        super.init(nibName: nil, bundle: nil)
-        
         self.searchBarVC = SearchBarVC(searchResultsController: self.searchResultVC)
+        
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -48,8 +48,8 @@ class SearchVC: UIViewController {
     }
 }
 
-extension SearchVC {
-    private func attribute() {
+private extension SearchVC {
+    func attribute() {
         self.view.backgroundColor = .systemBackground
         self.navigationItem.title = "Search Books"
         self.navigationController?.navigationBar.prefersLargeTitles = true
