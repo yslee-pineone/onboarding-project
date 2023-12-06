@@ -14,7 +14,16 @@ class DetailViewModel {
     let model: DetailModel
     let bookID: String
     
-    let nowBookData = BehaviorRelay<BookData>(value: .init(mainTitle: "로딩 중", subTitle: "로딩 중", bookID: "로딩 중", price: "로딩 중", imageString: "로딩 중", urlString: "로딩 중"))
+    let nowBookData = BehaviorRelay<BookData>(
+        value: .init(
+            mainTitle: DefaultMSG.Detail.loading.rawValue,
+            subTitle: DefaultMSG.Detail.loading.rawValue,
+            bookID: DefaultMSG.Detail.loading.rawValue,
+            price: DefaultMSG.Detail.loading.rawValue,
+            imageString: DefaultMSG.Detail.loading.rawValue,
+            urlString: DefaultMSG.Detail.loading.rawValue
+        )
+    )
     
     let bag = DisposeBag()
     

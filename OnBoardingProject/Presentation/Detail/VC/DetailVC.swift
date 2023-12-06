@@ -32,10 +32,9 @@ class DetailVC: UIViewController {
         $0.backgroundColor = .systemGray4
     }
     
-    let placeHolder = "메모를 입력해보세요."
     lazy var memoInput = UITextView().then {
         $0.textColor = .systemGray4
-        $0.text = placeHolder
+        $0.text = DefaultMSG.Detail.memoPlaceHolder.rawValue
         $0.delegate = self
         $0.layer.borderWidth = 1
         $0.layer.borderColor = UIColor.systemGray4.cgColor
@@ -77,7 +76,7 @@ class DetailVC: UIViewController {
 private extension DetailVC {
     func attribute() {
         self.view.backgroundColor = .systemBackground
-        self.navigationItem.title = "Detail Book"
+        self.navigationItem.title = DefaultMSG.Detail.title.rawValue
         self.navigationController?.navigationBar.prefersLargeTitles = true
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -85,7 +84,12 @@ private extension DetailVC {
     }
     
     func toolBarSet() {
-        let doneItem = UIBarButtonItem(title: "확인", style: .done, target: self, action: #selector(self.keyboardToolBarDoneBtnTap(_:)))
+        let doneItem = UIBarButtonItem(
+            title: DefaultMSG.Detail.keyboardDonBtn.rawValue,
+            style: .done,
+            target: self,
+            action: #selector(self.keyboardToolBarDoneBtnTap(_:))
+        )
         let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
         
         let keyboardTool = UIToolbar(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
@@ -144,7 +148,7 @@ private extension DetailVC {
             .disposed(by: self.bag)
         
         output.memoData
-            .filter {$0 != self.placeHolder}
+            .filter {$0 != DefaultMSG.Detail.memoPlaceHolder.rawValue}
             .drive(self.rx.memoSet)
             .disposed(by: self.bag)
     }
@@ -190,7 +194,7 @@ private extension DetailVC {
 
 extension DetailVC: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.text == self.placeHolder {
+        if textView.text == DefaultMSG.Detail.memoPlaceHolder.rawValue {
             textView.text = nil
             textView.textColor = .black
         }
@@ -198,7 +202,7 @@ extension DetailVC: UITextViewDelegate {
     
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            textView.text = self.placeHolder
+            textView.text = DefaultMSG.Detail.memoPlaceHolder.rawValue
             textView.textColor = .systemGray4
         }
     }
@@ -209,7 +213,7 @@ extension Reactive where Base: DetailVC {
         return Binder(base) { base, data in
             base.infoView.infoViewDataSet(data)
             
-            if data.urlString != "로딩 중" {
+            if data.urlString != DefaultMSG.Detail.loading.rawValue {
                 base.bookImageView.kf.setImage(with: data.imageURL)
             }
         }

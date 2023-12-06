@@ -17,7 +17,7 @@ class SearchResultVC: UITableViewController {
         $0.textColor = .systemGray4
         $0.isHidden = true
         $0.font = UIFont.systemFont(ofSize: FontStyle.mid.ofSize, weight: .semibold)
-        $0.text = "검색된 항목이 없습니다."
+        $0.text = DefaultMSG.Search.isEmpty.rawValue
     }
     
     override func viewDidLoad() {

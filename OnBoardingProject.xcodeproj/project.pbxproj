@@ -39,6 +39,7 @@
 		C3EE7E422B20435C00DC64A1 /* SearchResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7E412B20435C00DC64A1 /* SearchResultTableViewCell.swift */; };
 		C3EE7E452B20570800DC64A1 /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7E442B20570800DC64A1 /* MainTableViewCell.swift */; };
 		C3EE7E472B2059AA00DC64A1 /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7E462B2059AA00DC64A1 /* SearchTableViewCell.swift */; };
+		C3EE7E492B2060C700DC64A1 /* DefaultMSG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7E482B2060C700DC64A1 /* DefaultMSG.swift */; };
 		F511477E3A8584DA95BCD4FC /* Pods_OnBoardingProject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 698D0B01EEDB991075DBCB3C /* Pods_OnBoardingProject.framework */; };
 /* End PBXBuildFile section */
 
@@ -80,6 +81,7 @@
 		C3EE7E412B20435C00DC64A1 /* SearchResultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultTableViewCell.swift; sourceTree = "<group>"; };
 		C3EE7E442B20570800DC64A1 /* MainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
 		C3EE7E462B2059AA00DC64A1 /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
+		C3EE7E482B2060C700DC64A1 /* DefaultMSG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultMSG.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -253,6 +255,7 @@
 				C3EE7E042B1EF03B00DC64A1 /* BookListData.swift */,
 				C3EE7E2C2B1FFFDF00DC64A1 /* BookData.swift */,
 				C3EE7E302B20135200DC64A1 /* UserDefaultError.swift */,
+				C3EE7E482B2060C700DC64A1 /* DefaultMSG.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -517,6 +520,7 @@
 				C3EE7E1B2B1F1DE100DC64A1 /* UIView+.swift in Sources */,
 				C3EE7E292B1FFE5B00DC64A1 /* DetailModel.swift in Sources */,
 				C3EE7DD02B1ED54500DC64A1 /* FontStyle.swift in Sources */,
+				C3EE7E492B2060C700DC64A1 /* DefaultMSG.swift in Sources */,
 				C3EE7E422B20435C00DC64A1 /* SearchResultTableViewCell.swift in Sources */,
 				C3EE7E392B203C7300DC64A1 /* SearchViewModel.swift in Sources */,
 				C3EE7DD22B1ED57300DC64A1 /* PaddingStyle.swift in Sources */,

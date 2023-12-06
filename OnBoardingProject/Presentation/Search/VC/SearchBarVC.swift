@@ -24,6 +24,6 @@ class SearchBarVC: UISearchController {
 
 private extension SearchBarVC {
     func attribute() {
-        self.searchBar.placeholder = "검색어를 입력해보세요."
+        self.searchBar.placeholder = DefaultMSG.Search.searchStart.rawValue
     }
 }

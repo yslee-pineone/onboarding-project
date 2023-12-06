@@ -32,12 +32,12 @@ class DetailModel {
             guard case .success(let value) = data else {
                 print("DATA LOADING ERROR")
                 return BookData(
-                    mainTitle: "문제가 발생했습니다.",
-                    subTitle: "문제가 발생했습니다.",
+                    mainTitle: DefaultMSG.error.rawValue,
+                    subTitle: DefaultMSG.error.rawValue,
                     bookID: "-1",
-                    price: "문제가 발생했습니다.",
-                    imageString: "문제가 발생했습니다.",
-                    urlString: "문제가 발생했습니다."
+                    price: DefaultMSG.error.rawValue,
+                    imageString: DefaultMSG.error.rawValue,
+                    urlString: DefaultMSG.error.rawValue
                 )
             }
             return value

@@ -51,7 +51,7 @@ class SearchVC: UIViewController {
 private extension SearchVC {
     func attribute() {
         self.view.backgroundColor = .systemBackground
-        self.navigationItem.title = "Search Books"
+        self.navigationItem.title = DefaultMSG.Search.title.rawValue
         self.navigationController?.navigationBar.prefersLargeTitles = true
         
         self.navigationItem.searchController = self.searchBarVC

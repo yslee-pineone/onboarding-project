@@ -50,7 +50,7 @@ private extension MainVC {
     func attribute() {
         self.view.backgroundColor = .systemBackground
         self.tableView.refreshControl = self.refresh
-        self.navigationItem.title = "New Books"
+        self.navigationItem.title = DefaultMSG.Main.title.rawValue
         self.navigationController?.navigationBar.prefersLargeTitles = true
     }
     
