@@ -1,5 +1,5 @@
 //
-//  MainTableVIewCell.swift
+//  MainTableViewCell.swift
 //  OnBoardingProject
 //
 //  Created by pineone-yslee on 12/5/23.
@@ -11,8 +11,8 @@ import SnapKit
 import Then
 import Kingfisher
 
-class MainTableVIewCell: StandardTableViewCell {
-    static let id = "MainTableVIewCell"
+class MainTableViewCell: StandardTableViewCell {
+    static let id = "MainTableViewCell"
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

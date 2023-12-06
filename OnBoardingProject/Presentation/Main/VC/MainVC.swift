@@ -77,5 +77,18 @@ private extension MainVC {
                 return cell
             }
             .disposed(by: self.bag)
+        
+        output.cellData
+            .map {_ in}
+            .drive(self.rx.refreshEnd)
+            .disposed(by: self.bag)
+    }
+}
+
+extension Reactive where Base: MainVC {
+    var refreshEnd: Binder<Void> {
+        return Binder(base) { base, _ in
+            base.refresh.endRefreshing()
+        }
     }
 }

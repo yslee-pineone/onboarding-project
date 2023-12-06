@@ -27,7 +27,6 @@ class MainViewModel {
     func transform(input: Input) -> Output {
         input.refreshEvent
             .withUnretained(self)
-            .debug()
             .flatMap { viewModel, _ in
                 viewModel.bookListLoad.newBookListRequest()
             }
