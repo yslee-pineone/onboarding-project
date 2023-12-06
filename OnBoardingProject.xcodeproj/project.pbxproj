@@ -31,6 +31,13 @@
 		C3EE7E292B1FFE5B00DC64A1 /* DetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7E282B1FFE5B00DC64A1 /* DetailModel.swift */; };
 		C3EE7E2D2B1FFFDF00DC64A1 /* BookData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7E2C2B1FFFDF00DC64A1 /* BookData.swift */; };
 		C3EE7E2F2B2000CA00DC64A1 /* StandardInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7E2E2B2000CA00DC64A1 /* StandardInfoView.swift */; };
+		C3EE7E312B20135200DC64A1 /* UserDefaultError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7E302B20135200DC64A1 /* UserDefaultError.swift */; };
+		C3EE7E372B203C0E00DC64A1 /* SearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7E362B203C0E00DC64A1 /* SearchVC.swift */; };
+		C3EE7E392B203C7300DC64A1 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7E382B203C7300DC64A1 /* SearchViewModel.swift */; };
+		C3EE7E3B2B203CA000DC64A1 /* SearchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7E3A2B203CA000DC64A1 /* SearchModel.swift */; };
+		C3EE7E3D2B2040D700DC64A1 /* SearchBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7E3C2B2040D700DC64A1 /* SearchBarVC.swift */; };
+		C3EE7E3F2B20418900DC64A1 /* SearchResultVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7E3E2B20418900DC64A1 /* SearchResultVC.swift */; };
+		C3EE7E422B20435C00DC64A1 /* SearchResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7E412B20435C00DC64A1 /* SearchResultTableViewCell.swift */; };
 		F511477E3A8584DA95BCD4FC /* Pods_OnBoardingProject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 698D0B01EEDB991075DBCB3C /* Pods_OnBoardingProject.framework */; };
 /* End PBXBuildFile section */
 
@@ -64,6 +71,13 @@
 		C3EE7E282B1FFE5B00DC64A1 /* DetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailModel.swift; sourceTree = "<group>"; };
 		C3EE7E2C2B1FFFDF00DC64A1 /* BookData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookData.swift; sourceTree = "<group>"; };
 		C3EE7E2E2B2000CA00DC64A1 /* StandardInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardInfoView.swift; sourceTree = "<group>"; };
+		C3EE7E302B20135200DC64A1 /* UserDefaultError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultError.swift; sourceTree = "<group>"; };
+		C3EE7E362B203C0E00DC64A1 /* SearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVC.swift; sourceTree = "<group>"; };
+		C3EE7E382B203C7300DC64A1 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
+		C3EE7E3A2B203CA000DC64A1 /* SearchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchModel.swift; sourceTree = "<group>"; };
+		C3EE7E3C2B2040D700DC64A1 /* SearchBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarVC.swift; sourceTree = "<group>"; };
+		C3EE7E3E2B20418900DC64A1 /* SearchResultVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultVC.swift; sourceTree = "<group>"; };
+		C3EE7E412B20435C00DC64A1 /* SearchResultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -210,6 +224,7 @@
 				C3EE7E182B1F0DA000DC64A1 /* Tabbar */,
 				C3EE7DD32B1ED5A700DC64A1 /* Main */,
 				C3EE7E1C2B1FFC3500DC64A1 /* Detail */,
+				C3EE7E322B203BBE00DC64A1 /* Search */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -235,6 +250,7 @@
 			children = (
 				C3EE7E042B1EF03B00DC64A1 /* BookListData.swift */,
 				C3EE7E2C2B1FFFDF00DC64A1 /* BookData.swift */,
+				C3EE7E302B20135200DC64A1 /* UserDefaultError.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -311,6 +327,51 @@
 				C3EE7E282B1FFE5B00DC64A1 /* DetailModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		C3EE7E322B203BBE00DC64A1 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				C3EE7E402B20435400DC64A1 /* View */,
+				C3EE7E352B203BD900DC64A1 /* Model */,
+				C3EE7E342B203BD400DC64A1 /* ViewModel */,
+				C3EE7E332B203BD100DC64A1 /* VC */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		C3EE7E332B203BD100DC64A1 /* VC */ = {
+			isa = PBXGroup;
+			children = (
+				C3EE7E362B203C0E00DC64A1 /* SearchVC.swift */,
+				C3EE7E3C2B2040D700DC64A1 /* SearchBarVC.swift */,
+				C3EE7E3E2B20418900DC64A1 /* SearchResultVC.swift */,
+			);
+			path = VC;
+			sourceTree = "<group>";
+		};
+		C3EE7E342B203BD400DC64A1 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				C3EE7E382B203C7300DC64A1 /* SearchViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		C3EE7E352B203BD900DC64A1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				C3EE7E3A2B203CA000DC64A1 /* SearchModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		C3EE7E402B20435400DC64A1 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C3EE7E412B20435C00DC64A1 /* SearchResultTableViewCell.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -427,6 +488,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C3EE7E372B203C0E00DC64A1 /* SearchVC.swift in Sources */,
+				C3EE7E3F2B20418900DC64A1 /* SearchResultVC.swift in Sources */,
 				C3EE7DF02B1EDCEA00DC64A1 /* TabbarCategory.swift in Sources */,
 				C3EE7E132B1EFE4500DC64A1 /* StandardTableViewCell.swift in Sources */,
 				C3EE7E2F2B2000CA00DC64A1 /* StandardInfoView.swift in Sources */,
@@ -435,17 +498,22 @@
 				C3EE7DDB2B1ED5D200DC64A1 /* MainViewModel.swift in Sources */,
 				C3EE7E252B1FFE2E00DC64A1 /* DetailVC.swift in Sources */,
 				C3EE7E082B1EF15C00DC64A1 /* URLRequestConfiguration.swift in Sources */,
+				C3EE7E312B20135200DC64A1 /* UserDefaultError.swift in Sources */,
 				C3EE7E272B1FFE5600DC64A1 /* DetailViewModel.swift in Sources */,
 				C3EE7E052B1EF03B00DC64A1 /* BookListData.swift in Sources */,
 				C3EE7DF82B1EEAA100DC64A1 /* NetworkServiceProtocol.swift in Sources */,
+				C3EE7E3B2B203CA000DC64A1 /* SearchModel.swift in Sources */,
 				C3DCAF1E2B1EBF4600CF40B9 /* AppDelegate.swift in Sources */,
 				C3EE7DD62B1ED5B400DC64A1 /* MainVC.swift in Sources */,
+				C3EE7E3D2B2040D700DC64A1 /* SearchBarVC.swift in Sources */,
 				C3DCAF202B1EBF4600CF40B9 /* SceneDelegate.swift in Sources */,
 				C3EE7E212B1FFC8000DC64A1 /* MainModel.swift in Sources */,
 				C3EE7DF62B1EEA9700DC64A1 /* NetworkService.swift in Sources */,
 				C3EE7E1B2B1F1DE100DC64A1 /* UIView+.swift in Sources */,
 				C3EE7E292B1FFE5B00DC64A1 /* DetailModel.swift in Sources */,
 				C3EE7DD02B1ED54500DC64A1 /* FontStyle.swift in Sources */,
+				C3EE7E422B20435C00DC64A1 /* SearchResultTableViewCell.swift in Sources */,
+				C3EE7E392B203C7300DC64A1 /* SearchViewModel.swift in Sources */,
 				C3EE7E102B1EF9A900DC64A1 /* MainTableViewCell.swift in Sources */,
 				C3EE7DD22B1ED57300DC64A1 /* PaddingStyle.swift in Sources */,
 				C3EE7E2D2B1FFFDF00DC64A1 /* BookData.swift in Sources */,
@@ -593,6 +661,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = BPGXX3JG6H;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = OnBoardingProject/Application/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -624,6 +693,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = BPGXX3JG6H;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = OnBoardingProject/Application/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

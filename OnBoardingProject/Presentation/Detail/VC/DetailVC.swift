@@ -150,14 +150,15 @@ private extension DetailVC {
     }
     
     @objc
-    private func keyboardWillShow(_ sender: Notification) {
+    func keyboardWillShow(_ sender: Notification) {
         let userInfo:NSDictionary = sender.userInfo! as NSDictionary
         let keyboardFrame:NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as! NSValue
         let keyboardRectangle = keyboardFrame.cgRectValue
         let keyboardHeight = keyboardRectangle.height - 15
         
         self.memoInput.snp.remakeConstraints {
-            $0.top.leading.trailing.equalTo(self.view.safeAreaLayoutGuide)
+            $0.top.equalTo(self.view.safeAreaLayoutGuide).inset(PaddingStyle.standard.ofSize)
+            $0.leading.trailing.equalTo(self.view.safeAreaLayoutGuide)
             $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(keyboardHeight)
         }
         
@@ -169,7 +170,7 @@ private extension DetailVC {
     }
     
     @objc
-    private func keyboardWillHide(_ sender: Notification) {
+    func keyboardWillHide(_ sender: Notification) {
         self.memoInput.snp.remakeConstraints {
             $0.leading.trailing.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(PaddingStyle.standard.ofSize)
             $0.top.equalTo(self.borderView.snp.bottom).offset(PaddingStyle.standardPlus.ofSize)
@@ -182,7 +183,7 @@ private extension DetailVC {
     }
     
     @objc
-    private func keyboardToolBarDoneBtnTap(_ sender: Any) {
+    func keyboardToolBarDoneBtnTap(_ sender: Any) {
         self.memoInput.resignFirstResponder()
     }
 }
@@ -207,8 +208,10 @@ extension Reactive where Base: DetailVC {
     var viewDataSet: Binder<BookData> {
         return Binder(base) { base, data in
             base.infoView.infoViewDataSet(data)
-            base.bookImageView.kf.setImage(with: data.imageURL)
-            // TASK error -> KF
+            
+            if data.url != "로딩 중" {
+                base.bookImageView.kf.setImage(with: data.imageURL)
+            }
         }
     }
     

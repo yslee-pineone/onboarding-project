@@ -42,6 +42,8 @@ extension SceneDelegate {
             let mainViewModel = MainViewModel()
             navigationController.pushViewController(MainVC(viewModel: mainViewModel), animated: true)
         case .search: 
+            let searchViewModel = SearchViewModel()
+            navigationController.pushViewController(SearchVC(viewModel: searchViewModel), animated: true)
             break
         }
         

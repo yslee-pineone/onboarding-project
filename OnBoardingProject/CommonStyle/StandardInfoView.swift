@@ -40,7 +40,7 @@ class StandardInfoView: UIView {
     let priceTitle = UILabel().then {
         $0.textColor = .black
         $0.textAlignment = .center
-        $0.font = .systemFont(ofSize: FontStyle.midSmall.ofSize)
+        $0.font = .systemFont(ofSize: FontStyle.midSmall.ofSize, weight: .semibold)
     }
     
     let urlTitle = UILabel().then {

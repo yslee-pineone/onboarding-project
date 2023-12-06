@@ -63,7 +63,7 @@ class StandardTableViewCell: UITableViewCell {
     let priceTitle = UILabel().then {
         $0.textColor = .black
         $0.textAlignment = .center
-        $0.font = .systemFont(ofSize: FontStyle.midSmall.ofSize)
+        $0.font = .systemFont(ofSize: FontStyle.midSmall.ofSize, weight: .semibold)
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -84,7 +84,7 @@ extension StandardTableViewCell {
     }
     
     private func layout() {
-        self.addSubview(self.mainView)
+        self.contentView.addSubview(self.mainView)
         self.mainView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(PaddingStyle.big.ofSize)
             $0.top.bottom.equalToSuperview().inset(PaddingStyle.standard.ofSize)

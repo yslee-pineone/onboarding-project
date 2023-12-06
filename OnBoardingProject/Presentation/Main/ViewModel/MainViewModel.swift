@@ -30,7 +30,6 @@ class MainViewModel {
             .flatMap { viewModel, _ in
                 viewModel.model.newBookLoad()
             }
-            .map {$0.books}
             .bind(to: self.nowCellData)
             .disposed(by: self.bag)
         
