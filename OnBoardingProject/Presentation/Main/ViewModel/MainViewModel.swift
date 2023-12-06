@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 
 class MainViewModel {
-    let bookListLoad: BookListLoad
+    let model: MainModel
     let nowCellData = BehaviorRelay<[BookData]>(value: [])
     
     let bag = DisposeBag()
@@ -28,7 +28,7 @@ class MainViewModel {
         input.refreshEvent
             .withUnretained(self)
             .flatMap { viewModel, _ in
-                viewModel.bookListLoad.newBookListRequest()
+                viewModel.model.newBookLoad()
             }
             .map {$0.books}
             .bind(to: self.nowCellData)
@@ -41,8 +41,8 @@ class MainViewModel {
     }
     
     init(
-        bookListLoad: BookListLoad
+        model: MainModel = .init()
     ) {
-        self.bookListLoad = bookListLoad
+        self.model = model
     }
 }

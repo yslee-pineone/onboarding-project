@@ -39,7 +39,7 @@ extension SceneDelegate {
         
         switch category {
         case .new:
-            let mainViewModel = MainViewModel(bookListLoad: BookListLoad())
+            let mainViewModel = MainViewModel()
             navigationController.pushViewController(MainVC(viewModel: mainViewModel), animated: true)
         case .search: 
             break
