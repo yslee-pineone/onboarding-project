@@ -20,7 +20,7 @@ class MainViewController: UIViewController {
     let tableView = UITableView().then {
         $0.separatorStyle = .none
         $0.rowHeight = UITableView.automaticDimension
-        $0.register(MainTableViewCell.self, forCellReuseIdentifier: MainTableViewCell.id)
+        $0.register(StandardTableViewCell.self, forCellReuseIdentifier: StandardTableViewCell.id)
         $0.backgroundColor = .systemBackground
     }
     
@@ -69,7 +69,7 @@ class MainViewController: UIViewController {
         let output = self.viewModel.transform(input: input)
         output.cellData
             .drive(self.tableView.rx.items) { tableView, row, data in
-                guard let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.id, for: IndexPath(row: row, section: 0)) as? MainTableViewCell else {return UITableViewCell()}
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: StandardTableViewCell.id, for: IndexPath(row: row, section: 0)) as? StandardTableViewCell else {return UITableViewCell()}
                 
                 cell.cellDataSet(data: data)
                 return cell

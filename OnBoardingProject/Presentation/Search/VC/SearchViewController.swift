@@ -20,7 +20,7 @@ class SearchViewController: UIViewController {
     let tableView = UITableView().then {
         $0.separatorStyle = .none
         $0.rowHeight = UITableView.automaticDimension
-        $0.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.id)
+        $0.register(StandardTableViewCell.self, forCellReuseIdentifier: StandardTableViewCell.id)
         $0.backgroundColor = .systemBackground
     }
     
@@ -93,7 +93,7 @@ class SearchViewController: UIViewController {
             .filter {!$0.isEmpty}
             .drive(self.tableView.rx.items) { tableView, row, data in
                 guard let cell = tableView.dequeueReusableCell(
-                    withIdentifier: SearchTableViewCell.id, for: IndexPath(row: row, section: 0)) as? SearchTableViewCell
+                    withIdentifier: StandardTableViewCell.id, for: IndexPath(row: row, section: 0)) as? StandardTableViewCell
                 else {return UITableViewCell()}
                 
                 cell.cellDataSet(data: data)

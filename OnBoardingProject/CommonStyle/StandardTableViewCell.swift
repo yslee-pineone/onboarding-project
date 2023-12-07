@@ -12,6 +12,8 @@ import Then
 import Kingfisher
 
 class StandardTableViewCell: UITableViewCell {
+    static let id = "StandardTableViewCell"
+    
     lazy var mainView = UIView().then {
         $0.layer.cornerRadius = 16
         $0.backgroundColor = .systemGray6
