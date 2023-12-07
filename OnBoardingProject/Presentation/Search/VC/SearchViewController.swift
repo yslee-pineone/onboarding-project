@@ -49,7 +49,7 @@ class SearchViewController: UIViewController {
     
     private func attribute() {
         self.view.backgroundColor = .systemBackground
-        self.navigationItem.title = DefaultMSG.Search.title.rawValue
+        self.navigationItem.title = DefaultMSG.Search.title
         self.navigationController?.navigationBar.prefersLargeTitles = true
         
         self.navigationItem.searchController = self.searchBarViewController

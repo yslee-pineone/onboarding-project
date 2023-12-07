@@ -16,12 +16,12 @@ class DetailViewModel {
     
     let nowBookData = BehaviorRelay<BookData>(
         value: .init(
-            mainTitle: DefaultMSG.Detail.loading.rawValue,
-            subTitle: DefaultMSG.Detail.loading.rawValue,
-            bookID: DefaultMSG.Detail.loading.rawValue,
-            price: DefaultMSG.Detail.loading.rawValue,
-            imageString: DefaultMSG.Detail.loading.rawValue,
-            urlString: DefaultMSG.Detail.loading.rawValue
+            mainTitle: DefaultMSG.Detail.loading,
+            subTitle: DefaultMSG.Detail.loading,
+            bookID: DefaultMSG.Detail.loading,
+            price: DefaultMSG.Detail.loading,
+            imageString: DefaultMSG.Detail.loading,
+            urlString: DefaultMSG.Detail.loading
         )
     )
     

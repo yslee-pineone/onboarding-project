@@ -7,14 +7,10 @@
 
 import Foundation
 
-enum PaddingStyle: CGFloat {
-    case standardHalf = 6
-    case standard = 12
-    case standardPlus = 18
-    case big = 24
-        
-    var ofSize: CGFloat {
-        self.rawValue
-    }
+struct PaddingStyle {
+    static let standardHalf: CGFloat = 6
+    static let standard: CGFloat = 12
+    static let standardPlus: CGFloat = 18
+    static let big: CGFloat = 24
 }
 

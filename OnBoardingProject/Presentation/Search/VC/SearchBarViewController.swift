@@ -22,6 +22,6 @@ class SearchBarViewController: UISearchController {
     }
     
     private func attribute() {
-        self.searchBar.placeholder = DefaultMSG.Search.searchStart.rawValue
+        self.searchBar.placeholder = DefaultMSG.Search.searchStart
     }
 }

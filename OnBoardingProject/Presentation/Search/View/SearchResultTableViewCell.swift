@@ -42,14 +42,14 @@ class SearchResultTableViewCell: UITableViewCell {
             }
         
         self.bookImageView.snp.makeConstraints {
-            $0.leading.top.equalToSuperview().inset(PaddingStyle.standard.ofSize)
+            $0.leading.top.equalToSuperview().inset(PaddingStyle.standard)
             $0.width.equalTo(100)
             $0.height.equalTo(140)
         }
         
         self.infoView.snp.makeConstraints {
-            $0.leading.equalTo(self.bookImageView.snp.trailing).offset(PaddingStyle.standard.ofSize)
-            $0.top.bottom.trailing.equalToSuperview().inset(PaddingStyle.standard.ofSize)
+            $0.leading.equalTo(self.bookImageView.snp.trailing).offset(PaddingStyle.standard)
+            $0.top.bottom.trailing.equalToSuperview().inset(PaddingStyle.standard)
         }
     }
     

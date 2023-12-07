@@ -16,8 +16,8 @@ class SearchResultViewController: UITableViewController {
     let noSearchListLabel = UILabel().then {
         $0.textColor = .systemGray4
         $0.isHidden = true
-        $0.font = UIFont.systemFont(ofSize: FontStyle.mid.ofSize, weight: .semibold)
-        $0.text = DefaultMSG.Search.isEmpty.rawValue
+        $0.font = UIFont.systemFont(ofSize: FontStyle.mid, weight: .semibold)
+        $0.text = DefaultMSG.Search.isEmpty
     }
     
     override func viewDidLoad() {
@@ -39,7 +39,7 @@ class SearchResultViewController: UITableViewController {
         self.tableView.addSubview(self.noSearchListLabel)
         self.noSearchListLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview().inset(PaddingStyle.big.ofSize)
+            $0.top.equalToSuperview().inset(PaddingStyle.big)
         }
     }
 }

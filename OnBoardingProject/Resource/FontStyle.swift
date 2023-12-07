@@ -7,13 +7,9 @@
 
 import Foundation
 
-enum FontStyle: CGFloat {
-    case small = 10
-    case midSmall = 14
-    case mid = 16
-    case titleBig = 18
-        
-    var ofSize: CGFloat {
-        self.rawValue
-    }
+struct FontStyle {
+    static let small: CGFloat = 10
+    static let midSmall: CGFloat = 14
+    static let mid: CGFloat = 16
+    static let titleBig: CGFloat = 18
 }

@@ -34,7 +34,7 @@ class DetailViewController: UIViewController {
     
     lazy var memoInput = UITextView().then {
         $0.textColor = .systemGray4
-        $0.text = DefaultMSG.Detail.memoPlaceHolder.rawValue
+        $0.text = DefaultMSG.Detail.memoPlaceHolder
         $0.delegate = self
         $0.layer.borderWidth = 1
         $0.layer.borderColor = UIColor.systemGray4.cgColor
@@ -74,7 +74,7 @@ class DetailViewController: UIViewController {
     
     private func attribute() {
         self.view.backgroundColor = .systemBackground
-        self.navigationItem.title = DefaultMSG.Detail.title.rawValue
+        self.navigationItem.title = DefaultMSG.Detail.title
         self.navigationController?.navigationBar.prefersLargeTitles = true
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -83,7 +83,7 @@ class DetailViewController: UIViewController {
     
     private func toolBarSet() {
         let doneItem = UIBarButtonItem(
-            title: DefaultMSG.Detail.keyboardDonBtn.rawValue,
+            title: DefaultMSG.Detail.keyboardDonBtn,
             style: .done,
             target: self,
             action: #selector(self.keyboardToolBarDoneBtnTap(_:))
@@ -105,7 +105,7 @@ class DetailViewController: UIViewController {
         
         self.backGroundView.snp.makeConstraints {
             $0.leading.trailing.equalTo(self.view.safeAreaLayoutGuide)
-            $0.top.equalTo(self.view.safeAreaLayoutGuide).inset(PaddingStyle.standard.ofSize)
+            $0.top.equalTo(self.view.safeAreaLayoutGuide).inset(PaddingStyle.standard)
             $0.height.equalTo(220)
         }
         
@@ -117,20 +117,20 @@ class DetailViewController: UIViewController {
         }
         
         self.infoView.snp.makeConstraints {
-            $0.top.equalTo(self.backGroundView.snp.bottom).offset(PaddingStyle.standardHalf.ofSize)
-            $0.leading.trailing.equalToSuperview().inset(PaddingStyle.standard.ofSize)
+            $0.top.equalTo(self.backGroundView.snp.bottom).offset(PaddingStyle.standardHalf)
+            $0.leading.trailing.equalToSuperview().inset(PaddingStyle.standard)
         }
         
         self.borderView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.leading.trailing.equalTo(self.infoView).inset(PaddingStyle.standardHalf.ofSize)
+            $0.leading.trailing.equalTo(self.infoView).inset(PaddingStyle.standardHalf)
             $0.height.equalTo(1)
-            $0.top.equalTo(self.infoView.snp.bottom).offset(PaddingStyle.standardHalf.ofSize)
+            $0.top.equalTo(self.infoView.snp.bottom).offset(PaddingStyle.standardHalf)
         }
         
         self.memoInput.snp.makeConstraints {
-            $0.leading.trailing.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(PaddingStyle.standard.ofSize)
-            $0.top.equalTo(self.borderView.snp.bottom).offset(PaddingStyle.standardPlus.ofSize)
+            $0.leading.trailing.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(PaddingStyle.standard)
+            $0.top.equalTo(self.borderView.snp.bottom).offset(PaddingStyle.standardPlus)
         }
     }
     
@@ -146,7 +146,7 @@ class DetailViewController: UIViewController {
             .disposed(by: self.bag)
         
         output.memoData
-            .filter {$0 != DefaultMSG.Detail.memoPlaceHolder.rawValue}
+            .filter {$0 != DefaultMSG.Detail.memoPlaceHolder}
             .drive(self.rx.memoSet)
             .disposed(by: self.bag)
     }
@@ -159,7 +159,7 @@ class DetailViewController: UIViewController {
         let keyboardHeight = keyboardRectangle.height - 15
         
         self.memoInput.snp.remakeConstraints {
-            $0.top.equalTo(self.view.safeAreaLayoutGuide).inset(PaddingStyle.standard.ofSize)
+            $0.top.equalTo(self.view.safeAreaLayoutGuide).inset(PaddingStyle.standard)
             $0.leading.trailing.equalTo(self.view.safeAreaLayoutGuide)
             $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(keyboardHeight)
         }
@@ -174,8 +174,8 @@ class DetailViewController: UIViewController {
     @objc
     private func keyboardWillHide(_ sender: Notification) {
         self.memoInput.snp.remakeConstraints {
-            $0.leading.trailing.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(PaddingStyle.standard.ofSize)
-            $0.top.equalTo(self.borderView.snp.bottom).offset(PaddingStyle.standardPlus.ofSize)
+            $0.leading.trailing.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(PaddingStyle.standard)
+            $0.top.equalTo(self.borderView.snp.bottom).offset(PaddingStyle.standardPlus)
         }
         UIView.animate(withDuration: 0.25){
             self.view.layoutIfNeeded()
@@ -192,7 +192,7 @@ class DetailViewController: UIViewController {
 
 extension DetailViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.text == DefaultMSG.Detail.memoPlaceHolder.rawValue {
+        if textView.text == DefaultMSG.Detail.memoPlaceHolder {
             textView.text = nil
             textView.textColor = .black
         }
@@ -200,7 +200,7 @@ extension DetailViewController: UITextViewDelegate {
     
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            textView.text = DefaultMSG.Detail.memoPlaceHolder.rawValue
+            textView.text = DefaultMSG.Detail.memoPlaceHolder
             textView.textColor = .systemGray4
         }
     }
@@ -211,7 +211,7 @@ extension Reactive where Base: DetailViewController {
         return Binder(base) { base, data in
             base.infoView.infoViewDataSet(data)
             
-            if data.urlString != DefaultMSG.Detail.loading.rawValue {
+            if data.urlString != DefaultMSG.Detail.loading {
                 base.bookImageView.kf.setImage(with: data.imageURL)
             }
         }

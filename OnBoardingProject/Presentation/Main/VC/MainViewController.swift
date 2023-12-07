@@ -48,7 +48,7 @@ class MainViewController: UIViewController {
     private func attribute() {
         self.view.backgroundColor = .systemBackground
         self.tableView.refreshControl = self.refresh
-        self.navigationItem.title = DefaultMSG.Main.title.rawValue
+        self.navigationItem.title = DefaultMSG.Main.title
         self.navigationController?.navigationBar.prefersLargeTitles = true
     }
     

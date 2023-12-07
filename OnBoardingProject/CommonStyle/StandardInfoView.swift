@@ -22,31 +22,31 @@ class StandardInfoView: UIView {
     let mainTitle = UILabel().then {
         $0.textColor = .black
         $0.textAlignment = .center
-        $0.font = .systemFont(ofSize: FontStyle.titleBig.ofSize, weight: .semibold)
+        $0.font = .systemFont(ofSize: FontStyle.titleBig, weight: .semibold)
     }
     
     let subTitle = UILabel().then {
         $0.textColor = .black
         $0.textAlignment = .center
-        $0.font = .systemFont(ofSize: FontStyle.mid.ofSize)
+        $0.font = .systemFont(ofSize: FontStyle.mid)
     }
     
     let idTitle = UILabel().then {
         $0.textColor = .black
         $0.textAlignment = .center
-        $0.font = .systemFont(ofSize: FontStyle.midSmall.ofSize)
+        $0.font = .systemFont(ofSize: FontStyle.midSmall)
     }
     
     let priceTitle = UILabel().then {
         $0.textColor = .black
         $0.textAlignment = .center
-        $0.font = .systemFont(ofSize: FontStyle.midSmall.ofSize, weight: .semibold)
+        $0.font = .systemFont(ofSize: FontStyle.midSmall, weight: .semibold)
     }
     
     let urlTitle = UILabel().then {
         $0.textColor = .systemBlue
         $0.textAlignment = .center
-        $0.font = .systemFont(ofSize: FontStyle.midSmall.ofSize)
+        $0.font = .systemFont(ofSize: FontStyle.midSmall)
     }
     
     override init(frame: CGRect) {
@@ -66,7 +66,7 @@ class StandardInfoView: UIView {
     private func layout() {
         self.addSubview(self.stackView)
         self.stackView.snp.makeConstraints {
-            $0.edges.equalToSuperview().inset(PaddingStyle.standard.ofSize)
+            $0.edges.equalToSuperview().inset(PaddingStyle.standard)
         }
         
         [self.mainTitle, self.subTitle, self.idTitle, self.priceTitle, self.urlTitle]

@@ -32,12 +32,12 @@ class DetailModel {
             guard case .success(let value) = data else {
                 print("DATA LOADING ERROR")
                 return BookData(
-                    mainTitle: DefaultMSG.error.rawValue,
-                    subTitle: DefaultMSG.error.rawValue,
+                    mainTitle: DefaultMSG.Error.defaultError,
+                    subTitle: DefaultMSG.Error.defaultError,
                     bookID: "-1",
-                    price: DefaultMSG.error.rawValue,
-                    imageString: DefaultMSG.error.rawValue,
-                    urlString: DefaultMSG.error.rawValue
+                    price: DefaultMSG.Error.defaultError,
+                    imageString: DefaultMSG.Error.defaultError,
+                    urlString: DefaultMSG.Error.defaultError
                 )
             }
             return value

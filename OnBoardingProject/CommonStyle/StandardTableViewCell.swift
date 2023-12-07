@@ -29,10 +29,10 @@ class StandardTableViewCell: UITableViewCell {
         $0.layer.cornerRadius = 16
         $0.sideCornerRound([.layerMinXMaxYCorner, .layerMaxXMaxYCorner])
         $0.layoutMargins = UIEdgeInsets(
-            top: PaddingStyle.standard.ofSize, 
-            left: PaddingStyle.standard.ofSize,
-            bottom: PaddingStyle.standard.ofSize,
-            right: PaddingStyle.standard.ofSize
+            top: PaddingStyle.standard,
+            left: PaddingStyle.standard,
+            bottom: PaddingStyle.standard,
+            right: PaddingStyle.standard
         )
         $0.isLayoutMarginsRelativeArrangement = true
         $0.backgroundColor = .systemGray5
@@ -45,25 +45,25 @@ class StandardTableViewCell: UITableViewCell {
     let mainTitle = UILabel().then {
         $0.textColor = .black
         $0.textAlignment = .center
-        $0.font = .systemFont(ofSize: FontStyle.titleBig.ofSize, weight: .semibold)
+        $0.font = .systemFont(ofSize: FontStyle.titleBig, weight: .semibold)
     }
     
     let subTitle = UILabel().then {
         $0.textColor = .black
         $0.textAlignment = .center
-        $0.font = .systemFont(ofSize: FontStyle.mid.ofSize)
+        $0.font = .systemFont(ofSize: FontStyle.mid)
     }
     
     let idTitle = UILabel().then {
         $0.textColor = .black
         $0.textAlignment = .center
-        $0.font = .systemFont(ofSize: FontStyle.midSmall.ofSize)
+        $0.font = .systemFont(ofSize: FontStyle.midSmall)
     }
     
     let priceTitle = UILabel().then {
         $0.textColor = .black
         $0.textAlignment = .center
-        $0.font = .systemFont(ofSize: FontStyle.midSmall.ofSize, weight: .semibold)
+        $0.font = .systemFont(ofSize: FontStyle.midSmall, weight: .semibold)
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -84,8 +84,8 @@ class StandardTableViewCell: UITableViewCell {
     private func layout() {
         self.contentView.addSubview(self.mainView)
         self.mainView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview().inset(PaddingStyle.big.ofSize)
-            $0.top.bottom.equalToSuperview().inset(PaddingStyle.standard.ofSize)
+            $0.leading.trailing.equalToSuperview().inset(PaddingStyle.big)
+            $0.top.bottom.equalToSuperview().inset(PaddingStyle.standard)
         }
         
         [self.bookImageView, self.stackView, self.browserIcon]
@@ -94,7 +94,7 @@ class StandardTableViewCell: UITableViewCell {
             }
         
         self.bookImageView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(PaddingStyle.standard.ofSize)
+            $0.top.equalToSuperview().inset(PaddingStyle.standard)
             $0.centerX.equalToSuperview()
             $0.width.equalTo(120)
             $0.height.equalTo(160)
@@ -102,14 +102,14 @@ class StandardTableViewCell: UITableViewCell {
         
         self.stackView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
-            $0.top.equalTo(self.bookImageView.snp.bottom).offset(PaddingStyle.standard.ofSize)
+            $0.top.equalTo(self.bookImageView.snp.bottom).offset(PaddingStyle.standard)
             $0.bottom.equalToSuperview()
         }
         
         self.browserIcon.snp.makeConstraints {
             $0.width.equalTo(24)
             $0.height.equalTo(24)
-            $0.top.trailing.equalToSuperview().inset(PaddingStyle.standard.ofSize)
+            $0.top.trailing.equalToSuperview().inset(PaddingStyle.standard)
         }
         
         [self.mainTitle, self.subTitle, self.idTitle, self.priceTitle]
@@ -118,7 +118,7 @@ class StandardTableViewCell: UITableViewCell {
             }
         
         self.mainView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(PaddingStyle.standard.ofSize)
+            $0.top.equalToSuperview().inset(PaddingStyle.standard)
         }
     }
     
