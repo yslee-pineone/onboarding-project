@@ -14,22 +14,22 @@ enum TabbarCategory: String, CaseIterable {
     var icon: UIImage? {
         switch self {
         case .new:
-            UIImage(systemName: "book")
+            return UIImage(systemName: "book")
         case .search:
-            UIImage(systemName: "magnifyingglass")
+            return UIImage(systemName: "magnifyingglass")
         }
     }
     
     var title: String {
-        self.rawValue
+        return self.rawValue
     }
     
     var number: Int {
         switch self {
         case .new:
-            0
+            return 0
         case .search:
-            1
+            return 1
         }
     }
 }
