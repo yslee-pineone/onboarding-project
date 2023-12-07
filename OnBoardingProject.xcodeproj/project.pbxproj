@@ -161,8 +161,6 @@
 		C3EE7DCB2B1ED4ED00DC64A1 /* CommonStyle */ = {
 			isa = PBXGroup;
 			children = (
-				C3EE7DCF2B1ED54500DC64A1 /* FontStyle.swift */,
-				C3EE7DD12B1ED57300DC64A1 /* PaddingStyle.swift */,
 				C3EE7E122B1EFE4500DC64A1 /* StandardTableViewCell.swift */,
 				C3EE7E2E2B2000CA00DC64A1 /* StandardInfoView.swift */,
 			);
@@ -238,6 +236,9 @@
 		C3EE7DE92B1ED6BE00DC64A1 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				C3EE7DCF2B1ED54500DC64A1 /* FontStyle.swift */,
+				C3EE7E482B2060C700DC64A1 /* DefaultMSG.swift */,
+				C3EE7DD12B1ED57300DC64A1 /* PaddingStyle.swift */,
 				C3DCAF262B1EBF4800CF40B9 /* Assets.xcassets */,
 			);
 			path = Resource;
@@ -257,7 +258,6 @@
 				C3EE7E042B1EF03B00DC64A1 /* BookListData.swift */,
 				C3EE7E2C2B1FFFDF00DC64A1 /* BookData.swift */,
 				C3EE7E302B20135200DC64A1 /* UserDefaultError.swift */,
-				C3EE7E482B2060C700DC64A1 /* DefaultMSG.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
