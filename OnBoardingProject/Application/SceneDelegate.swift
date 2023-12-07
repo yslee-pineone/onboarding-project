@@ -15,38 +15,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         self.window = UIWindow(windowScene: windowScene)
     
-        let tabbarController = UITabBarController()
-        
-        let navigations = TabbarCategory.allCases.map { [weak self] category in
-            self?.createNavigationController(category: category) ?? UINavigationController()
-        }
-        
-        tabbarController.setViewControllers(navigations, animated: true)
+        let tabbarController = TabbarController()
         
         self.window?.rootViewController = tabbarController
         self.window?.makeKeyAndVisible()
-    }
-}
-
-extension SceneDelegate {
-    func createTabbarItem(category: TabbarCategory) -> UITabBarItem {
-        UITabBarItem(title: category.title, image: category.icon, tag: category.number)
-    }
-    
-    func createNavigationController(category: TabbarCategory) -> UINavigationController {
-        let navigationController = UINavigationController()
-        navigationController.tabBarItem = self.createTabbarItem(category: category)
-        
-        switch category {
-        case .new:
-            let mainViewModel = MainViewModel()
-            navigationController.pushViewController(MainViewController(viewModel: mainViewModel), animated: true)
-        case .search: 
-            let searchViewModel = SearchViewModel()
-            navigationController.pushViewController(SearchViewController(viewModel: searchViewModel), animated: true)
-            break
-        }
-        
-        return navigationController
     }
 }
