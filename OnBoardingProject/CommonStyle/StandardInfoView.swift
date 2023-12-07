@@ -11,7 +11,7 @@ import Then
 import SnapKit
 
 class StandardInfoView: UIView {
-    let stackView = UIStackView().then {
+    lazy var stackView = UIStackView().then {
         $0.layer.cornerRadius = 16
         $0.spacing = 4
         $0.distribution = .equalCentering
@@ -19,31 +19,31 @@ class StandardInfoView: UIView {
         $0.axis = .vertical
     }
     
-    let mainTitle = UILabel().then {
+    lazy var mainTitle = UILabel().then {
         $0.textColor = .black
         $0.textAlignment = .center
         $0.font = .systemFont(ofSize: FontStyle.titleBig, weight: .semibold)
     }
     
-    let subTitle = UILabel().then {
+    lazy var subTitle = UILabel().then {
         $0.textColor = .black
         $0.textAlignment = .center
         $0.font = .systemFont(ofSize: FontStyle.mid)
     }
     
-    let idTitle = UILabel().then {
+    lazy var idTitle = UILabel().then {
         $0.textColor = .black
         $0.textAlignment = .center
         $0.font = .systemFont(ofSize: FontStyle.midSmall)
     }
     
-    let priceTitle = UILabel().then {
+    lazy var priceTitle = UILabel().then {
         $0.textColor = .black
         $0.textAlignment = .center
         $0.font = .systemFont(ofSize: FontStyle.midSmall, weight: .semibold)
     }
     
-    let urlTitle = UILabel().then {
+    lazy var urlTitle = UILabel().then {
         $0.textColor = .systemBlue
         $0.textAlignment = .center
         $0.font = .systemFont(ofSize: FontStyle.midSmall)
@@ -51,8 +51,8 @@ class StandardInfoView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.attribute()
-        self.layout()
+        attribute()
+        layout()
     }
     
     required init?(coder: NSCoder) {
@@ -60,26 +60,26 @@ class StandardInfoView: UIView {
     }
     
     private func attribute() {
-        self.backgroundColor = .clear
+        backgroundColor = .clear
     }
     
     private func layout() {
-        self.addSubview(self.stackView)
-        self.stackView.snp.makeConstraints {
+        addSubview(stackView)
+        stackView.snp.makeConstraints {
             $0.edges.equalToSuperview().inset(PaddingStyle.standard)
         }
         
-        [self.mainTitle, self.subTitle, self.idTitle, self.priceTitle, self.urlTitle]
+        [mainTitle, subTitle, idTitle, priceTitle, urlTitle]
             .forEach {
-                self.stackView.addArrangedSubview($0)
+                stackView.addArrangedSubview($0)
             }
     }
     
     func infoViewDataSet(_ data: BookData) {
-        self.mainTitle.text = data.mainTitle
-        self.subTitle.text = data.subTitle
-        self.priceTitle.text = data.price
-        self.idTitle.text = data.bookID
-        self.urlTitle.text = data.urlString
+        mainTitle.text = data.mainTitle
+        subTitle.text = data.subTitle
+        priceTitle.text = data.price
+        idTitle.text = data.bookID
+        urlTitle.text = data.urlString
     }
 }

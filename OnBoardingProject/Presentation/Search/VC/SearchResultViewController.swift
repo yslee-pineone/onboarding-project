@@ -13,7 +13,7 @@ import SnapKit
 import Then
 
 class SearchResultViewController: UITableViewController {
-    let noSearchListLabel = UILabel().then {
+    lazy var noSearchListLabel = UILabel().then {
         $0.textColor = .systemGray4
         $0.isHidden = true
         $0.font = UIFont.systemFont(ofSize: FontStyle.mid, weight: .semibold)
@@ -27,17 +27,17 @@ class SearchResultViewController: UITableViewController {
     }
     
     private func attirbute() {
-        self.tableView.register(SearchResultTableViewCell.self, forCellReuseIdentifier: SearchResultTableViewCell.id)
-        self.tableView.rowHeight = UITableView.automaticDimension
-        self.tableView.backgroundColor = .systemBackground
-        self.tableView.delegate = nil
-        self.tableView.dataSource = nil
-        self.tableView.separatorStyle = .none
+        tableView.register(SearchResultTableViewCell.self, forCellReuseIdentifier: SearchResultTableViewCell.id)
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.backgroundColor = .systemBackground
+        tableView.delegate = nil
+        tableView.dataSource = nil
+        tableView.separatorStyle = .none
     }
     
     private func layout() {
-        self.tableView.addSubview(self.noSearchListLabel)
-        self.noSearchListLabel.snp.makeConstraints {
+        tableView.addSubview(noSearchListLabel)
+        noSearchListLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.top.equalToSuperview().inset(PaddingStyle.big)
         }

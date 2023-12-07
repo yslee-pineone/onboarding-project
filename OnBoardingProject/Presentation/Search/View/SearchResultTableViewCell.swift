@@ -14,16 +14,15 @@ import Kingfisher
 class SearchResultTableViewCell: UITableViewCell {
     static let id = "SearchResultTableViewCell"
     
-    let bookImageView = UIImageView().then {
+    lazy var bookImageView = UIImageView().then {
         $0.contentMode = .scaleToFill
     }
     
-    let infoView = StandardInfoView()
+    lazy var infoView = StandardInfoView()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.layout()
-        self.layout()
+        layout()
     }
     
     required init?(coder: NSCoder) {
@@ -31,30 +30,30 @@ class SearchResultTableViewCell: UITableViewCell {
     }
     
     private func attribute() {
-        self.separatorInset = .init(top: 0, left: 0, bottom: 0, right: 0)
-        self.selectionStyle = .none
+        separatorInset = .init(top: 0, left: 0, bottom: 0, right: 0)
+        selectionStyle = .none
     }
     
     private func layout() {
-        [self.bookImageView, self.infoView]
+        [bookImageView, infoView]
             .forEach {
-                self.contentView.addSubview($0)
+                contentView.addSubview($0)
             }
         
-        self.bookImageView.snp.makeConstraints {
+        bookImageView.snp.makeConstraints {
             $0.leading.top.equalToSuperview().inset(PaddingStyle.standard)
             $0.width.equalTo(100)
             $0.height.equalTo(140)
         }
         
-        self.infoView.snp.makeConstraints {
+        infoView.snp.makeConstraints {
             $0.leading.equalTo(self.bookImageView.snp.trailing).offset(PaddingStyle.standard)
             $0.top.bottom.trailing.equalToSuperview().inset(PaddingStyle.standard)
         }
     }
     
     func cellDataSet(data: BookData) {
-        self.infoView.infoViewDataSet(data)
-        self.bookImageView.kf.setImage(with: data.imageURL)
+        infoView.infoViewDataSet(data)
+        bookImageView.kf.setImage(with: data.imageURL)
     }
 }

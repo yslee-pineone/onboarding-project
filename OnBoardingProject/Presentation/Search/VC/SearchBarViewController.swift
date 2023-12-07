@@ -14,7 +14,7 @@ import SnapKit
 class SearchBarViewController: UISearchController {
     override init(searchResultsController: UIViewController?) {
         super.init(searchResultsController: searchResultsController)
-        self.attribute()
+        attribute()
     }
     
     required init?(coder: NSCoder) {
@@ -22,6 +22,6 @@ class SearchBarViewController: UISearchController {
     }
     
     private func attribute() {
-        self.searchBar.placeholder = DefaultMSG.Search.searchStart
+        searchBar.placeholder = DefaultMSG.Search.searchStart
     }
 }

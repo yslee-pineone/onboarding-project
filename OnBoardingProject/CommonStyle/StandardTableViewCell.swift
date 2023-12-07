@@ -12,20 +12,20 @@ import Then
 import Kingfisher
 
 class StandardTableViewCell: UITableViewCell {
-    let mainView = UIView().then {
+    lazy var mainView = UIView().then {
         $0.layer.cornerRadius = 16
         $0.backgroundColor = .systemGray6
     }
     
-    let bookImageView = UIImageView().then {
+    lazy var bookImageView = UIImageView().then {
         $0.contentMode = .scaleToFill
     }
     
-    let browserIcon = UIImageView().then {
+    lazy var browserIcon = UIImageView().then {
         $0.image = UIImage(systemName: "safari")
     }
     
-    let stackView = UIStackView().then {
+    lazy var stackView = UIStackView().then {
         $0.layer.cornerRadius = 16
         $0.sideCornerRound([.layerMinXMaxYCorner, .layerMaxXMaxYCorner])
         $0.layoutMargins = UIEdgeInsets(
@@ -42,25 +42,25 @@ class StandardTableViewCell: UITableViewCell {
         $0.axis = .vertical
     }
     
-    let mainTitle = UILabel().then {
+    lazy var mainTitle = UILabel().then {
         $0.textColor = .black
         $0.textAlignment = .center
         $0.font = .systemFont(ofSize: FontStyle.titleBig, weight: .semibold)
     }
     
-    let subTitle = UILabel().then {
+    lazy var subTitle = UILabel().then {
         $0.textColor = .black
         $0.textAlignment = .center
         $0.font = .systemFont(ofSize: FontStyle.mid)
     }
     
-    let idTitle = UILabel().then {
+    lazy var idTitle = UILabel().then {
         $0.textColor = .black
         $0.textAlignment = .center
         $0.font = .systemFont(ofSize: FontStyle.midSmall)
     }
     
-    let priceTitle = UILabel().then {
+    lazy var priceTitle = UILabel().then {
         $0.textColor = .black
         $0.textAlignment = .center
         $0.font = .systemFont(ofSize: FontStyle.midSmall, weight: .semibold)
@@ -68,8 +68,8 @@ class StandardTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.attribute()
-        self.layout()
+        attribute()
+        layout()
     }
     
     required init?(coder: NSCoder) {
@@ -77,56 +77,56 @@ class StandardTableViewCell: UITableViewCell {
     }
     
     private func attribute() {
-        self.backgroundColor = .clear
-        self.selectionStyle = .none
+        backgroundColor = .clear
+        selectionStyle = .none
     }
     
     private func layout() {
-        self.contentView.addSubview(self.mainView)
-        self.mainView.snp.makeConstraints {
+        contentView.addSubview(mainView)
+        mainView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(PaddingStyle.big)
             $0.top.bottom.equalToSuperview().inset(PaddingStyle.standard)
         }
         
-        [self.bookImageView, self.stackView, self.browserIcon]
+        [bookImageView, stackView, browserIcon]
             .forEach {
-                self.mainView.addSubview($0)
+                mainView.addSubview($0)
             }
         
-        self.bookImageView.snp.makeConstraints {
+        bookImageView.snp.makeConstraints {
             $0.top.equalToSuperview().inset(PaddingStyle.standard)
             $0.centerX.equalToSuperview()
             $0.width.equalTo(120)
             $0.height.equalTo(160)
         }
         
-        self.stackView.snp.makeConstraints {
+        stackView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
-            $0.top.equalTo(self.bookImageView.snp.bottom).offset(PaddingStyle.standard)
+            $0.top.equalTo(bookImageView.snp.bottom).offset(PaddingStyle.standard)
             $0.bottom.equalToSuperview()
         }
         
-        self.browserIcon.snp.makeConstraints {
+        browserIcon.snp.makeConstraints {
             $0.width.equalTo(24)
             $0.height.equalTo(24)
             $0.top.trailing.equalToSuperview().inset(PaddingStyle.standard)
         }
         
-        [self.mainTitle, self.subTitle, self.idTitle, self.priceTitle]
+        [mainTitle, subTitle, idTitle, priceTitle]
             .forEach {
-                self.stackView.addArrangedSubview($0)
+                stackView.addArrangedSubview($0)
             }
         
-        self.mainView.snp.makeConstraints {
+        mainView.snp.makeConstraints {
             $0.top.equalToSuperview().inset(PaddingStyle.standard)
         }
     }
     
     func cellDataSet(data: BookData) {
-        self.mainTitle.text = data.mainTitle
-        self.subTitle.text = data.subTitle
-        self.priceTitle.text = data.price
-        self.idTitle.text = data.bookID
-        self.bookImageView.kf.setImage(with: data.imageURL)
+        mainTitle.text = data.mainTitle
+        subTitle.text = data.subTitle
+        priceTitle.text = data.price
+        idTitle.text = data.bookID
+        bookImageView.kf.setImage(with: data.imageURL)
     }
 }
