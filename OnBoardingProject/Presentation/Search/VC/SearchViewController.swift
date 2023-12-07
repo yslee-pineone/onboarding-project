@@ -1,5 +1,5 @@
 //
-//  SearchVC.swift
+//  SearchViewController.swift
 //  OnBoardingProject
 //
 //  Created by pineone-yslee on 12/6/23.
@@ -12,10 +12,10 @@ import RxCocoa
 import Then
 import SnapKit
 
-class SearchVC: UIViewController {
+class SearchViewController: UIViewController {
     let viewModel: SearchViewModel
-    var searchBarVC: SearchBarVC!
-    let searchResultVC: SearchResultVC
+    var searchBarViewController: SearchBarViewController!
+    let SearchResultViewController: SearchResultViewController
     
     let tableView = UITableView().then {
         $0.separatorStyle = .none
@@ -28,11 +28,11 @@ class SearchVC: UIViewController {
     
     init(
         viewModel: SearchViewModel,
-        searchResultVC: SearchResultVC = .init()
+        SearchResultViewController: SearchResultViewController = .init()
     ) {
         self.viewModel = viewModel
-        self.searchResultVC = searchResultVC
-        self.searchBarVC = SearchBarVC(searchResultsController: self.searchResultVC)
+        self.SearchResultViewController = SearchResultViewController
+        self.searchBarViewController = SearchBarViewController(searchResultsController: self.SearchResultViewController)
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -48,13 +48,13 @@ class SearchVC: UIViewController {
     }
 }
 
-private extension SearchVC {
+private extension SearchViewController {
     func attribute() {
         self.view.backgroundColor = .systemBackground
         self.navigationItem.title = DefaultMSG.Search.title.rawValue
         self.navigationController?.navigationBar.prefersLargeTitles = true
         
-        self.navigationItem.searchController = self.searchBarVC
+        self.navigationItem.searchController = self.searchBarViewController
     }
     
     func layout() {
@@ -66,16 +66,16 @@ private extension SearchVC {
     
     func bind() {
         let input = SearchViewModel.Input(
-            searchText: self.searchBarVC.searchBar.rx.text
+            searchText: self.searchBarViewController.searchBar.rx.text
                 .filter {$0 != nil}
                 .map {$0!},
-            nextDisplayIndex: self.searchResultVC.tableView.rx.willDisplayCell
+            nextDisplayIndex: self.SearchResultViewController.tableView.rx.willDisplayCell
                 .map {$0.indexPath}
         )
         
         let output = self.viewModel.transform(input: input)
         output.cellData
-            .drive(self.searchResultVC.tableView.rx.items) { tableView, row, data in
+            .drive(self.SearchResultViewController.tableView.rx.items) { tableView, row, data in
                 guard let cell = tableView.dequeueReusableCell(
                     withIdentifier: SearchResultTableViewCell.id, for: IndexPath(row: row, section: 0)) as? SearchResultTableViewCell
                 else {return UITableViewCell()}
@@ -88,7 +88,7 @@ private extension SearchVC {
         
         output.cellData
             .map {!$0.isEmpty}
-            .drive(self.searchResultVC.noSearchListLabel.rx.isHidden)
+            .drive(self.SearchResultViewController.noSearchListLabel.rx.isHidden)
             .disposed(by: self.bag)
         
         output.cellData
@@ -105,7 +105,7 @@ private extension SearchVC {
             .disposed(by: self.bag)
        
         let bookListTap = Observable.merge(
-            self.searchResultVC.tableView.rx.modelSelected(BookData.self)
+            self.SearchResultViewController.tableView.rx.modelSelected(BookData.self)
                 .asObservable(),
             self.tableView.rx.modelSelected(BookData.self)
                 .asObservable()
@@ -118,11 +118,11 @@ private extension SearchVC {
     }
 }
 
-extension Reactive where Base: SearchVC {
+extension Reactive where Base: SearchViewController {
     var detailVCPush: Binder<String> {
         return Binder(base) { base, id in
             let viewModel = DetailViewModel(id: id)
-            let vc = DetailVC(viewModel: viewModel)
+            let vc = DetailViewController(viewModel: viewModel)
             vc.hidesBottomBarWhenPushed = true
             
             base.navigationController?.pushViewController(vc, animated: true)

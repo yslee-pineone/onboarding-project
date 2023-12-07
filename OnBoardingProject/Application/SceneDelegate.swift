@@ -40,10 +40,10 @@ extension SceneDelegate {
         switch category {
         case .new:
             let mainViewModel = MainViewModel()
-            navigationController.pushViewController(MainVC(viewModel: mainViewModel), animated: true)
+            navigationController.pushViewController(MainViewController(viewModel: mainViewModel), animated: true)
         case .search: 
             let searchViewModel = SearchViewModel()
-            navigationController.pushViewController(SearchVC(viewModel: searchViewModel), animated: true)
+            navigationController.pushViewController(SearchViewController(viewModel: searchViewModel), animated: true)
             break
         }
         

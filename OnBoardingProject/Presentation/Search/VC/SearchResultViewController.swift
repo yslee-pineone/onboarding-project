@@ -1,5 +1,5 @@
 //
-//  SearchResultVC.swift
+//  SearchResultViewController.swift
 //  OnBoardingProject
 //
 //  Created by pineone-yslee on 12/6/23.
@@ -12,7 +12,7 @@ import RxCocoa
 import SnapKit
 import Then
 
-class SearchResultVC: UITableViewController {
+class SearchResultViewController: UITableViewController {
     let noSearchListLabel = UILabel().then {
         $0.textColor = .systemGray4
         $0.isHidden = true
@@ -27,7 +27,7 @@ class SearchResultVC: UITableViewController {
     }
 }
 
-private extension SearchResultVC {
+private extension SearchResultViewController {
     func attirbute() {
         self.tableView.register(SearchResultTableViewCell.self, forCellReuseIdentifier: SearchResultTableViewCell.id)
         self.tableView.rowHeight = UITableView.automaticDimension

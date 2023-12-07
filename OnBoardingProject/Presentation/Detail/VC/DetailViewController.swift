@@ -1,5 +1,5 @@
 //
-//  DetailVC.swift
+//  DetailViewController.swift
 //  OnBoardingProject
 //
 //  Created by pineone-yslee on 12/6/23.
@@ -13,7 +13,7 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
-class DetailVC: UIViewController {
+class DetailViewController: UIViewController {
     let viewModel: DetailViewModel
     let didDisappear = PublishSubject<String>()
     let bag = DisposeBag()
@@ -73,7 +73,7 @@ class DetailVC: UIViewController {
     }
 }
 
-private extension DetailVC {
+private extension DetailViewController {
     func attribute() {
         self.view.backgroundColor = .systemBackground
         self.navigationItem.title = DefaultMSG.Detail.title.rawValue
@@ -192,7 +192,7 @@ private extension DetailVC {
     }
 }
 
-extension DetailVC: UITextViewDelegate {
+extension DetailViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.text == DefaultMSG.Detail.memoPlaceHolder.rawValue {
             textView.text = nil
@@ -208,7 +208,7 @@ extension DetailVC: UITextViewDelegate {
     }
 }
 
-extension Reactive where Base: DetailVC {
+extension Reactive where Base: DetailViewController {
     var viewDataSet: Binder<BookData> {
         return Binder(base) { base, data in
             base.infoView.infoViewDataSet(data)

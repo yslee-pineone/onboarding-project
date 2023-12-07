@@ -1,5 +1,5 @@
 //
-//  MainVC.swift
+//  MainViewController.swift
 //  OnBoardingProject
 //
 //  Created by pineone on 12/5/23.
@@ -12,7 +12,7 @@ import RxCocoa
 import Then
 import SnapKit
 
-class MainVC: UIViewController {
+class MainViewController: UIViewController {
     var refresh = UIRefreshControl().then {
         $0.tintColor = .label
     }
@@ -46,7 +46,7 @@ class MainVC: UIViewController {
     }
 }
 
-private extension MainVC {
+private extension MainViewController {
     func attribute() {
         self.view.backgroundColor = .systemBackground
         self.tableView.refreshControl = self.refresh
@@ -90,7 +90,7 @@ private extension MainVC {
     }
 }
 
-extension Reactive where Base: MainVC {
+extension Reactive where Base: MainViewController {
     var refreshEnd: Binder<Void> {
         return Binder(base) { base, _ in
             base.refresh.endRefreshing()
@@ -100,7 +100,7 @@ extension Reactive where Base: MainVC {
     var detailVCPush: Binder<String> {
         return Binder(base) { base, id in
             let viewModel = DetailViewModel(id: id)
-            let vc = DetailVC(viewModel: viewModel)
+            let vc = DetailViewController(viewModel: viewModel)
             vc.hidesBottomBarWhenPushed = true
             
             base.navigationController?.pushViewController(vc, animated: true)
