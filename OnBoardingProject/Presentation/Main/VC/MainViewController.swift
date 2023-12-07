@@ -44,24 +44,22 @@ class MainViewController: UIViewController {
         self.layout()
         self.bind()
     }
-}
-
-private extension MainViewController {
-    func attribute() {
+    
+    private func attribute() {
         self.view.backgroundColor = .systemBackground
         self.tableView.refreshControl = self.refresh
         self.navigationItem.title = DefaultMSG.Main.title.rawValue
         self.navigationController?.navigationBar.prefersLargeTitles = true
     }
     
-    func layout() {
+    private func layout() {
         self.view.addSubview(self.tableView)
         self.tableView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
     }
     
-    func bind() {
+    private func bind() {
         let input = MainViewModel.Input(
             refreshEvent: self.refresh.rx.controlEvent(.valueChanged)
                 .startWith(Void())

@@ -25,10 +25,8 @@ class SearchResultViewController: UITableViewController {
         self.attirbute()
         self.layout()
     }
-}
-
-private extension SearchResultViewController {
-    func attirbute() {
+    
+    private func attirbute() {
         self.tableView.register(SearchResultTableViewCell.self, forCellReuseIdentifier: SearchResultTableViewCell.id)
         self.tableView.rowHeight = UITableView.automaticDimension
         self.tableView.backgroundColor = .systemBackground
@@ -37,7 +35,7 @@ private extension SearchResultViewController {
         self.tableView.separatorStyle = .none
     }
     
-    func layout() {
+    private func layout() {
         self.tableView.addSubview(self.noSearchListLabel)
         self.noSearchListLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()

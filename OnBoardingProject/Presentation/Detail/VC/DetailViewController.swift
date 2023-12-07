@@ -71,10 +71,8 @@ class DetailViewController: UIViewController {
         self.didDisappear.onNext(self.memoInput.text)
         NotificationCenter.default.removeObserver(self)
     }
-}
-
-private extension DetailViewController {
-    func attribute() {
+    
+    private func attribute() {
         self.view.backgroundColor = .systemBackground
         self.navigationItem.title = DefaultMSG.Detail.title.rawValue
         self.navigationController?.navigationBar.prefersLargeTitles = true
@@ -83,7 +81,7 @@ private extension DetailViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-    func toolBarSet() {
+    private func toolBarSet() {
         let doneItem = UIBarButtonItem(
             title: DefaultMSG.Detail.keyboardDonBtn.rawValue,
             style: .done,
@@ -99,7 +97,7 @@ private extension DetailViewController {
         self.memoInput.inputAccessoryView = keyboardTool
     }
     
-    func layout() {
+    private func layout() {
         [self.backGroundView, self.borderView, self.memoInput, self.infoView]
             .forEach {
                 self.view.addSubview($0)
@@ -136,7 +134,7 @@ private extension DetailViewController {
         }
     }
     
-    func bind() {
+    private func bind() {
         let input = DetailViewModel.Input(
             didDisappearMemoContents: self.didDisappear
                 .asObservable()
@@ -154,7 +152,7 @@ private extension DetailViewController {
     }
     
     @objc
-    func keyboardWillShow(_ sender: Notification) {
+    private func keyboardWillShow(_ sender: Notification) {
         let userInfo:NSDictionary = sender.userInfo! as NSDictionary
         let keyboardFrame:NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as! NSValue
         let keyboardRectangle = keyboardFrame.cgRectValue
@@ -174,7 +172,7 @@ private extension DetailViewController {
     }
     
     @objc
-    func keyboardWillHide(_ sender: Notification) {
+    private func keyboardWillHide(_ sender: Notification) {
         self.memoInput.snp.remakeConstraints {
             $0.leading.trailing.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(PaddingStyle.standard.ofSize)
             $0.top.equalTo(self.borderView.snp.bottom).offset(PaddingStyle.standardPlus.ofSize)
@@ -187,7 +185,7 @@ private extension DetailViewController {
     }
     
     @objc
-    func keyboardToolBarDoneBtnTap(_ sender: Any) {
+    private func keyboardToolBarDoneBtnTap(_ sender: Any) {
         self.memoInput.resignFirstResponder()
     }
 }

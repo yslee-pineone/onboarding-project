@@ -29,9 +29,7 @@ class SearchResultTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-}
-
-extension SearchResultTableViewCell {
+    
     private func attribute() {
         self.separatorInset = .init(top: 0, left: 0, bottom: 0, right: 0)
         self.selectionStyle = .none

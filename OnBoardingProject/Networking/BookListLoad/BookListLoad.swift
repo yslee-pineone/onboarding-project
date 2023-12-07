@@ -50,10 +50,8 @@ class BookListLoad {
             return value
         }
     }
-}
-
-private extension BookListLoad {
-    func setURLComponents(query: String?, page: String?) -> URLComponents {
+    
+    private func setURLComponents(query: String?, page: String?) -> URLComponents {
         var urlComponents = URLComponents()
         urlComponents.scheme = URLRequestConfiguration.URL.scheme.rawValue
         urlComponents.host = URLRequestConfiguration.URL.host.rawValue

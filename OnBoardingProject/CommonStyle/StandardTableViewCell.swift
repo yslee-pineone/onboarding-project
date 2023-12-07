@@ -75,9 +75,7 @@ class StandardTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-}
-
-extension StandardTableViewCell {
+    
     private func attribute() {
         self.backgroundColor = .clear
         self.selectionStyle = .none

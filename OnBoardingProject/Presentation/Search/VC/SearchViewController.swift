@@ -46,10 +46,8 @@ class SearchViewController: UIViewController {
         self.layout()
         self.bind()
     }
-}
-
-private extension SearchViewController {
-    func attribute() {
+    
+    private func attribute() {
         self.view.backgroundColor = .systemBackground
         self.navigationItem.title = DefaultMSG.Search.title.rawValue
         self.navigationController?.navigationBar.prefersLargeTitles = true
@@ -57,14 +55,14 @@ private extension SearchViewController {
         self.navigationItem.searchController = self.searchBarViewController
     }
     
-    func layout() {
+    private func layout() {
         self.view.addSubview(self.tableView)
         self.tableView.snp.makeConstraints {
             $0.edges.equalTo(self.view.safeAreaLayoutGuide)
         }
     }
     
-    func bind() {
+    private func bind() {
         let input = SearchViewModel.Input(
             searchText: self.searchBarViewController.searchBar.rx.text
                 .filter {$0 != nil}
