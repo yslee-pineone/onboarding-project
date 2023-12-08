@@ -157,9 +157,14 @@ class DetailViewController: UIViewController {
     
     @objc
     private func keyboardWillHide(_ sender: Notification) {
-        let contentInset = UIEdgeInsets.zero
-        scrollView.contentInset = contentInset
-        scrollView.scrollIndicatorInsets = contentInset
+        scrollView.setContentOffset(CGPoint(x: 0, y: -1), animated: true)
+        scrollView.sizeToFit()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            let contentInset = UIEdgeInsets.zero
+            self.scrollView.contentInset = contentInset
+            self.scrollView.scrollIndicatorInsets = contentInset
+        }
     }
     
     @objc
