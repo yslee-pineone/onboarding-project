@@ -7,8 +7,6 @@
 
 import UIKit
 
-import Kingfisher
-import Then
 import SnapKit
 import RxSwift
 import RxCocoa
@@ -16,6 +14,7 @@ import RxCocoa
 class DetailViewController: UIViewController {
     lazy var scrollView = UIScrollView()
     lazy var detailView = DetailView()
+    lazy var loadingView: DetailLoadingView? = DetailLoadingView()
     
     let viewModel: DetailViewModel
     let didDisappear = PublishSubject<String>()
@@ -71,6 +70,14 @@ class DetailViewController: UIViewController {
         detailView.snp.makeConstraints {
             $0.edges.width.height.equalToSuperview()
         }
+        
+        guard let loadingView = self.loadingView else {return}
+        
+        detailView.addSubview(loadingView)
+        loadingView.snp.makeConstraints {
+            $0.bottom.leading.trailing.equalToSuperview()
+            $0.top.equalToSuperview().inset(PaddingStyle.standard)
+        }
     }
     
     private func toolBarSet() {
@@ -96,11 +103,21 @@ class DetailViewController: UIViewController {
         )
         
         let output = viewModel.transform(input: input)
-        output.bookData
+        
+        let dataFilter = output.bookData
+            .filter {$0.bookID != DefaultMSG.Detail.loading}
+        
+        dataFilter
             .drive(rx.viewDataSet)
             .disposed(by: bag)
         
-        output.memoData
+        dataFilter
+            .map {_ in Void()}
+            .drive(rx.loadingEnd)
+            .disposed(by: bag)
+        
+        dataFilter
+            .withLatestFrom(output.memoData)
             .filter {$0 != DefaultMSG.Detail.memoPlaceHolder}
             .drive(rx.memoSet)
             .disposed(by: bag)
@@ -159,6 +176,17 @@ extension Reactive where Base: DetailViewController {
             if memoContents != "" {
                 base.detailView.memoInput.text = memoContents
                 base.detailView.memoInput.textColor = .black
+            }
+        }
+    }
+    
+    var loadingEnd: Binder<Void> {
+        return Binder(base) { base, _ in
+            UIView.animate(withDuration: 0.2, animations: {
+                base.loadingView?.alpha = 0
+            }) { _ in
+                base.loadingView?.removeFromSuperview()
+                base.loadingView = nil
             }
         }
     }

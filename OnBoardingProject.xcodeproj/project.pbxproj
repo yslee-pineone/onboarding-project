@@ -10,6 +10,7 @@
 		C32DE16D2B21B17B007DAC84 /* TabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32DE16C2B21B17B007DAC84 /* TabbarController.swift */; };
 		C32DE16F2B22A0D0007DAC84 /* MainTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32DE16E2B22A0D0007DAC84 /* MainTableView.swift */; };
 		C32DE1722B22A332007DAC84 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32DE1712B22A332007DAC84 /* DetailView.swift */; };
+		C32DE1742B22D13A007DAC84 /* DetailLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32DE1732B22D13A007DAC84 /* DetailLoadingView.swift */; };
 		C3DCAF1E2B1EBF4600CF40B9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DCAF1D2B1EBF4600CF40B9 /* AppDelegate.swift */; };
 		C3DCAF202B1EBF4600CF40B9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DCAF1F2B1EBF4600CF40B9 /* SceneDelegate.swift */; };
 		C3DCAF272B1EBF4800CF40B9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3DCAF262B1EBF4800CF40B9 /* Assets.xcassets */; };
@@ -51,6 +52,7 @@
 		C32DE16C2B21B17B007DAC84 /* TabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarController.swift; sourceTree = "<group>"; };
 		C32DE16E2B22A0D0007DAC84 /* MainTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableView.swift; sourceTree = "<group>"; };
 		C32DE1712B22A332007DAC84 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		C32DE1732B22D13A007DAC84 /* DetailLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailLoadingView.swift; sourceTree = "<group>"; };
 		C3DCAF1A2B1EBF4600CF40B9 /* OnBoardingProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnBoardingProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3DCAF1D2B1EBF4600CF40B9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C3DCAF1F2B1EBF4600CF40B9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 			isa = PBXGroup;
 			children = (
 				C32DE1712B22A332007DAC84 /* DetailView.swift */,
+				C32DE1732B22D13A007DAC84 /* DetailLoadingView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -526,6 +529,7 @@
 				C3EE7DD62B1ED5B400DC64A1 /* MainViewController.swift in Sources */,
 				C3EE7E3D2B2040D700DC64A1 /* SearchBarViewController.swift in Sources */,
 				C3DCAF202B1EBF4600CF40B9 /* SceneDelegate.swift in Sources */,
+				C32DE1742B22D13A007DAC84 /* DetailLoadingView.swift in Sources */,
 				C3EE7E212B1FFC8000DC64A1 /* MainModel.swift in Sources */,
 				C3EE7DF62B1EEA9700DC64A1 /* NetworkService.swift in Sources */,
 				C3EE7E1B2B1F1DE100DC64A1 /* UIView+.swift in Sources */,
