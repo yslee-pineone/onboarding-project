@@ -19,7 +19,7 @@ class MainModel {
     }
     
     func newBookLoad() -> Observable<[BookData]> {
-        self.bookListLoad.newBookListRequest()
+        return bookListLoad.newBookListRequest()
             .map {$0.books}
     }
 }

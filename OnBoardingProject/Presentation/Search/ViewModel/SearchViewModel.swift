@@ -34,8 +34,8 @@ class SearchViewModel {
                 viewModel.nowPage = 1
                 return viewModel.model.bookListSearch(query: query, nextPage: "\(viewModel.nowPage)")
             }
-            .bind(to: self.nowSearchData)
-            .disposed(by: self.bag)
+            .bind(to: nowSearchData)
+            .disposed(by: bag)
         
         input.nextDisplayIndex
             .withUnretained(self)
@@ -55,8 +55,8 @@ class SearchViewModel {
                 
                 return list
             }
-            .bind(to: self.nowSearchData)
-            .disposed(by: self.bag)
+            .bind(to: nowSearchData)
+            .disposed(by: bag)
         
         return Output(
             cellData: nowSearchData

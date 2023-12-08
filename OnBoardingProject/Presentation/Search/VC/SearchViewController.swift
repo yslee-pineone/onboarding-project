@@ -15,7 +15,7 @@ import SnapKit
 class SearchViewController: UIViewController {
     let viewModel: SearchViewModel
     var searchBarViewController: SearchBarViewController!
-    let SearchResultViewController: SearchResultViewController
+    let searchResultViewController: SearchResultViewController
     
     let tableView = UITableView().then {
         $0.separatorStyle = .none
@@ -28,11 +28,11 @@ class SearchViewController: UIViewController {
     
     init(
         viewModel: SearchViewModel,
-        SearchResultViewController: SearchResultViewController = .init()
+        searchResultViewController: SearchResultViewController = .init()
     ) {
         self.viewModel = viewModel
-        self.SearchResultViewController = SearchResultViewController
-        self.searchBarViewController = SearchBarViewController(searchResultsController: self.SearchResultViewController)
+        self.searchResultViewController = searchResultViewController
+        searchBarViewController = SearchBarViewController(searchResultsController: searchResultViewController)
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -42,38 +42,38 @@ class SearchViewController: UIViewController {
     }
     
     override func viewDidLoad() {
-        self.attribute()
-        self.layout()
-        self.bind()
+        attribute()
+        layout()
+        bind()
     }
     
     private func attribute() {
-        self.view.backgroundColor = .systemBackground
-        self.navigationItem.title = DefaultMSG.Search.title
-        self.navigationController?.navigationBar.prefersLargeTitles = true
+        view.backgroundColor = .systemBackground
+        navigationItem.title = DefaultMSG.Search.title
+        navigationController?.navigationBar.prefersLargeTitles = true
         
-        self.navigationItem.searchController = self.searchBarViewController
+        navigationItem.searchController = searchBarViewController
     }
     
     private func layout() {
-        self.view.addSubview(self.tableView)
-        self.tableView.snp.makeConstraints {
-            $0.edges.equalTo(self.view.safeAreaLayoutGuide)
+        view.addSubview(tableView)
+        tableView.snp.makeConstraints {
+            $0.edges.equalTo(view.safeAreaLayoutGuide)
         }
     }
     
     private func bind() {
         let input = SearchViewModel.Input(
-            searchText: self.searchBarViewController.searchBar.rx.text
+            searchText: searchBarViewController.searchBar.rx.text
                 .filter {$0 != nil}
                 .map {$0!},
-            nextDisplayIndex: self.SearchResultViewController.tableView.rx.willDisplayCell
+            nextDisplayIndex: searchResultViewController.tableView.rx.willDisplayCell
                 .map {$0.indexPath}
         )
         
-        let output = self.viewModel.transform(input: input)
+        let output = viewModel.transform(input: input)
         output.cellData
-            .drive(self.SearchResultViewController.tableView.rx.items) { tableView, row, data in
+            .drive(searchResultViewController.tableView.rx.items) { tableView, row, data in
                 guard let cell = tableView.dequeueReusableCell(
                     withIdentifier: SearchResultTableViewCell.id, for: IndexPath(row: row, section: 0)) as? SearchResultTableViewCell
                 else {return UITableViewCell()}
@@ -82,16 +82,16 @@ class SearchViewController: UIViewController {
                 
                 return cell
             }
-            .disposed(by: self.bag)
+            .disposed(by: bag)
         
         output.cellData
             .map {!$0.isEmpty}
-            .drive(self.SearchResultViewController.noSearchListLabel.rx.isHidden)
-            .disposed(by: self.bag)
+            .drive(searchResultViewController.noSearchListLabel.rx.isHidden)
+            .disposed(by: bag)
         
         output.cellData
             .filter {!$0.isEmpty}
-            .drive(self.tableView.rx.items) { tableView, row, data in
+            .drive(tableView.rx.items) { tableView, row, data in
                 guard let cell = tableView.dequeueReusableCell(
                     withIdentifier: StandardTableViewCell.id, for: IndexPath(row: row, section: 0)) as? StandardTableViewCell
                 else {return UITableViewCell()}
@@ -100,19 +100,19 @@ class SearchViewController: UIViewController {
                 
                 return cell
             }
-            .disposed(by: self.bag)
+            .disposed(by: bag)
        
         let bookListTap = Observable.merge(
-            self.SearchResultViewController.tableView.rx.modelSelected(BookData.self)
+            searchResultViewController.tableView.rx.modelSelected(BookData.self)
                 .asObservable(),
-            self.tableView.rx.modelSelected(BookData.self)
+            tableView.rx.modelSelected(BookData.self)
                 .asObservable()
         )
         
         bookListTap
             .map {$0.bookID}
-            .bind(to: self.rx.detailVCPush)
-            .disposed(by: self.bag)
+            .bind(to: rx.detailVCPush)
+            .disposed(by: bag)
     }
 }
 

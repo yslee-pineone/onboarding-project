@@ -37,21 +37,21 @@ class DetailViewModel {
     }
     
     func transform(input: Input) -> Output {
-        self.model.detailBookDataRequest(id: self.bookID)
-            .bind(to: self.nowBookData)
-            .disposed(by: self.bag)
+        model.detailBookDataRequest(id: bookID)
+            .bind(to: nowBookData)
+            .disposed(by: bag)
         
         input.didDisappearMemoContents
             .withUnretained(self)
             .subscribe(onNext: { viewModel, contents in
                 viewModel.model.memoSave(bookID: viewModel.bookID, contents: contents)
             })
-            .disposed(by: self.bag)
+            .disposed(by: bag)
         
         return Output(
-            bookData: self.nowBookData
+            bookData: nowBookData
                 .asDriver(onErrorDriveWith: .empty()),
-            memoData: self.model.memoRequest(bookID: self.bookID)
+            memoData: model.memoRequest(bookID: bookID)
                 .asDriver(onErrorJustReturn: "")
         )
     }

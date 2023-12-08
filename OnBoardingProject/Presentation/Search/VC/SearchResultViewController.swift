@@ -22,8 +22,8 @@ class SearchResultViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.attirbute()
-        self.layout()
+        attirbute()
+        layout()
     }
     
     private func attirbute() {
