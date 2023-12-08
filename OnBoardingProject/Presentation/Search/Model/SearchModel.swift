@@ -21,5 +21,6 @@ class SearchModel {
     func bookListSearch(query: String, nextPage page: String) -> Observable<[BookData]> {
         return bookListLoad.searchBookListRequest(query: query, page: page)
             .map {$0.books}
+            .asObservable()
     }
 }

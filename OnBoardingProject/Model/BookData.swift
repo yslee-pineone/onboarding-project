@@ -8,6 +8,7 @@
 import Foundation
 
 struct BookData: Decodable{
+    let error: String?
     let mainTitle: String
     let subTitle: String
     let bookID: String
@@ -16,6 +17,7 @@ struct BookData: Decodable{
     let urlString: String
     
     enum CodingKeys: String, CodingKey {
+        case error = "error"
         case mainTitle = "title"
         case subTitle = "subtitle"
         case bookID = "isbn13"

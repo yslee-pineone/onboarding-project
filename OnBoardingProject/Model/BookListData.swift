@@ -9,5 +9,6 @@ import Foundation
 
 struct BookListData: Decodable {
     let page: String?
+    let error: String
     let books: [BookData]
 }

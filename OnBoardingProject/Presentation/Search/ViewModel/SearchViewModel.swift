@@ -27,17 +27,15 @@ class SearchViewModel {
     }
     
     func transform(input: Input) -> Output {
-        input.searchText
+        let searchResult = input.searchText
             .distinctUntilChanged()
             .withUnretained(self)
             .flatMapLatest { viewModel, query in
                 viewModel.nowPage = 1
                 return viewModel.model.bookListSearch(query: query, nextPage: "\(viewModel.nowPage)")
             }
-            .bind(to: nowSearchData)
-            .disposed(by: bag)
         
-        input.nextDisplayIndex
+        let nextResult = input.nextDisplayIndex
             .withUnretained(self)
             .filter { viewModel, index in
                 (viewModel.nowPage * 10) - 3 <= (index.section * 10) + index.row
@@ -55,8 +53,16 @@ class SearchViewModel {
                 
                 return list
             }
-            .bind(to: nowSearchData)
-            .disposed(by: bag)
+        
+        Observable.merge(searchResult, nextResult)
+            .withUnretained(self)
+            .subscribe(onNext: { viewModel, data in
+                viewModel.nowSearchData.accept(data)
+            }, onError: { [weak self] error in
+                print(error)
+                self?.nowSearchData.accept([])
+            })
+            .disposed(by: self.bag)
         
         return Output(
             cellData: nowSearchData

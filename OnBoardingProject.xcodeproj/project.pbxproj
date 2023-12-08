@@ -12,6 +12,7 @@
 		C32DE1722B22A332007DAC84 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32DE1712B22A332007DAC84 /* DetailView.swift */; };
 		C32DE1742B22D13A007DAC84 /* DetailLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32DE1732B22D13A007DAC84 /* DetailLoadingView.swift */; };
 		C32DE1762B22D64E007DAC84 /* BookListLoadCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32DE1752B22D64E007DAC84 /* BookListLoadCategory.swift */; };
+		C32DE1782B22FF11007DAC84 /* NetworkingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32DE1772B22FF11007DAC84 /* NetworkingError.swift */; };
 		C3DCAF1E2B1EBF4600CF40B9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DCAF1D2B1EBF4600CF40B9 /* AppDelegate.swift */; };
 		C3DCAF202B1EBF4600CF40B9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DCAF1F2B1EBF4600CF40B9 /* SceneDelegate.swift */; };
 		C3DCAF272B1EBF4800CF40B9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3DCAF262B1EBF4800CF40B9 /* Assets.xcassets */; };
@@ -20,7 +21,6 @@
 		C3EE7DD22B1ED57300DC64A1 /* PaddingStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7DD12B1ED57300DC64A1 /* PaddingStyle.swift */; };
 		C3EE7DD62B1ED5B400DC64A1 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7DD52B1ED5B400DC64A1 /* MainViewController.swift */; };
 		C3EE7DDB2B1ED5D200DC64A1 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7DDA2B1ED5D200DC64A1 /* MainViewModel.swift */; };
-		C3EE7DE72B1ED64600DC64A1 /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7DE62B1ED64600DC64A1 /* URLSessionProtocol.swift */; };
 		C3EE7DF02B1EDCEA00DC64A1 /* TabbarCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7DEF2B1EDCEA00DC64A1 /* TabbarCategory.swift */; };
 		C3EE7DF62B1EEA9700DC64A1 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7DF52B1EEA9700DC64A1 /* NetworkService.swift */; };
 		C3EE7DF82B1EEAA100DC64A1 /* NetworkServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7DF72B1EEAA100DC64A1 /* NetworkServiceProtocol.swift */; };
@@ -55,6 +55,7 @@
 		C32DE1712B22A332007DAC84 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		C32DE1732B22D13A007DAC84 /* DetailLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailLoadingView.swift; sourceTree = "<group>"; };
 		C32DE1752B22D64E007DAC84 /* BookListLoadCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListLoadCategory.swift; sourceTree = "<group>"; };
+		C32DE1772B22FF11007DAC84 /* NetworkingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingError.swift; sourceTree = "<group>"; };
 		C3DCAF1A2B1EBF4600CF40B9 /* OnBoardingProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnBoardingProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3DCAF1D2B1EBF4600CF40B9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C3DCAF1F2B1EBF4600CF40B9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -65,7 +66,6 @@
 		C3EE7DD12B1ED57300DC64A1 /* PaddingStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingStyle.swift; sourceTree = "<group>"; };
 		C3EE7DD52B1ED5B400DC64A1 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		C3EE7DDA2B1ED5D200DC64A1 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
-		C3EE7DE62B1ED64600DC64A1 /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		C3EE7DEF2B1EDCEA00DC64A1 /* TabbarCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarCategory.swift; sourceTree = "<group>"; };
 		C3EE7DF52B1EEA9700DC64A1 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		C3EE7DF72B1EEAA100DC64A1 /* NetworkServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceProtocol.swift; sourceTree = "<group>"; };
@@ -229,7 +229,6 @@
 		C3EE7DE32B1ED60F00DC64A1 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
-				C3EE7DE62B1ED64600DC64A1 /* URLSessionProtocol.swift */,
 				C3EE7DF72B1EEAA100DC64A1 /* NetworkServiceProtocol.swift */,
 			);
 			path = Protocol;
@@ -271,6 +270,7 @@
 				C3EE7E042B1EF03B00DC64A1 /* BookListData.swift */,
 				C3EE7E2C2B1FFFDF00DC64A1 /* BookData.swift */,
 				C3EE7E302B20135200DC64A1 /* UserDefaultError.swift */,
+				C32DE1772B22FF11007DAC84 /* NetworkingError.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -518,7 +518,6 @@
 				C3EE7E132B1EFE4500DC64A1 /* StandardTableViewCell.swift in Sources */,
 				C3EE7E2F2B2000CA00DC64A1 /* StandardInfoView.swift in Sources */,
 				C3EE7E002B1EEFF100DC64A1 /* BookListLoad.swift in Sources */,
-				C3EE7DE72B1ED64600DC64A1 /* URLSessionProtocol.swift in Sources */,
 				C3EE7DDB2B1ED5D200DC64A1 /* MainViewModel.swift in Sources */,
 				C3EE7E252B1FFE2E00DC64A1 /* DetailViewController.swift in Sources */,
 				C3EE7E082B1EF15C00DC64A1 /* URLRequestConfiguration.swift in Sources */,
@@ -534,6 +533,7 @@
 				C3EE7E3D2B2040D700DC64A1 /* SearchBarViewController.swift in Sources */,
 				C3DCAF202B1EBF4600CF40B9 /* SceneDelegate.swift in Sources */,
 				C32DE1742B22D13A007DAC84 /* DetailLoadingView.swift in Sources */,
+				C32DE1782B22FF11007DAC84 /* NetworkingError.swift in Sources */,
 				C3EE7E212B1FFC8000DC64A1 /* MainModel.swift in Sources */,
 				C3EE7DF62B1EEA9700DC64A1 /* NetworkService.swift in Sources */,
 				C3EE7E1B2B1F1DE100DC64A1 /* UIView+.swift in Sources */,

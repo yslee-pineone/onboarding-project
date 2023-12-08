@@ -13,5 +13,5 @@ protocol NetworkServiceProtocol {
     func request<T: Decodable>(
         urlComponents: URLComponents,
         decodingType: T.Type
-    ) -> Observable<Result<T, URLError>>
+    ) -> Single<T>
 }

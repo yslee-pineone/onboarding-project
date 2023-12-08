@@ -30,7 +30,13 @@ class MainViewModel {
             .flatMap { viewModel, _ in
                 viewModel.model.newBookLoad()
             }
-            .bind(to: self.nowCellData)
+            .withUnretained(self)
+            .subscribe(onNext: { viewModel, data in
+                viewModel.nowCellData.accept(data)
+            }, onError: { [weak self] error in
+                print(error)
+                self?.nowCellData.accept([])
+            })
             .disposed(by: self.bag)
         
         return Output(

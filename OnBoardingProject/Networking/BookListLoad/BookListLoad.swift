@@ -19,23 +19,16 @@ class BookListLoad {
         self.networkService = networkService
     }
     
-    func newBookListRequest() -> Observable<BookListData> {
+    func newBookListRequest() -> Single<BookListData> {
         let urlComponents = self.setURLComponents(category: .new)
        
         return self.networkService.request(
             urlComponents: urlComponents,
             decodingType: BookListData.self
         )
-        .map { data in
-            guard case .success(let value) = data else {
-                print("DATA LOADING ERROR")
-                return BookListData(page: "-1", books: [])
-            }
-            return value
-        }
     }
     
-    func searchBookListRequest(query: String, page: String) -> Observable<BookListData> {
+    func searchBookListRequest(query: String, page: String) -> Single<BookListData> {
         let urlComponents = self.setURLComponents(
             category: .search(query: query, page: page)
         )
@@ -44,16 +37,9 @@ class BookListLoad {
             urlComponents: urlComponents,
             decodingType: BookListData.self
         )
-        .map { data in
-            guard case .success(let value) = data else {
-                print("DATA LOADING ERROR")
-                return BookListData(page: "-1", books: [])
-            }
-            return value
-        }
     }
     
-    func detailBookInfomationRequest(id: String) -> Observable<BookData> {
+    func detailBookInfomationRequest(id: String) -> Single<BookData> {
         let urlComponents = self.setURLComponents(
             category: .detail(id: id)
         )
@@ -61,20 +47,6 @@ class BookListLoad {
             urlComponents: urlComponents,
             decodingType: BookData.self
         )
-        .map { data in
-            guard case .success(let value) = data else {
-                print("DATA LOADING ERROR")
-                return BookData(
-                    mainTitle: DefaultMSG.Error.defaultError,
-                    subTitle: DefaultMSG.Error.defaultError,
-                    bookID: "-1",
-                    price: DefaultMSG.Error.defaultError,
-                    imageString: DefaultMSG.Error.defaultError,
-                    urlString: DefaultMSG.Error.defaultError
-                )
-            }
-            return value
-        }
     }
     
     private func setURLComponents(category: BookListLoadCategory) -> URLComponents {

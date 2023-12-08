@@ -20,6 +20,7 @@ class DetailModel {
     
     func detailBookDataRequest(id: String) -> Observable<BookData> {
         return bookListLoad.detailBookInfomationRequest(id: id)
+            .asObservable()
     }
     
     func memoRequest(bookID id: String) -> Single<String> {

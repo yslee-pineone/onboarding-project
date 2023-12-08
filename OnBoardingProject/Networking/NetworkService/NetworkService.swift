@@ -16,18 +16,19 @@ class NetworkService: NetworkServiceProtocol {
     func request<T: Decodable>(
         urlComponents: URLComponents,
         decodingType: T.Type
-    ) -> Observable<Result<T, URLError>>{
-        guard let url = urlComponents.url else {return .just(.failure(.init(.badURL)))}
+    ) -> Single<T>{
+        guard let url = urlComponents.url else {
+            return .error(NetworkingError.error_900)
+        }
         
-        return Observable.create { observer -> Disposable in
+        return Single.create { observer -> Disposable in
            AF.request(url, method: .get)
                 .responseDecodable(of: decodingType.self) { data in
                     switch data.result {
                     case .success(let value):
-                        observer.onNext(.success(value))
-                        observer.onCompleted()
+                        observer(.success(value))
                     case .failure(let error):
-                        observer.onError(error)
+                        observer(.failure(error))
                     }
                 }
             return Disposables.create()

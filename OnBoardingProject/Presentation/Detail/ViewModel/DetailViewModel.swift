@@ -16,6 +16,7 @@ class DetailViewModel {
     
     let nowBookData = BehaviorRelay<BookData>(
         value: .init(
+            error: DefaultMSG.Detail.loading, 
             mainTitle: DefaultMSG.Detail.loading,
             subTitle: DefaultMSG.Detail.loading,
             bookID: DefaultMSG.Detail.loading,
@@ -38,8 +39,13 @@ class DetailViewModel {
     
     func transform(input: Input) -> Output {
         model.detailBookDataRequest(id: bookID)
-            .bind(to: nowBookData)
-            .disposed(by: bag)
+            .withUnretained(self)
+            .subscribe(onNext: { viewModel, data in
+                viewModel.nowBookData.accept(data)
+            }, onError: {error in
+                print(error)
+            })
+            .disposed(by: self.bag)
         
         input.didDisappearMemoContents
             .withUnretained(self)

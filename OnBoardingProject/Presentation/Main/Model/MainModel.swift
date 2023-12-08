@@ -21,5 +21,6 @@ class MainModel {
     func newBookLoad() -> Observable<[BookData]> {
         return bookListLoad.newBookListRequest()
             .map {$0.books}
+            .asObservable()
     }
 }
