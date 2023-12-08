@@ -14,6 +14,7 @@ import RxSwift
 import RxCocoa
 
 class DetailViewController: UIViewController {
+    lazy var scrollView = UIScrollView()
     lazy var detailView = DetailView()
     
     let viewModel: DetailViewModel
@@ -61,11 +62,15 @@ class DetailViewController: UIViewController {
     }
     
     private func layout() {
-        view.addSubview(detailView)
-        detailView.snp.makeConstraints {
+        view.addSubview(scrollView)
+        scrollView.snp.makeConstraints {
             $0.edges.equalTo(view.safeAreaLayoutGuide)
         }
         
+        scrollView.addSubview(detailView)
+        detailView.snp.makeConstraints {
+            $0.edges.width.height.equalToSuperview()
+        }
     }
     
     private func toolBarSet() {
@@ -83,8 +88,6 @@ class DetailViewController: UIViewController {
         
         detailView.memoInput.inputAccessoryView = keyboardTool
     }
-    
-    
     
     private func bind() {
         let input = DetailViewModel.Input(
@@ -109,11 +112,29 @@ class DetailViewController: UIViewController {
         let keyboardFrame:NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as! NSValue
         let keyboardRectangle = keyboardFrame.cgRectValue
         let keyboardHeight = keyboardRectangle.height - 15
+        
+        let contentInset = UIEdgeInsets(
+                top: 0,
+                left: 0,
+                bottom: keyboardHeight,
+                right: 0
+        )
+        scrollView.contentInset = contentInset
+        scrollView.scrollIndicatorInsets = contentInset
+        
+        self.scrollView.scrollRectToVisible(
+            CGRectMake(0,
+                       self.scrollView.contentSize.height-self.scrollView.bounds.height,
+                       self.scrollView.bounds.size.width,
+                       self.scrollView.bounds.size.height)
+            ,animated: true)
     }
     
     @objc
     private func keyboardWillHide(_ sender: Notification) {
-        
+        let contentInset = UIEdgeInsets.zero
+        scrollView.contentInset = contentInset
+        scrollView.scrollIndicatorInsets = contentInset
     }
     
     @objc
