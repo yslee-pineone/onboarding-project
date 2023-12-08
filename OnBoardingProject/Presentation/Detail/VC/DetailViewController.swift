@@ -122,11 +122,11 @@ class DetailViewController: UIViewController {
         scrollView.contentInset = contentInset
         scrollView.scrollIndicatorInsets = contentInset
         
-        self.scrollView.scrollRectToVisible(
+        scrollView.scrollRectToVisible(
             CGRectMake(0,
-                       self.scrollView.contentSize.height-self.scrollView.bounds.height,
-                       self.scrollView.bounds.size.width,
-                       self.scrollView.bounds.size.height)
+                       scrollView.contentSize.height-self.scrollView.bounds.height,
+                       scrollView.bounds.size.width,
+                       scrollView.bounds.size.height)
             ,animated: true)
     }
     
@@ -140,22 +140,6 @@ class DetailViewController: UIViewController {
     @objc
     private func keyboardToolBarDoneBtnTap(_ sender: Any) {
         detailView.memoInput.resignFirstResponder()
-    }
-}
-
-extension DetailViewController: UITextViewDelegate {
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.text == DefaultMSG.Detail.memoPlaceHolder {
-            textView.text = nil
-            textView.textColor = .black
-        }
-    }
-    
-    func textViewDidEndEditing(_ textView: UITextView) {
-        if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            textView.text = DefaultMSG.Detail.memoPlaceHolder
-            textView.textColor = .systemGray4
-        }
     }
 }
 

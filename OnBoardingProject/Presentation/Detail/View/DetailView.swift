@@ -27,6 +27,7 @@ class DetailView: UIView {
     }
     
     lazy var memoInput = UITextView().then {
+        $0.delegate = self
         $0.textColor = .systemGray4
         $0.text = DefaultMSG.Detail.memoPlaceHolder
         $0.layer.borderWidth = 1
@@ -77,6 +78,22 @@ class DetailView: UIView {
         memoInput.snp.makeConstraints {
             $0.leading.trailing.bottom.equalTo(safeAreaLayoutGuide).inset(PaddingStyle.standard)
             $0.top.equalTo(borderView.snp.bottom).offset(PaddingStyle.standardPlus)
+        }
+    }
+}
+
+extension DetailView: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.text == DefaultMSG.Detail.memoPlaceHolder {
+            textView.text = nil
+            textView.textColor = .black
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            textView.text = DefaultMSG.Detail.memoPlaceHolder
+            textView.textColor = .systemGray4
         }
     }
 }
