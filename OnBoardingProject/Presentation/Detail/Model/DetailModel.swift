@@ -10,43 +10,20 @@ import Foundation
 import RxSwift
 
 class DetailModel {
-    let networkService: NetworkServiceProtocol
+    let bookListLoad: BookListLoad
     
     init(
-        networkService: NetworkServiceProtocol = NetworkService()
+        bookListLoad: BookListLoad = .init()
     ) {
-        self.networkService = networkService
+        self.bookListLoad = bookListLoad
     }
     
     func detailBookDataRequest(id: String) -> Observable<BookData> {
-        var urlComponents = URLComponents()
-        urlComponents.scheme = URLRequestConfiguration.URL.scheme.rawValue
-        urlComponents.host = URLRequestConfiguration.URL.host.rawValue
-        urlComponents.path = URLRequestConfiguration.Detail.path.queryAdd(id: id)
-        
-        return self.networkService.request(
-            urlComponents: urlComponents,
-            decodingType: BookData.self
-        )
-        .map { data in
-            guard case .success(let value) = data else {
-                print("DATA LOADING ERROR")
-                return BookData(
-                    mainTitle: DefaultMSG.Error.defaultError,
-                    subTitle: DefaultMSG.Error.defaultError,
-                    bookID: "-1",
-                    price: DefaultMSG.Error.defaultError,
-                    imageString: DefaultMSG.Error.defaultError,
-                    urlString: DefaultMSG.Error.defaultError
-                )
-            }
-            return value
-        }
-        .asObservable()
+        return bookListLoad.detailBookInfomationRequest(id: id)
     }
     
     func memoRequest(bookID id: String) -> Single<String> {
-        Single<String>.create { single in
+        return Single<String>.create { single in
             if let contents = UserDefaults.standard.string(forKey: id) {
                 single(.success(contents))
             } else {

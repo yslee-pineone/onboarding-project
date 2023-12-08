@@ -20,7 +20,7 @@ class BookListLoad {
     }
     
     func newBookListRequest() -> Observable<BookListData> {
-        let urlComponents = self.setURLComponents(query: nil, page: nil)
+        let urlComponents = self.setURLComponents(category: .new)
        
         return self.networkService.request(
             urlComponents: urlComponents,
@@ -36,7 +36,9 @@ class BookListLoad {
     }
     
     func searchBookListRequest(query: String, page: String) -> Observable<BookListData> {
-        let urlComponents = self.setURLComponents(query: query, page: page)
+        let urlComponents = self.setURLComponents(
+            category: .search(query: query, page: page)
+        )
      
         return self.networkService.request(
             urlComponents: urlComponents,
@@ -51,15 +53,42 @@ class BookListLoad {
         }
     }
     
-    private func setURLComponents(query: String?, page: String?) -> URLComponents {
+    func detailBookInfomationRequest(id: String) -> Observable<BookData> {
+        let urlComponents = self.setURLComponents(
+            category: .detail(id: id)
+        )
+        return self.networkService.request(
+            urlComponents: urlComponents,
+            decodingType: BookData.self
+        )
+        .map { data in
+            guard case .success(let value) = data else {
+                print("DATA LOADING ERROR")
+                return BookData(
+                    mainTitle: DefaultMSG.Error.defaultError,
+                    subTitle: DefaultMSG.Error.defaultError,
+                    bookID: "-1",
+                    price: DefaultMSG.Error.defaultError,
+                    imageString: DefaultMSG.Error.defaultError,
+                    urlString: DefaultMSG.Error.defaultError
+                )
+            }
+            return value
+        }
+    }
+    
+    private func setURLComponents(category: BookListLoadCategory) -> URLComponents {
         var urlComponents = URLComponents()
         urlComponents.scheme = URLRequestConfiguration.URL.scheme.rawValue
         urlComponents.host = URLRequestConfiguration.URL.host.rawValue
         
-        if query == nil && page == nil {
+        switch category {
+        case .detail(let id):
+            urlComponents.path = URLRequestConfiguration.Detail.path.queryAdd(id: id)
+        case .new:
             urlComponents.path = URLRequestConfiguration.New.path.rawValue
-        } else {
-            urlComponents.path = URLRequestConfiguration.Search.path.queryAdd(query: query!, page: page!)
+        case .search(let query, let page):
+            urlComponents.path = URLRequestConfiguration.Search.path.queryAdd(query: query, page: page)
         }
         
         return urlComponents
