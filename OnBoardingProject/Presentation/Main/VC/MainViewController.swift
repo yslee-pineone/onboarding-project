@@ -13,16 +13,7 @@ import Then
 import SnapKit
 
 class MainViewController: UIViewController {
-    var refresh = UIRefreshControl().then {
-        $0.tintColor = .label
-    }
-    
-    let tableView = UITableView().then {
-        $0.separatorStyle = .none
-        $0.rowHeight = UITableView.automaticDimension
-        $0.register(StandardTableViewCell.self, forCellReuseIdentifier: StandardTableViewCell.id)
-        $0.backgroundColor = .systemBackground
-    }
+    lazy var tableView = MainTableView()
     
     let viewModel: MainViewModel
     let bag = DisposeBag()
@@ -40,58 +31,58 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.attribute()
-        self.layout()
-        self.bind()
+        attribute()
+        layout()
+        bind()
     }
     
     private func attribute() {
-        self.view.backgroundColor = .systemBackground
-        self.tableView.refreshControl = self.refresh
-        self.navigationItem.title = DefaultMSG.Main.title
-        self.navigationController?.navigationBar.prefersLargeTitles = true
+        view.backgroundColor = .systemBackground
+        
+        navigationItem.title = DefaultMSG.Main.title
+        navigationController?.navigationBar.prefersLargeTitles = true
     }
     
     private func layout() {
-        self.view.addSubview(self.tableView)
-        self.tableView.snp.makeConstraints {
+        view.addSubview(tableView)
+        tableView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
     }
     
     private func bind() {
         let input = MainViewModel.Input(
-            refreshEvent: self.refresh.rx.controlEvent(.valueChanged)
+            refreshEvent: tableView.refresh.rx.controlEvent(.valueChanged)
                 .startWith(Void())
                 .asObservable()
         )
         
-        let output = self.viewModel.transform(input: input)
+        let output = viewModel.transform(input: input)
         output.cellData
-            .drive(self.tableView.rx.items) { tableView, row, data in
+            .drive(tableView.rx.items) { tableView, row, data in
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: StandardTableViewCell.id, for: IndexPath(row: row, section: 0)) as? StandardTableViewCell else {return UITableViewCell()}
                 
                 cell.cellDataSet(data: data)
                 return cell
             }
-            .disposed(by: self.bag)
+            .disposed(by: bag)
         
         output.cellData
             .map {_ in}
-            .drive(self.rx.refreshEnd)
-            .disposed(by: self.bag)
+            .drive(rx.refreshEnd)
+            .disposed(by: bag)
         
-        self.tableView.rx.modelSelected(BookData.self)
+        tableView.rx.modelSelected(BookData.self)
             .map {$0.bookID}
-            .subscribe(self.rx.detailVCPush)
-            .disposed(by: self.bag)
+            .subscribe(rx.detailVCPush)
+            .disposed(by: bag)
     }
 }
 
 extension Reactive where Base: MainViewController {
     var refreshEnd: Binder<Void> {
         return Binder(base) { base, _ in
-            base.refresh.endRefreshing()
+            base.tableView.refresh.endRefreshing()
         }
     }
     

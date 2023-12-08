@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C32DE16D2B21B17B007DAC84 /* TabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32DE16C2B21B17B007DAC84 /* TabbarController.swift */; };
+		C32DE16F2B22A0D0007DAC84 /* MainTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32DE16E2B22A0D0007DAC84 /* MainTableView.swift */; };
 		C3DCAF1E2B1EBF4600CF40B9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DCAF1D2B1EBF4600CF40B9 /* AppDelegate.swift */; };
 		C3DCAF202B1EBF4600CF40B9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DCAF1F2B1EBF4600CF40B9 /* SceneDelegate.swift */; };
 		C3DCAF272B1EBF4800CF40B9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3DCAF262B1EBF4800CF40B9 /* Assets.xcassets */; };
@@ -47,6 +48,7 @@
 		698D0B01EEDB991075DBCB3C /* Pods_OnBoardingProject.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OnBoardingProject.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		839EC1A2ED4322D675CD9A3B /* Pods-OnBoardingProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OnBoardingProject.debug.xcconfig"; path = "Target Support Files/Pods-OnBoardingProject/Pods-OnBoardingProject.debug.xcconfig"; sourceTree = "<group>"; };
 		C32DE16C2B21B17B007DAC84 /* TabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarController.swift; sourceTree = "<group>"; };
+		C32DE16E2B22A0D0007DAC84 /* MainTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableView.swift; sourceTree = "<group>"; };
 		C3DCAF1A2B1EBF4600CF40B9 /* OnBoardingProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnBoardingProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3DCAF1D2B1EBF4600CF40B9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C3DCAF1F2B1EBF4600CF40B9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -373,6 +375,7 @@
 		C3EE7E432B2056EF00DC64A1 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				C32DE16E2B22A0D0007DAC84 /* MainTableView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -506,6 +509,7 @@
 				C3EE7E272B1FFE5600DC64A1 /* DetailViewModel.swift in Sources */,
 				C3EE7E052B1EF03B00DC64A1 /* BookListData.swift in Sources */,
 				C3EE7DF82B1EEAA100DC64A1 /* NetworkServiceProtocol.swift in Sources */,
+				C32DE16F2B22A0D0007DAC84 /* MainTableView.swift in Sources */,
 				C3EE7E3B2B203CA000DC64A1 /* SearchModel.swift in Sources */,
 				C3DCAF1E2B1EBF4600CF40B9 /* AppDelegate.swift in Sources */,
 				C3EE7DD62B1ED5B400DC64A1 /* MainViewController.swift in Sources */,
