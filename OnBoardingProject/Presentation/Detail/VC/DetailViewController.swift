@@ -14,32 +14,11 @@ import RxSwift
 import RxCocoa
 
 class DetailViewController: UIViewController {
+    lazy var detailView = DetailView()
+    
     let viewModel: DetailViewModel
     let didDisappear = PublishSubject<String>()
     let bag = DisposeBag()
-    
-    let backGroundView = UIView().then {
-        $0.backgroundColor = .systemGray4
-    }
-    
-    let bookImageView = UIImageView().then {
-        $0.contentMode = .scaleToFill
-    }
-    
-    let infoView = StandardInfoView()
-    
-    let borderView = UIView().then {
-        $0.backgroundColor = .systemGray4
-    }
-    
-    lazy var memoInput = UITextView().then {
-        $0.textColor = .systemGray4
-        $0.text = DefaultMSG.Detail.memoPlaceHolder
-        $0.delegate = self
-        $0.layer.borderWidth = 1
-        $0.layer.borderColor = UIColor.systemGray4.cgColor
-        $0.layer.cornerRadius = 16
-    }
     
     init(
         viewModel: DetailViewModel
@@ -58,27 +37,35 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.attribute()
-        self.toolBarSet()
-        self.layout()
-        self.bind()
+        attribute()
+        toolBarSet()
+        layout()
+        bind()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
-        self.memoInput.resignFirstResponder()
-        self.didDisappear.onNext(self.memoInput.text)
+        detailView.memoInput.resignFirstResponder()
+        didDisappear.onNext(detailView.memoInput.text)
         NotificationCenter.default.removeObserver(self)
     }
     
     private func attribute() {
-        self.view.backgroundColor = .systemBackground
-        self.navigationItem.title = DefaultMSG.Detail.title
-        self.navigationController?.navigationBar.prefersLargeTitles = true
+        view.backgroundColor = .systemBackground
+        navigationItem.title = DefaultMSG.Detail.title
+        navigationController?.navigationBar.prefersLargeTitles = true
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    private func layout() {
+        view.addSubview(detailView)
+        detailView.snp.makeConstraints {
+            $0.edges.equalTo(view.safeAreaLayoutGuide)
+        }
+        
     }
     
     private func toolBarSet() {
@@ -86,7 +73,7 @@ class DetailViewController: UIViewController {
             title: DefaultMSG.Detail.keyboardDonBtn,
             style: .done,
             target: self,
-            action: #selector(self.keyboardToolBarDoneBtnTap(_:))
+            action: #selector(keyboardToolBarDoneBtnTap(_:))
         )
         let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
         
@@ -94,61 +81,26 @@ class DetailViewController: UIViewController {
         keyboardTool.sizeToFit()
         keyboardTool.setItems([space, doneItem], animated: true)
         
-        self.memoInput.inputAccessoryView = keyboardTool
+        detailView.memoInput.inputAccessoryView = keyboardTool
     }
     
-    private func layout() {
-        [self.backGroundView, self.borderView, self.memoInput, self.infoView]
-            .forEach {
-                self.view.addSubview($0)
-            }
-        
-        self.backGroundView.snp.makeConstraints {
-            $0.leading.trailing.equalTo(self.view.safeAreaLayoutGuide)
-            $0.top.equalTo(self.view.safeAreaLayoutGuide).inset(PaddingStyle.standard)
-            $0.height.equalTo(220)
-        }
-        
-        self.backGroundView.addSubview(self.bookImageView)
-        self.bookImageView.snp.makeConstraints {
-            $0.center.equalToSuperview()
-            $0.width.equalTo(160)
-            $0.height.equalTo(200)
-        }
-        
-        self.infoView.snp.makeConstraints {
-            $0.top.equalTo(self.backGroundView.snp.bottom).offset(PaddingStyle.standardHalf)
-            $0.leading.trailing.equalToSuperview().inset(PaddingStyle.standard)
-        }
-        
-        self.borderView.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.leading.trailing.equalTo(self.infoView).inset(PaddingStyle.standardHalf)
-            $0.height.equalTo(1)
-            $0.top.equalTo(self.infoView.snp.bottom).offset(PaddingStyle.standardHalf)
-        }
-        
-        self.memoInput.snp.makeConstraints {
-            $0.leading.trailing.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(PaddingStyle.standard)
-            $0.top.equalTo(self.borderView.snp.bottom).offset(PaddingStyle.standardPlus)
-        }
-    }
+    
     
     private func bind() {
         let input = DetailViewModel.Input(
-            didDisappearMemoContents: self.didDisappear
+            didDisappearMemoContents: didDisappear
                 .asObservable()
         )
         
-        let output = self.viewModel.transform(input: input)
+        let output = viewModel.transform(input: input)
         output.bookData
-            .drive(self.rx.viewDataSet)
-            .disposed(by: self.bag)
+            .drive(rx.viewDataSet)
+            .disposed(by: bag)
         
         output.memoData
             .filter {$0 != DefaultMSG.Detail.memoPlaceHolder}
-            .drive(self.rx.memoSet)
-            .disposed(by: self.bag)
+            .drive(rx.memoSet)
+            .disposed(by: bag)
     }
     
     @objc
@@ -157,36 +109,16 @@ class DetailViewController: UIViewController {
         let keyboardFrame:NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as! NSValue
         let keyboardRectangle = keyboardFrame.cgRectValue
         let keyboardHeight = keyboardRectangle.height - 15
-        
-        self.memoInput.snp.remakeConstraints {
-            $0.top.equalTo(self.view.safeAreaLayoutGuide).inset(PaddingStyle.standard)
-            $0.leading.trailing.equalTo(self.view.safeAreaLayoutGuide)
-            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(keyboardHeight)
-        }
-        
-        UIView.animate(withDuration: 0.25){
-            self.view.layoutIfNeeded()
-            self.infoView.alpha = 0
-            self.borderView.alpha = 0
-        }
     }
     
     @objc
     private func keyboardWillHide(_ sender: Notification) {
-        self.memoInput.snp.remakeConstraints {
-            $0.leading.trailing.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(PaddingStyle.standard)
-            $0.top.equalTo(self.borderView.snp.bottom).offset(PaddingStyle.standardPlus)
-        }
-        UIView.animate(withDuration: 0.25){
-            self.view.layoutIfNeeded()
-            self.infoView.alpha = 1
-            self.borderView.alpha = 1
-        }
+        
     }
     
     @objc
     private func keyboardToolBarDoneBtnTap(_ sender: Any) {
-        self.memoInput.resignFirstResponder()
+        detailView.memoInput.resignFirstResponder()
     }
 }
 
@@ -209,10 +141,10 @@ extension DetailViewController: UITextViewDelegate {
 extension Reactive where Base: DetailViewController {
     var viewDataSet: Binder<BookData> {
         return Binder(base) { base, data in
-            base.infoView.infoViewDataSet(data)
+            base.detailView.infoView.infoViewDataSet(data)
             
             if data.urlString != DefaultMSG.Detail.loading {
-                base.bookImageView.kf.setImage(with: data.imageURL)
+                base.detailView.bookImageView.kf.setImage(with: data.imageURL)
             }
         }
     }
@@ -220,8 +152,8 @@ extension Reactive where Base: DetailViewController {
     var memoSet: Binder<String> {
         return Binder(base) { base, memoContents in
             if memoContents != "" {
-                base.memoInput.text = memoContents
-                base.memoInput.textColor = .black
+                base.detailView.memoInput.text = memoContents
+                base.detailView.memoInput.textColor = .black
             }
         }
     }

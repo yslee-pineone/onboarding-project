@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		C32DE16D2B21B17B007DAC84 /* TabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32DE16C2B21B17B007DAC84 /* TabbarController.swift */; };
 		C32DE16F2B22A0D0007DAC84 /* MainTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32DE16E2B22A0D0007DAC84 /* MainTableView.swift */; };
+		C32DE1722B22A332007DAC84 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32DE1712B22A332007DAC84 /* DetailView.swift */; };
 		C3DCAF1E2B1EBF4600CF40B9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DCAF1D2B1EBF4600CF40B9 /* AppDelegate.swift */; };
 		C3DCAF202B1EBF4600CF40B9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DCAF1F2B1EBF4600CF40B9 /* SceneDelegate.swift */; };
 		C3DCAF272B1EBF4800CF40B9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3DCAF262B1EBF4800CF40B9 /* Assets.xcassets */; };
@@ -49,6 +50,7 @@
 		839EC1A2ED4322D675CD9A3B /* Pods-OnBoardingProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OnBoardingProject.debug.xcconfig"; path = "Target Support Files/Pods-OnBoardingProject/Pods-OnBoardingProject.debug.xcconfig"; sourceTree = "<group>"; };
 		C32DE16C2B21B17B007DAC84 /* TabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarController.swift; sourceTree = "<group>"; };
 		C32DE16E2B22A0D0007DAC84 /* MainTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableView.swift; sourceTree = "<group>"; };
+		C32DE1712B22A332007DAC84 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		C3DCAF1A2B1EBF4600CF40B9 /* OnBoardingProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnBoardingProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3DCAF1D2B1EBF4600CF40B9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C3DCAF1F2B1EBF4600CF40B9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -111,6 +113,14 @@
 				07A6756F7AC4ACD11833C3AB /* Pods-OnBoardingProject.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		C32DE1702B22A316007DAC84 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C32DE1712B22A332007DAC84 /* DetailView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		C3DCAF112B1EBF4600CF40B9 = {
@@ -288,6 +298,7 @@
 		C3EE7E1C2B1FFC3500DC64A1 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
+				C32DE1702B22A316007DAC84 /* View */,
 				C3EE7E222B1FFE1B00DC64A1 /* Model */,
 				C3EE7E1E2B1FFC4300DC64A1 /* ViewModel */,
 				C3EE7E1D2B1FFC3F00DC64A1 /* VC */,
@@ -519,6 +530,7 @@
 				C3EE7DF62B1EEA9700DC64A1 /* NetworkService.swift in Sources */,
 				C3EE7E1B2B1F1DE100DC64A1 /* UIView+.swift in Sources */,
 				C3EE7E292B1FFE5B00DC64A1 /* DetailModel.swift in Sources */,
+				C32DE1722B22A332007DAC84 /* DetailView.swift in Sources */,
 				C3EE7DD02B1ED54500DC64A1 /* FontStyle.swift in Sources */,
 				C3EE7E492B2060C700DC64A1 /* DefaultMSG.swift in Sources */,
 				C3EE7E422B20435C00DC64A1 /* SearchResultTableViewCell.swift in Sources */,
