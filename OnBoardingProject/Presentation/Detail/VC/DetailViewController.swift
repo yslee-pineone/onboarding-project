@@ -56,8 +56,16 @@ class DetailViewController: UIViewController {
         navigationItem.title = DefaultMSG.Detail.title
         navigationController?.navigationBar.prefersLargeTitles = true
         
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow(_:)),
+            name: UIResponder.keyboardWillShowNotification, object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide(_:)),
+            name: UIResponder.keyboardWillHideNotification, object: nil
+        )
     }
     
     private func layout() {
@@ -131,10 +139,10 @@ class DetailViewController: UIViewController {
         let keyboardHeight = keyboardRectangle.height - 15
         
         let contentInset = UIEdgeInsets(
-                top: 0,
-                left: 0,
-                bottom: keyboardHeight,
-                right: 0
+            top: 0,
+            left: 0,
+            bottom: keyboardHeight,
+            right: 0
         )
         scrollView.contentInset = contentInset
         scrollView.scrollIndicatorInsets = contentInset
@@ -182,12 +190,15 @@ extension Reactive where Base: DetailViewController {
     
     var loadingEnd: Binder<Void> {
         return Binder(base) { base, _ in
-            UIView.animate(withDuration: 0.2, animations: {
-                base.loadingView?.alpha = 0
-            }) { _ in
-                base.loadingView?.removeFromSuperview()
-                base.loadingView = nil
-            }
+            UIView.animate(
+                withDuration: 0.2,
+                animations: {
+                    base.loadingView?.alpha = 0
+                }, completion: { _ in
+                    base.loadingView?.removeFromSuperview()
+                    base.loadingView = nil
+                }
+            )
         }
     }
 }

@@ -75,7 +75,8 @@ class SearchViewController: UIViewController {
         output.cellData
             .drive(searchResultViewController.tableView.rx.items) { tableView, row, data in
                 guard let cell = tableView.dequeueReusableCell(
-                    withIdentifier: SearchResultTableViewCell.id, for: IndexPath(row: row, section: 0)) as? SearchResultTableViewCell
+                    withIdentifier: SearchResultTableViewCell.id, 
+                    for: IndexPath(row: row, section: 0)) as? SearchResultTableViewCell
                 else {return UITableViewCell()}
                 
                 cell.cellDataSet(data: data)
@@ -93,7 +94,8 @@ class SearchViewController: UIViewController {
             .filter {!$0.isEmpty}
             .drive(tableView.rx.items) { tableView, row, data in
                 guard let cell = tableView.dequeueReusableCell(
-                    withIdentifier: StandardTableViewCell.id, for: IndexPath(row: row, section: 0)) as? StandardTableViewCell
+                    withIdentifier: StandardTableViewCell.id, 
+                    for: IndexPath(row: row, section: 0)) as? StandardTableViewCell
                 else {return UITableViewCell()}
                 
                 cell.cellDataSet(data: data)

@@ -15,6 +15,7 @@ enum TabbarCategory: String, CaseIterable {
         switch self {
         case .new:
             return UIImage(systemName: "book")
+            
         case .search:
             return UIImage(systemName: "magnifyingglass")
         }
@@ -28,6 +29,7 @@ enum TabbarCategory: String, CaseIterable {
         switch self {
         case .new:
             return 0
+            
         case .search:
             return 1
         }

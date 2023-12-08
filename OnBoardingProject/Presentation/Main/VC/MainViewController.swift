@@ -60,7 +60,10 @@ class MainViewController: UIViewController {
         let output = viewModel.transform(input: input)
         output.cellData
             .drive(tableView.rx.items) { tableView, row, data in
-                guard let cell = tableView.dequeueReusableCell(withIdentifier: StandardTableViewCell.id, for: IndexPath(row: row, section: 0)) as? StandardTableViewCell else {return UITableViewCell()}
+                guard let cell = tableView.dequeueReusableCell(
+                    withIdentifier: StandardTableViewCell.id, 
+                    for: IndexPath(row: row, section: 0)
+                ) as? StandardTableViewCell else {return UITableViewCell()}
                 
                 cell.cellDataSet(data: data)
                 return cell

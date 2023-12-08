@@ -37,6 +37,7 @@ class TabbarController: UITabBarController {
         case .new:
             let mainViewModel = MainViewModel()
             navigationController.pushViewController(MainViewController(viewModel: mainViewModel), animated: true)
+            
         case .search:
             let searchViewModel = SearchViewModel()
             navigationController.pushViewController(SearchViewController(viewModel: searchViewModel), animated: true)
