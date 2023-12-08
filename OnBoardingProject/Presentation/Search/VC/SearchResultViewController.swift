@@ -32,7 +32,6 @@ class SearchResultViewController: UITableViewController {
         tableView.backgroundColor = .systemBackground
         tableView.delegate = nil
         tableView.dataSource = nil
-        tableView.separatorStyle = .none
     }
     
     private func layout() {
