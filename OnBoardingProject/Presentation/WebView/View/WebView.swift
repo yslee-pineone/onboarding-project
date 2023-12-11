@@ -13,7 +13,7 @@ import SnapKit
 
 class WebView: WKWebView {
     lazy var loadingIcon = UIActivityIndicatorView(style: .medium).then {
-        $0.color = .white
+        $0.color = .label
     }
     
     override init(frame: CGRect, configuration: WKWebViewConfiguration) {

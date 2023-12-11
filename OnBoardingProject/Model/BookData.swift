@@ -27,6 +27,10 @@ struct BookData: Decodable{
     }
     
     var imageURL: URL? {
-        URL(string: self.imageString)
+        return URL(string: self.imageString)
+    }
+    
+    var bookURL: URL? {
+        return URL(string: self.urlString)
     }
 }

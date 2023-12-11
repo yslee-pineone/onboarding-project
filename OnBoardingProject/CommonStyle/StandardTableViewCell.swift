@@ -10,6 +10,8 @@ import UIKit
 import SnapKit
 import Then
 import Kingfisher
+import RxSwift
+import RxCocoa
 
 class StandardTableViewCell: UITableViewCell {
     static let id = "StandardTableViewCell"
@@ -23,8 +25,11 @@ class StandardTableViewCell: UITableViewCell {
         $0.contentMode = .scaleToFill
     }
     
-    lazy var browserIcon = UIImageView().then {
-        $0.image = UIImage(systemName: "safari")
+    lazy var browserIcon = UIButton(type: .system).then {
+        $0.setBackgroundImage(
+            UIImage(systemName: "safari"),
+            for: .normal
+        )
     }
     
     lazy var stackView = UIStackView().then {
@@ -68,6 +73,8 @@ class StandardTableViewCell: UITableViewCell {
         $0.font = .systemFont(ofSize: FontStyle.midSmall, weight: .semibold)
     }
     
+    var bag = DisposeBag()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         attribute()
@@ -76,6 +83,11 @@ class StandardTableViewCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        bag = DisposeBag()
     }
     
     private func attribute() {
@@ -106,8 +118,8 @@ class StandardTableViewCell: UITableViewCell {
         }
         
         browserIcon.snp.makeConstraints {
-            $0.width.equalTo(24)
-            $0.height.equalTo(24)
+            $0.width.equalTo(30)
+            $0.height.equalTo(30)
             $0.top.trailing.equalToSuperview().inset(PaddingStyle.standard)
         }
         

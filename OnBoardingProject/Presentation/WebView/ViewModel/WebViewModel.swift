@@ -20,11 +20,13 @@ class WebViewModel {
     
     struct Output {
         let loadingURL: Driver<URL>
+        let title: Driver<String>
     }
     
     func transform(input: Input) -> Output {
         return Output(
-            loadingURL: .just(bookURL)
+            loadingURL: .just(bookURL),
+            title: .just(bookTitle)
         )
     }
     

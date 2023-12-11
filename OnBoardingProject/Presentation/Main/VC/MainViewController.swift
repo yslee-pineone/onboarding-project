@@ -51,6 +51,8 @@ class MainViewController: UIViewController {
     }
     
     private func bind() {
+        let cellBrowerIconTap = PublishSubject<BookData>()
+        
         let input = MainViewModel.Input(
             refreshEvent: tableView.refresh.rx.controlEvent(.valueChanged)
                 .startWith(Void())
@@ -66,6 +68,15 @@ class MainViewController: UIViewController {
                 ) as? StandardTableViewCell else {return UITableViewCell()}
                 
                 cell.cellDataSet(data: data)
+                
+                cell.browserIcon.rx.tap
+                    .withLatestFrom(
+                        Observable<BookData>
+                            .just(data)
+                    )
+                    .bind(to: cellBrowerIconTap)
+                    .disposed(by: cell.bag)
+                
                 return cell
             }
             .disposed(by: bag)
@@ -77,7 +88,17 @@ class MainViewController: UIViewController {
         
         tableView.rx.modelSelected(BookData.self)
             .map {$0.bookID}
-            .subscribe(rx.detailVCPush)
+            .subscribe(rx.detailViewControllerPush)
+            .disposed(by: bag)
+        
+        cellBrowerIconTap
+            .filter {$0.bookURL == nil}
+            .bind(to: rx.webViewURLErrorPopup)
+            .disposed(by: bag)
+            
+        cellBrowerIconTap
+            .filter {$0.bookURL != nil}
+            .bind(to: rx.webViewControllerPush)
             .disposed(by: bag)
     }
 }
@@ -89,13 +110,48 @@ extension Reactive where Base: MainViewController {
         }
     }
     
-    var detailVCPush: Binder<String> {
+    var detailViewControllerPush: Binder<String> {
         return Binder(base) { base, id in
             let viewModel = DetailViewModel(id: id)
-            let vc = DetailViewController(viewModel: viewModel)
-            vc.hidesBottomBarWhenPushed = true
+            let detailViewController = DetailViewController(viewModel: viewModel)
+            detailViewController.hidesBottomBarWhenPushed = true
             
-            base.navigationController?.pushViewController(vc, animated: true)
+            base.navigationController?.pushViewController(
+                detailViewController,
+                animated: true
+            )
+        }
+    }
+    
+    var webViewControllerPush: Binder<BookData> {
+        return Binder(base) { base, data in
+            let viewModel = WebViewModel(
+                title: data.mainTitle,
+                bookURL: data.bookURL!
+            )
+            let webViewController = WebViewController(viewModel: viewModel)
+            
+            webViewController.hidesBottomBarWhenPushed = true
+            
+            base.navigationController?.pushViewController(
+                webViewController,
+                animated: true
+            )
+        }
+    }
+    
+    var webViewURLErrorPopup: Binder<BookData> {
+        return Binder(base) { base, data in
+            let alert = UIAlertController(
+                title: "웹 열기 오류 발생",
+                message: "오류가 발생하여 \(data.mainTitle) 웹페이지로 이동이 불가합니다.",
+                preferredStyle: .actionSheet
+            )
+            alert.addAction(UIAlertAction(
+                title: "닫기",
+                style: .cancel
+            ))
+            base.present(alert, animated: true)
         }
     }
 }

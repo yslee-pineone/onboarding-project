@@ -34,13 +34,19 @@ class WebViewController: UIViewController {
     }
     
     deinit {
-        print("WEBVIEW DEINIT")
+        print("DEINIT WEBVIEWVC")
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.layout()
-        self.bind()
+        layout()
+        attribute()
+        bind()
+    }
+    
+    private func attribute() {
+        view.backgroundColor = .systemBackground
+        navigationItem.largeTitleDisplayMode = .never
     }
     
     private func layout() {
@@ -56,7 +62,11 @@ class WebViewController: UIViewController {
         
         output.loadingURL
             .drive(rx.webViewLoad)
-            .disposed(by: self.bag)
+            .disposed(by: bag)
+        
+        output.title
+            .drive(rx.viewControllerTitleSet)
+            .disposed(by: bag)
     }
 }
 
@@ -71,9 +81,14 @@ extension WebViewController: WKNavigationDelegate {
 }
 
 extension WebViewController: WKUIDelegate {
-    func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
+    func webView(
+        _ webView: WKWebView,
+        runJavaScriptAlertPanelWithMessage message: String,
+        initiatedByFrame frame: WKFrameInfo,
+        completionHandler: @escaping () -> Void
+    ) {
         
-        var alertController = UIAlertController()
+        let alertController = UIAlertController()
         alertController.addAction(
             UIAlertAction(
                 title: "확인",
@@ -87,9 +102,14 @@ extension WebViewController: WKUIDelegate {
         self.present(alertController, animated: true)
     }
     
-    func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
+    func webView(
+        _ webView: WKWebView,
+        runJavaScriptConfirmPanelWithMessage message: String,
+        initiatedByFrame frame: WKFrameInfo,
+        completionHandler: @escaping (Bool) -> Void
+    ) {
         
-        var alertController = UIAlertController()
+        let alertController = UIAlertController()
         alertController.addAction(
             UIAlertAction(
                 title: "확인",
@@ -120,6 +140,12 @@ extension Reactive where Base: WebViewController {
         return Binder(base) { base, url in
             let request = URLRequest(url: url)
             base.webView.load(request)
+        }
+    }
+    
+    var viewControllerTitleSet: Binder<String> {
+        return Binder(base) { base, title in
+            base.title = title
         }
     }
 }
