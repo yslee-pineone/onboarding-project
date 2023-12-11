@@ -18,9 +18,11 @@ class SearchModel {
         self.bookListLoad = bookListLoad
     }
     
-    func bookListSearch(query: String, nextPage page: String) -> Observable<[BookData]> {
+    func bookListSearch(
+        query: String, nextPage page: String
+    ) -> Single<Result<BookListData, Error>> {
         return bookListLoad.searchBookListRequest(query: query, page: page)
-            .map {$0.books}
-            .asObservable()
+            .map {.success($0)}
+            .catch {.just(.failure($0))}
     }
 }

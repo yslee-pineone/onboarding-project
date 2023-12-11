@@ -46,21 +46,36 @@ class SearchViewModel {
                 viewModel.nowPage += 1
                 return viewModel.model.bookListSearch(query: query, nextPage: "\(viewModel.nowPage)")
             }
+           
+        Observable.merge(searchResult, nextResult)
             .withUnretained(self)
             .map { viewModel, newData in
                 var list = viewModel.nowSearchData.value
-                list.append(contentsOf: newData)
                 
+                if case let .success(successData) = newData {
+                    if successData.page == "1" {
+                        return successData.books
+                    } else {
+                        list.append(contentsOf: successData.books)
+                        return list
+                    }
+                }
+                if case .failure(let error) = newData {
+                    let urlError = error as? NetworkingError
+                    print(error, urlError)
+                    
+                    switch urlError {
+                    case .error_400, .error_401, .error_499:
+                        return list
+                    default:
+                        return []
+                    }
+                }
                 return list
             }
-        
-        Observable.merge(searchResult, nextResult)
             .withUnretained(self)
             .subscribe(onNext: { viewModel, data in
                 viewModel.nowSearchData.accept(data)
-            }, onError: { [weak self] error in
-                print(error)
-                self?.nowSearchData.accept([])
             })
             .disposed(by: bag)
         
