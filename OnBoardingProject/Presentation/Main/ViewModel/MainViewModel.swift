@@ -32,10 +32,14 @@ class MainViewModel {
             }
             .withUnretained(self)
             .subscribe(onNext: { viewModel, data in
-                viewModel.nowCellData.accept(data)
-            }, onError: { [weak self] error in
-                print(error)
-                self?.nowCellData.accept([])
+                if case .success(let value) = data {
+                    viewModel.nowCellData.accept(value)
+                }
+                
+                if case .failure(let error) = data {
+                    viewModel.nowCellData.accept([])
+                    print(error)
+                }
             })
             .disposed(by: bag)
         

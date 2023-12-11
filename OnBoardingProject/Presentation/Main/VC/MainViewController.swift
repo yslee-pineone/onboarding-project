@@ -86,6 +86,12 @@ class MainViewController: UIViewController {
             .drive(rx.refreshEnd)
             .disposed(by: rx.disposeBag)
         
+        output.cellData
+            .map {!$0.isEmpty}
+            .skip(1)
+            .drive(tableView.noSearchListLabel.rx.isHidden)
+            .disposed(by: rx.disposeBag)
+        
         tableView.rx.modelSelected(BookData.self)
             .map {$0.bookID}
             .subscribe(rx.detailViewControllerPush)

@@ -18,9 +18,9 @@ class MainModel {
         self.bookListLoad = bookListLoad
     }
     
-    func newBookLoad() -> Observable<[BookData]> {
+    func newBookLoad() -> Single<Result<[BookData], Error>> {
         return bookListLoad.newBookListRequest()
-            .map {$0.books}
-            .asObservable()
+            .map {.success($0.books)}
+            .catch {.just(.failure($0))}
     }
 }
