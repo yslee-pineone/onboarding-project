@@ -29,4 +29,11 @@ struct DefaultMSG {
         static let defaultError = "에러가 발생했습니다."
     }
     
+    struct WebView {
+        static let urlErrorTitle = "웹 열기 오류 발생"
+        static func urlErrorContents(title: String) -> String {
+            return "오류가 발생하여 \(title) 웹페이지로 이동이 불가합니다."
+        }
+    }
+    
 }

@@ -143,8 +143,8 @@ extension Reactive where Base: MainViewController {
     var webViewURLErrorPopup: Binder<BookData> {
         return Binder(base) { base, data in
             let alert = UIAlertController(
-                title: "웹 열기 오류 발생",
-                message: "오류가 발생하여 \(data.mainTitle) 웹페이지로 이동이 불가합니다.",
+                title: DefaultMSG.WebView.urlErrorTitle,
+                message: DefaultMSG.WebView.urlErrorContents(title: data.mainTitle),
                 preferredStyle: .actionSheet
             )
             alert.addAction(UIAlertAction(

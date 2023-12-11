@@ -63,6 +63,8 @@ class SearchViewController: UIViewController {
     }
     
     private func bind() {
+        let cellBrowerIconTap = PublishSubject<BookData>()
+        
         let input = SearchViewModel.Input(
             searchText: searchBarViewController.searchBar.rx.text
                 .filter {$0 != nil}
@@ -100,6 +102,14 @@ class SearchViewController: UIViewController {
                 
                 cell.cellDataSet(data: data)
                 
+                cell.browserIcon.rx.tap
+                    .withLatestFrom(
+                        Observable<BookData>
+                            .just(data)
+                    )
+                    .bind(to: cellBrowerIconTap)
+                    .disposed(by: cell.bag)
+                
                 return cell
             }
             .disposed(by: bag)
@@ -115,6 +125,16 @@ class SearchViewController: UIViewController {
             .map {$0.bookID}
             .bind(to: rx.detailVCPush)
             .disposed(by: bag)
+        
+        cellBrowerIconTap
+            .filter {$0.bookURL == nil}
+            .bind(to: rx.webViewURLErrorPopup)
+            .disposed(by: bag)
+            
+        cellBrowerIconTap
+            .filter {$0.bookURL != nil}
+            .bind(to: rx.webViewControllerPush)
+            .disposed(by: bag)
     }
 }
 
@@ -126,6 +146,38 @@ extension Reactive where Base: SearchViewController {
             vc.hidesBottomBarWhenPushed = true
             
             base.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
+    var webViewControllerPush: Binder<BookData> {
+        return Binder(base) { base, data in
+            let viewModel = WebViewModel(
+                title: data.mainTitle,
+                bookURL: data.bookURL!
+            )
+            let webViewController = WebViewController(viewModel: viewModel)
+            
+            webViewController.hidesBottomBarWhenPushed = true
+            
+            base.navigationController?.pushViewController(
+                webViewController,
+                animated: true
+            )
+        }
+    }
+    
+    var webViewURLErrorPopup: Binder<BookData> {
+        return Binder(base) { base, data in
+            let alert = UIAlertController(
+                title: DefaultMSG.WebView.urlErrorTitle,
+                message: DefaultMSG.WebView.urlErrorContents(title: data.mainTitle),
+                preferredStyle: .actionSheet
+            )
+            alert.addAction(UIAlertAction(
+                title: "닫기",
+                style: .cancel
+            ))
+            base.present(alert, animated: true)
         }
     }
 }
