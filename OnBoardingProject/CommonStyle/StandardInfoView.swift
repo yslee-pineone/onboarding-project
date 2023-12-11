@@ -43,10 +43,10 @@ class StandardInfoView: UIView {
         $0.font = .systemFont(ofSize: FontStyle.midSmall, weight: .semibold)
     }
     
-    lazy var urlTitle = UILabel().then {
-        $0.textColor = .systemBlue
-        $0.textAlignment = .center
-        $0.font = .systemFont(ofSize: FontStyle.midSmall)
+    lazy var urlTitle = UIButton().then {
+        $0.setTitleColor(.systemBlue, for: .normal)
+        $0.titleLabel?.textAlignment = .center
+        $0.titleLabel?.font = .systemFont(ofSize: FontStyle.midSmall)
     }
     
     override init(frame: CGRect) {
@@ -77,6 +77,6 @@ class StandardInfoView: UIView {
         subTitle.text = data.subTitle
         priceTitle.text = data.price
         idTitle.text = data.bookID
-        urlTitle.text = data.urlString
+        urlTitle.setTitle(data.urlString, for: .normal)
     }
 }

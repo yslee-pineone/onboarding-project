@@ -83,6 +83,14 @@ class SearchViewController: UIViewController {
                 
                 cell.cellDataSet(data: data)
                 
+                cell.infoView.urlTitle.rx.tap
+                    .withLatestFrom(
+                        Observable<BookData>
+                            .just(data)
+                    )
+                    .bind(to: cellBrowerIconTap)
+                    .disposed(by: cell.bag)
+                
                 return cell
             }
             .disposed(by: bag)

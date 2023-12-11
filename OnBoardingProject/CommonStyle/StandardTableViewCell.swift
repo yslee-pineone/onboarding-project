@@ -11,7 +11,6 @@ import SnapKit
 import Then
 import Kingfisher
 import RxSwift
-import RxCocoa
 
 class StandardTableViewCell: UITableViewCell {
     static let id = "StandardTableViewCell"
