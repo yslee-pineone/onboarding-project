@@ -61,7 +61,15 @@ class WebViewController: UIViewController {
         let output = viewModel.transform(input: input)
         
         output.loadingURL
+            .filter {$0 != nil}
+            .map {$0!}
             .drive(rx.webViewLoad)
+            .disposed(by: bag)
+        
+        output.loadingURL
+            .filter {$0 == nil}
+            .withLatestFrom(output.title)
+            .drive(rx.webViewURLErrorPopup)
             .disposed(by: bag)
         
         output.title
@@ -99,7 +107,7 @@ extension WebViewController: WKUIDelegate {
             )
         )
         
-        self.present(alertController, animated: true)
+        present(alertController, animated: true)
     }
     
     func webView(
@@ -130,7 +138,7 @@ extension WebViewController: WKUIDelegate {
             )
         )
         
-        self.present(alertController, animated: true)
+        present(alertController, animated: true)
     }
 }
 
@@ -146,6 +154,24 @@ extension Reactive where Base: WebViewController {
     var viewControllerTitleSet: Binder<String> {
         return Binder(base) { base, title in
             base.title = title
+        }
+    }
+    
+    var webViewURLErrorPopup: Binder<String> {
+        return Binder(base) { base, title in
+            let alert = UIAlertController(
+                title: DefaultMSG.WebView.urlErrorTitle,
+                message: DefaultMSG.WebView.urlErrorContents(title: title),
+                preferredStyle: .alert
+            )
+            alert.addAction(UIAlertAction(
+                title: "닫기",
+                style: .cancel,
+                handler: { _ in
+                    base.navigationController?.popViewController(animated: true)
+                }
+            ))
+            base.present(alert, animated: true)
         }
     }
 }

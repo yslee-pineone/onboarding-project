@@ -30,9 +30,9 @@ struct DefaultMSG {
     }
     
     struct WebView {
-        static let urlErrorTitle = "웹 열기 오류 발생"
+        static let urlErrorTitle = "웹 열기 오류"
         static func urlErrorContents(title: String) -> String {
-            return "오류가 발생하여 \(title) 웹페이지로 이동이 불가합니다."
+            return "\(title) 웹페이지로 이동이 불가합니다."
         }
     }
     

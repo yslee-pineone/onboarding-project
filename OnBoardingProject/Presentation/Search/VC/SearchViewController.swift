@@ -125,14 +125,8 @@ class SearchViewController: UIViewController {
             .map {$0.bookID}
             .bind(to: rx.detailVCPush)
             .disposed(by: bag)
-        
-        cellBrowerIconTap
-            .filter {$0.bookURL == nil}
-            .bind(to: rx.webViewURLErrorPopup)
-            .disposed(by: bag)
             
         cellBrowerIconTap
-            .filter {$0.bookURL != nil}
             .bind(to: rx.webViewControllerPush)
             .disposed(by: bag)
     }
@@ -153,7 +147,7 @@ extension Reactive where Base: SearchViewController {
         return Binder(base) { base, data in
             let viewModel = WebViewModel(
                 title: data.mainTitle,
-                bookURL: data.bookURL!
+                bookURL: data.bookURL
             )
             let webViewController = WebViewController(viewModel: viewModel)
             
@@ -163,21 +157,6 @@ extension Reactive where Base: SearchViewController {
                 webViewController,
                 animated: true
             )
-        }
-    }
-    
-    var webViewURLErrorPopup: Binder<BookData> {
-        return Binder(base) { base, data in
-            let alert = UIAlertController(
-                title: DefaultMSG.WebView.urlErrorTitle,
-                message: DefaultMSG.WebView.urlErrorContents(title: data.mainTitle),
-                preferredStyle: .actionSheet
-            )
-            alert.addAction(UIAlertAction(
-                title: "닫기",
-                style: .cancel
-            ))
-            base.present(alert, animated: true)
         }
     }
 }

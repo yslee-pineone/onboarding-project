@@ -12,14 +12,14 @@ import RxCocoa
 
 class WebViewModel {
     let bookTitle: String
-    let bookURL: URL
+    let bookURL: URL?
     
     struct Input {
         
     }
     
     struct Output {
-        let loadingURL: Driver<URL>
+        let loadingURL: Driver<URL?>
         let title: Driver<String>
     }
     
@@ -32,7 +32,7 @@ class WebViewModel {
     
     init(
         title: String,
-        bookURL: URL
+        bookURL: URL?
     ){
         self.bookTitle = title
         self.bookURL = bookURL
