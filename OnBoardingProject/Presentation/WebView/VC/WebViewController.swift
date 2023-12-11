@@ -96,7 +96,7 @@ extension WebViewController: WKUIDelegate {
         completionHandler: @escaping () -> Void
     ) {
         
-        let alertController = UIAlertController()
+        let alertController = UIAlertController(title: message, message: nil, preferredStyle: .alert)
         alertController.addAction(
             UIAlertAction(
                 title: "확인",
@@ -117,7 +117,7 @@ extension WebViewController: WKUIDelegate {
         completionHandler: @escaping (Bool) -> Void
     ) {
         
-        let alertController = UIAlertController()
+        let alertController = UIAlertController(title: message, message: nil, preferredStyle: .alert)
         alertController.addAction(
             UIAlertAction(
                 title: "확인",

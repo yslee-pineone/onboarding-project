@@ -18,7 +18,7 @@ class NetworkService: NetworkServiceProtocol {
         decodingType: T.Type
     ) -> Single<T>{
         guard let url = urlComponents.url else {
-            return .error(NetworkingError.error_900)
+            return .error(NetworkingError.error_401)
         }
         
         return Single.create { observer -> Disposable in
@@ -28,7 +28,14 @@ class NetworkService: NetworkServiceProtocol {
                     case .success(let value):
                         observer(.success(value))
                     case .failure(let error):
-                        observer(.failure(error))
+                        print(error)
+                        switch error {
+                        case .responseSerializationFailed(reason: _):
+                            observer(.failure(NetworkingError.error_400))
+                        default:
+                            observer(.failure(NetworkingError.error_499))
+                        }
+                       
                     }
                 }
             return Disposables.create()

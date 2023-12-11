@@ -10,6 +10,7 @@ import Foundation
 struct DefaultMSG {
     struct Main {
         static let title = "New Books"
+        static let empty = "로딩된 결과가 없습니다."
     }
     
     struct Detail {
@@ -21,7 +22,7 @@ struct DefaultMSG {
     
     struct Search {
         static let title = "Search Books"
-        static let isEmpty = "검색된 항목이 없습니다."
+        static let empty = "검색된 항목이 없습니다."
         static let searchStart = "검색어를 입력해보세요."
     }
     

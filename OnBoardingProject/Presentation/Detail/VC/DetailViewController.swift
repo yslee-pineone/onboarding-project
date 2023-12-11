@@ -112,6 +112,10 @@ class DetailViewController: UIViewController {
         
         let output = viewModel.transform(input: input)
         
+        output.errorMSG
+            .drive(rx.errorPopup)
+            .disposed(by: rx.disposeBag)
+        
         let dataFilter = output.bookData
             .filter {$0.bookID != DefaultMSG.Detail.loading}
         
@@ -226,6 +230,23 @@ extension Reactive where Base: DetailViewController {
                 webViewController,
                 animated: true
             )
+        }
+    }
+    
+    var errorPopup: Binder<String> {
+        return Binder(base) { base, msg in
+            let alertController = UIAlertController(title: msg, message: "", preferredStyle: .alert)
+            alertController.addAction(
+                UIAlertAction(
+                    title: "확인",
+                    style: .default,
+                    handler: { _ in
+                        base.navigationController?.popViewController(animated: true)
+                    }
+                )
+            )
+            
+            base.present(alertController, animated: true)
         }
     }
 }

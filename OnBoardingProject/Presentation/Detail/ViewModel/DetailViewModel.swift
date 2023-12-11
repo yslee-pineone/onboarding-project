@@ -26,6 +26,8 @@ class DetailViewModel {
         )
     )
     
+    let errorTitle = PublishSubject<String>()
+    
     let bag = DisposeBag()
     
     struct Input {
@@ -35,6 +37,7 @@ class DetailViewModel {
     struct Output {
         let bookData: Driver<BookData>
         let memoData: Driver<String>
+        let errorMSG: Driver<String>
     }
     
     func transform(input: Input) -> Output {
@@ -42,8 +45,11 @@ class DetailViewModel {
             .withUnretained(self)
             .subscribe(onNext: { viewModel, data in
                 viewModel.nowBookData.accept(data)
-            }, onError: {error in
-                print(error)
+            }, onError: { [weak self] error in
+                let networkingError = error as? NetworkingError
+                
+                guard let self = self else {return}
+                self.errorTitle.onNext(networkingError?.errorMSG ??  NetworkingError.defaultErrorMSG)
             })
             .disposed(by: bag)
         
@@ -58,7 +64,9 @@ class DetailViewModel {
             bookData: nowBookData
                 .asDriver(onErrorDriveWith: .empty()),
             memoData: model.memoRequest(bookID: bookID)
-                .asDriver(onErrorJustReturn: "")
+                .asDriver(onErrorJustReturn: ""),
+            errorMSG: errorTitle
+                .asDriver(onErrorDriveWith: .empty())
         )
     }
     
