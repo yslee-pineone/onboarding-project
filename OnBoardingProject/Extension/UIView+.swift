@@ -12,4 +12,10 @@ extension UIView {
         self.clipsToBounds = true
         self.layer.maskedCorners = CACornerMask(arrayLiteral: maskedCorners)
     }
+    
+    func addSubviews(_ views: [UIView]) {
+        views.forEach {
+            addSubview($0)
+        }
+    }
 }

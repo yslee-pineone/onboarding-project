@@ -69,10 +69,7 @@ class StandardInfoView: UIView {
             $0.edges.equalToSuperview().inset(PaddingStyle.standard)
         }
         
-        [mainTitle, subTitle, idTitle, priceTitle, urlTitle]
-            .forEach {
-                stackView.addArrangedSubview($0)
-            }
+        stackView.addArrangedSubviews([mainTitle, subTitle, idTitle, priceTitle, urlTitle])
     }
     
     func infoViewDataSet(_ data: BookData) {

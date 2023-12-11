@@ -36,10 +36,7 @@ class SearchResultTableViewCell: UITableViewCell {
     }
     
     private func layout() {
-        [bookImageView, infoView]
-            .forEach {
-                contentView.addSubview($0)
-            }
+        contentView.addSubviews([bookImageView, infoView])
         
         bookImageView.snp.makeConstraints {
             $0.leading.top.equalToSuperview().inset(PaddingStyle.standard)

@@ -90,10 +90,7 @@ class StandardTableViewCell: UITableViewCell {
             $0.top.bottom.equalToSuperview().inset(PaddingStyle.standard)
         }
         
-        [bookImageView, stackView, browserIcon]
-            .forEach {
-                mainView.addSubview($0)
-            }
+        mainView.addSubviews([bookImageView, stackView, browserIcon])
         
         bookImageView.snp.makeConstraints {
             $0.top.equalToSuperview().inset(PaddingStyle.standard)
@@ -114,10 +111,7 @@ class StandardTableViewCell: UITableViewCell {
             $0.top.trailing.equalToSuperview().inset(PaddingStyle.standard)
         }
         
-        [mainTitle, subTitle, idTitle, priceTitle]
-            .forEach {
-                stackView.addArrangedSubview($0)
-            }
+        stackView.addArrangedSubviews([mainTitle, subTitle, idTitle, priceTitle])
         
         mainView.snp.makeConstraints {
             $0.top.equalToSuperview().inset(PaddingStyle.standard)

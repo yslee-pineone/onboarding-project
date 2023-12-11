@@ -37,10 +37,7 @@ class DetailLoadingView: UIView {
     }
     
     private func layout() {
-        [loadingIcon, loadingTitle]
-            .forEach {
-                addSubview($0)
-            }
+        addSubviews([loadingIcon, loadingTitle])
         
         loadingIcon.snp.makeConstraints {
             $0.centerX.equalToSuperview()

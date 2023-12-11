@@ -45,10 +45,7 @@ class DetailView: UIView {
     }
     
     private func layout() {
-        [backGroundView, borderView, memoInput, infoView]
-            .forEach {
-                addSubview($0)
-            }
+        addSubviews([backGroundView, borderView, memoInput, infoView])
         
         backGroundView.snp.makeConstraints {
             $0.leading.trailing.equalTo(safeAreaLayoutGuide)
