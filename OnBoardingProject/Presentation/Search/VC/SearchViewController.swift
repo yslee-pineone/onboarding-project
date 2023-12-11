@@ -7,10 +7,10 @@
 
 import UIKit
 
+import SnapKit
 import RxSwift
 import RxCocoa
-import Then
-import SnapKit
+import NSObject_Rx
 
 class SearchViewController: UIViewController {
     let viewModel: SearchViewModel
@@ -23,8 +23,6 @@ class SearchViewController: UIViewController {
         $0.register(StandardTableViewCell.self, forCellReuseIdentifier: StandardTableViewCell.id)
         $0.backgroundColor = .systemBackground
     }
-    
-    let bag = DisposeBag()
     
     init(
         viewModel: SearchViewModel,
@@ -93,12 +91,12 @@ class SearchViewController: UIViewController {
                 
                 return cell
             }
-            .disposed(by: bag)
+            .disposed(by: rx.disposeBag)
         
         output.cellData
             .map {!$0.isEmpty}
             .drive(searchResultViewController.noSearchListLabel.rx.isHidden)
-            .disposed(by: bag)
+            .disposed(by: rx.disposeBag)
         
         output.cellData
             .filter {!$0.isEmpty}
@@ -120,7 +118,7 @@ class SearchViewController: UIViewController {
                 
                 return cell
             }
-            .disposed(by: bag)
+            .disposed(by: rx.disposeBag)
        
         let bookListTap = Observable.merge(
             searchResultViewController.tableView.rx.modelSelected(BookData.self)
@@ -132,11 +130,11 @@ class SearchViewController: UIViewController {
         bookListTap
             .map {$0.bookID}
             .bind(to: rx.detailVCPush)
-            .disposed(by: bag)
+            .disposed(by: rx.disposeBag)
             
         cellBrowerIconTap
             .bind(to: rx.webViewControllerPush)
-            .disposed(by: bag)
+            .disposed(by: rx.disposeBag)
     }
 }
 

@@ -45,7 +45,7 @@ class DetailViewModel {
             }, onError: {error in
                 print(error)
             })
-            .disposed(by: self.bag)
+            .disposed(by: bag)
         
         input.didDisappearMemoContents
             .withUnretained(self)

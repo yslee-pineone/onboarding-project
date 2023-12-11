@@ -12,10 +12,10 @@ import Then
 import SnapKit
 import RxSwift
 import RxCocoa
+import NSObject_Rx
 
 class WebViewController: UIViewController {
     let viewModel: WebViewModel
-    let bag = DisposeBag()
     
     lazy var webView = WebView().then {
         $0.navigationDelegate = self
@@ -64,17 +64,17 @@ class WebViewController: UIViewController {
             .filter {$0 != nil}
             .map {$0!}
             .drive(rx.webViewLoad)
-            .disposed(by: bag)
+            .disposed(by: rx.disposeBag)
         
         output.loadingURL
             .filter {$0 == nil}
             .withLatestFrom(output.title)
             .drive(rx.webViewURLErrorPopup)
-            .disposed(by: bag)
+            .disposed(by: rx.disposeBag)
         
         output.title
             .drive(rx.viewControllerTitleSet)
-            .disposed(by: bag)
+            .disposed(by: rx.disposeBag)
     }
 }
 

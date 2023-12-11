@@ -9,6 +9,7 @@ target 'OnBoardingProject' do
 
 pod 'RxSwift'
 pod 'RxCocoa'
+pod 'NSObject+Rx'
 
 pod 'Then'
 pod 'SnapKit'

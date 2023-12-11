@@ -62,7 +62,7 @@ class SearchViewModel {
                 print(error)
                 self?.nowSearchData.accept([])
             })
-            .disposed(by: self.bag)
+            .disposed(by: bag)
         
         return Output(
             cellData: nowSearchData

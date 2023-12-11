@@ -10,6 +10,7 @@ import UIKit
 import SnapKit
 import RxSwift
 import RxCocoa
+import NSObject_Rx
 
 class DetailViewController: UIViewController {
     lazy var scrollView = UIScrollView()
@@ -18,7 +19,6 @@ class DetailViewController: UIViewController {
     
     let viewModel: DetailViewModel
     let didDisappear = PublishSubject<String>()
-    let bag = DisposeBag()
     
     init(
         viewModel: DetailViewModel
@@ -117,23 +117,23 @@ class DetailViewController: UIViewController {
         
         dataFilter
             .drive(rx.viewDataSet)
-            .disposed(by: bag)
+            .disposed(by: rx.disposeBag)
         
         dataFilter
             .map {_ in Void()}
             .drive(rx.loadingEnd)
-            .disposed(by: bag)
+            .disposed(by: rx.disposeBag)
         
         dataFilter
             .withLatestFrom(output.memoData)
             .filter {$0 != DefaultMSG.Detail.memoPlaceHolder}
             .drive(rx.memoSet)
-            .disposed(by: bag)
+            .disposed(by: rx.disposeBag)
         
         detailView.infoView.urlTitle.rx.tap
             .withLatestFrom(output.bookData)
             .bind(to: rx.webViewControllerPush)
-            .disposed(by: bag)
+            .disposed(by: rx.disposeBag)
     }
     
     @objc

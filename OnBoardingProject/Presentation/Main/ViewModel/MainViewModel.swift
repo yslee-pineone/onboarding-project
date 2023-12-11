@@ -37,7 +37,7 @@ class MainViewModel {
                 print(error)
                 self?.nowCellData.accept([])
             })
-            .disposed(by: self.bag)
+            .disposed(by: bag)
         
         return Output(
             cellData: self.nowCellData

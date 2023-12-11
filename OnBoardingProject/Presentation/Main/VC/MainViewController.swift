@@ -7,16 +7,16 @@
 
 import UIKit
 
-import RxSwift
-import RxCocoa
 import Then
 import SnapKit
+import RxSwift
+import RxCocoa
+import NSObject_Rx
 
 class MainViewController: UIViewController {
     lazy var tableView = MainTableView()
     
     let viewModel: MainViewModel
-    let bag = DisposeBag()
     
     init(
         viewModel: MainViewModel
@@ -79,21 +79,21 @@ class MainViewController: UIViewController {
                 
                 return cell
             }
-            .disposed(by: bag)
+            .disposed(by: rx.disposeBag)
         
         output.cellData
             .map {_ in}
             .drive(rx.refreshEnd)
-            .disposed(by: bag)
+            .disposed(by: rx.disposeBag)
         
         tableView.rx.modelSelected(BookData.self)
             .map {$0.bookID}
             .subscribe(rx.detailViewControllerPush)
-            .disposed(by: bag)
+            .disposed(by: rx.disposeBag)
             
         cellBrowerIconTap
             .bind(to: rx.webViewControllerPush)
-            .disposed(by: bag)
+            .disposed(by: rx.disposeBag)
     }
 }
 
