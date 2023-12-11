@@ -129,6 +129,11 @@ class DetailViewController: UIViewController {
             .filter {$0 != DefaultMSG.Detail.memoPlaceHolder}
             .drive(rx.memoSet)
             .disposed(by: bag)
+        
+        detailView.infoView.urlTitle.rx.tap
+            .withLatestFrom(output.bookData)
+            .bind(to: rx.webViewControllerPush)
+            .disposed(by: bag)
     }
     
     @objc
@@ -203,6 +208,23 @@ extension Reactive where Base: DetailViewController {
                     base.loadingView?.removeFromSuperview()
                     base.loadingView = nil
                 }
+            )
+        }
+    }
+    
+    var webViewControllerPush: Binder<BookData> {
+        return Binder(base) { base, data in
+            let viewModel = WebViewModel(
+                title: data.mainTitle,
+                bookURL: data.bookURL
+            )
+            let webViewController = WebViewController(viewModel: viewModel)
+            
+            webViewController.hidesBottomBarWhenPushed = true
+            
+            base.navigationController?.pushViewController(
+                webViewController,
+                animated: true
             )
         }
     }
