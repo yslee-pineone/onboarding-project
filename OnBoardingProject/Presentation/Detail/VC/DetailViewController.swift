@@ -197,7 +197,7 @@ extension Reactive where Base: DetailViewController {
         return Binder(base) { base, memoContents in
             if memoContents != "" {
                 base.detailView.memoInput.text = memoContents
-                base.detailView.memoInput.textColor = .black
+                base.detailView.memoInput.textColor = .label
             }
         }
     }

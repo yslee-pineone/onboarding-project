@@ -83,7 +83,7 @@ extension DetailView: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.text == DefaultMSG.Detail.memoPlaceHolder {
             textView.text = nil
-            textView.textColor = .black
+            textView.textColor = .label
         }
     }
     

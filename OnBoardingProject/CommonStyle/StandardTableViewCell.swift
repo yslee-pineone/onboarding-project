@@ -49,25 +49,25 @@ class StandardTableViewCell: UITableViewCell {
     }
     
     lazy var mainTitle = UILabel().then {
-        $0.textColor = .black
+        $0.textColor = .label
         $0.textAlignment = .center
         $0.font = .systemFont(ofSize: FontStyle.titleBig, weight: .semibold)
     }
     
     lazy var subTitle = UILabel().then {
-        $0.textColor = .black
+        $0.textColor = .label
         $0.textAlignment = .center
         $0.font = .systemFont(ofSize: FontStyle.mid)
     }
     
     lazy var idTitle = UILabel().then {
-        $0.textColor = .black
+        $0.textColor = .label
         $0.textAlignment = .center
         $0.font = .systemFont(ofSize: FontStyle.midSmall)
     }
     
     lazy var priceTitle = UILabel().then {
-        $0.textColor = .black
+        $0.textColor = .label
         $0.textAlignment = .center
         $0.font = .systemFont(ofSize: FontStyle.midSmall, weight: .semibold)
     }
