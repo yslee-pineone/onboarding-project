@@ -25,4 +25,23 @@ class SearchModel {
             .map {.success($0)}
             .catch {.just(.failure($0))}
     }
+    
+    func searchWordSave(keywordList: [String]) {
+        UserDefaults.standard.setValue(
+            keywordList,
+            forKey: "SearchWordSave"
+        )
+    }
+    
+    func searchWordRequest() -> Single<[String]> {
+        return Single<[String]>.create { single in
+            if let contents = UserDefaults.standard.object(forKey: "SearchWordSave") as? [String] {
+                single(.success(contents))
+            } else {
+                single(.failure(UserDefaultError.notContents))
+            }
+            
+            return Disposables.create()
+        }
+    }
 }

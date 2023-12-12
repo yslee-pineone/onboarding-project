@@ -14,10 +14,16 @@ import NSObject_Rx
 
 class SearchViewController: UIViewController {
     let viewModel: SearchViewModel
+    
     var searchBarViewController: SearchBarViewController!
     let searchResultViewController: SearchResultViewController
     
-    let tableView = UITableView().then {
+    lazy var searchWordSaveView = SearchWordSaveView(
+        frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 80)
+    )
+    
+    lazy var tableView = UITableView().then {
+        $0.tableHeaderView = searchWordSaveView
         $0.separatorStyle = .none
         $0.rowHeight = UITableView.automaticDimension
         $0.register(StandardTableViewCell.self, forCellReuseIdentifier: StandardTableViewCell.id)
@@ -68,14 +74,38 @@ class SearchViewController: UIViewController {
                 .filter {$0 != nil}
                 .map {$0!},
             nextDisplayIndex: searchResultViewController.tableView.rx.willDisplayCell
-                .map {$0.indexPath}
+                .map {$0.indexPath},
+            enterTap: searchBarViewController.searchBar.searchTextField.rx.controlEvent(.editingDidEndOnExit)
+                .map {_ in Void()},
+            saveCellTap: searchWordSaveView.collectionView.rx.modelSelected(String.self)
+                .asObservable()
         )
+        
+        let bookListTap = Observable.merge(
+            searchResultViewController.tableView.rx.modelSelected(BookData.self)
+                .asObservable(),
+            tableView.rx.modelSelected(BookData.self)
+                .asObservable()
+        )
+        
+        bookListTap
+            .map {$0.bookID}
+            .bind(to: rx.detailVCPush)
+            .disposed(by: rx.disposeBag)
+        
+        cellBrowerIconTap
+            .bind(to: rx.webViewControllerPush)
+            .disposed(by: rx.disposeBag)
+        
+        searchWordSaveView.collectionView.rx.modelSelected(String.self)
+            .bind(to: rx.searchPresent)
+            .disposed(by: rx.disposeBag)
         
         let output = viewModel.transform(input: input)
         output.cellData
             .drive(searchResultViewController.tableView.rx.items) { tableView, row, data in
                 guard let cell = tableView.dequeueReusableCell(
-                    withIdentifier: SearchResultTableViewCell.id, 
+                    withIdentifier: SearchResultTableViewCell.id,
                     for: IndexPath(row: row, section: 0)) as? SearchResultTableViewCell
                 else {return UITableViewCell()}
                 
@@ -102,7 +132,7 @@ class SearchViewController: UIViewController {
             .filter {!$0.isEmpty}
             .drive(tableView.rx.items) { tableView, row, data in
                 guard let cell = tableView.dequeueReusableCell(
-                    withIdentifier: StandardTableViewCell.id, 
+                    withIdentifier: StandardTableViewCell.id,
                     for: IndexPath(row: row, section: 0)) as? StandardTableViewCell
                 else {return UITableViewCell()}
                 
@@ -119,21 +149,17 @@ class SearchViewController: UIViewController {
                 return cell
             }
             .disposed(by: rx.disposeBag)
-       
-        let bookListTap = Observable.merge(
-            searchResultViewController.tableView.rx.modelSelected(BookData.self)
-                .asObservable(),
-            tableView.rx.modelSelected(BookData.self)
-                .asObservable()
-        )
         
-        bookListTap
-            .map {$0.bookID}
-            .bind(to: rx.detailVCPush)
-            .disposed(by: rx.disposeBag)
-            
-        cellBrowerIconTap
-            .bind(to: rx.webViewControllerPush)
+        output.saveCellData
+            .drive(searchWordSaveView.collectionView.rx.items) { collectionView, row, data in
+                guard let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: SearchWordSaveViewCell.id,
+                    for: IndexPath(row: row, section: 0)) as? SearchWordSaveViewCell
+                else {return UICollectionViewCell()}
+                
+                cell.titleLabel.text = data
+                return cell
+            }
             .disposed(by: rx.disposeBag)
     }
 }
@@ -163,6 +189,13 @@ extension Reactive where Base: SearchViewController {
                 webViewController,
                 animated: true
             )
+        }
+    }
+    
+    var searchPresent : Binder<String>{
+        return Binder(base){base, data in
+            base.searchBarViewController.searchBar.text = data
+            base.searchBarViewController.isActive = true
         }
     }
 }

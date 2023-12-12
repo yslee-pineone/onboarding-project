@@ -47,6 +47,8 @@
 		C3EE7E3F2B20418900DC64A1 /* SearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7E3E2B20418900DC64A1 /* SearchResultViewController.swift */; };
 		C3EE7E422B20435C00DC64A1 /* SearchResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7E412B20435C00DC64A1 /* SearchResultTableViewCell.swift */; };
 		C3EE7E492B2060C700DC64A1 /* DefaultMSG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7E482B2060C700DC64A1 /* DefaultMSG.swift */; };
+		C3EE80622B2845CC0028BE3B /* SearchWordSaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE80612B2845CC0028BE3B /* SearchWordSaveView.swift */; };
+		C3EE80642B2848F00028BE3B /* SearchWordSaveViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE80632B2848F00028BE3B /* SearchWordSaveViewCell.swift */; };
 		F511477E3A8584DA95BCD4FC /* Pods_OnBoardingProject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 698D0B01EEDB991075DBCB3C /* Pods_OnBoardingProject.framework */; };
 /* End PBXBuildFile section */
 
@@ -96,6 +98,8 @@
 		C3EE7E3E2B20418900DC64A1 /* SearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultViewController.swift; sourceTree = "<group>"; };
 		C3EE7E412B20435C00DC64A1 /* SearchResultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultTableViewCell.swift; sourceTree = "<group>"; };
 		C3EE7E482B2060C700DC64A1 /* DefaultMSG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultMSG.swift; sourceTree = "<group>"; };
+		C3EE80612B2845CC0028BE3B /* SearchWordSaveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchWordSaveView.swift; sourceTree = "<group>"; };
+		C3EE80632B2848F00028BE3B /* SearchWordSaveViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchWordSaveViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -429,6 +433,8 @@
 			isa = PBXGroup;
 			children = (
 				C3EE7E412B20435C00DC64A1 /* SearchResultTableViewCell.swift */,
+				C3EE80612B2845CC0028BE3B /* SearchWordSaveView.swift */,
+				C3EE80632B2848F00028BE3B /* SearchWordSaveViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -578,6 +584,7 @@
 				C3DCAF1E2B1EBF4600CF40B9 /* AppDelegate.swift in Sources */,
 				C3EE7DD62B1ED5B400DC64A1 /* MainViewController.swift in Sources */,
 				C3EE7E3D2B2040D700DC64A1 /* SearchBarViewController.swift in Sources */,
+				C3EE80622B2845CC0028BE3B /* SearchWordSaveView.swift in Sources */,
 				C3DCAF202B1EBF4600CF40B9 /* SceneDelegate.swift in Sources */,
 				C32DE1742B22D13A007DAC84 /* DetailLoadingView.swift in Sources */,
 				C32DE1782B22FF11007DAC84 /* NetworkingError.swift in Sources */,
@@ -589,6 +596,7 @@
 				C3EE7DD02B1ED54500DC64A1 /* FontStyle.swift in Sources */,
 				C3EE7E492B2060C700DC64A1 /* DefaultMSG.swift in Sources */,
 				C3EE7E422B20435C00DC64A1 /* SearchResultTableViewCell.swift in Sources */,
+				C3EE80642B2848F00028BE3B /* SearchWordSaveViewCell.swift in Sources */,
 				C3EE7E392B203C7300DC64A1 /* SearchViewModel.swift in Sources */,
 				C32DE17D2B269D2E007DAC84 /* WebView.swift in Sources */,
 				C3EE7DD22B1ED57300DC64A1 /* PaddingStyle.swift in Sources */,

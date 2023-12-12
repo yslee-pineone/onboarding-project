@@ -12,22 +12,29 @@ import RxCocoa
 
 class SearchViewModel {
     let model: SearchModel
-    let nowSearchData = BehaviorRelay<[BookData]>(value: [])
     let bag = DisposeBag()
+    
+    let nowSearchData = BehaviorRelay<[BookData]>(value: [])
+    let nowSaveWords = BehaviorRelay<[String]>(value: [])
     
     var nowPage = 1
     
     struct Input {
         let searchText: Observable<String>
         let nextDisplayIndex: Observable<IndexPath>
+        let enterTap: Observable<Void>
+        let saveCellTap: Observable<String>
     }
     
     struct Output {
         let cellData: Driver<[BookData]>
+        let saveCellData: Driver<[String]>
     }
     
     func transform(input: Input) -> Output {
-        let searchResult = input.searchText
+        let searchText = Observable.merge(input.searchText, input.saveCellTap)
+        
+        let searchResult = searchText
             .distinctUntilChanged()
             .debounce(.milliseconds(500), scheduler: MainScheduler.asyncInstance)
             .withUnretained(self)
@@ -80,8 +87,28 @@ class SearchViewModel {
             })
             .disposed(by: bag)
         
+        input.enterTap
+            .withLatestFrom(input.searchText)
+            .withUnretained(self)
+            .subscribe(onNext: { viewModel, data in
+                var now = viewModel.nowSaveWords.value
+                now.append(data)
+                
+                viewModel.model.searchWordSave(keywordList: now)
+                viewModel.nowSaveWords.accept(now)
+            })
+            .disposed(by: bag)
+        
+        model.searchWordRequest()
+            .catchAndReturn([])
+            .asObservable()
+            .bind(to: nowSaveWords)
+            .disposed(by: bag)
+        
         return Output(
             cellData: nowSearchData
+                .asDriver(onErrorDriveWith: .empty()),
+            saveCellData: nowSaveWords
                 .asDriver(onErrorDriveWith: .empty())
         )
     }
