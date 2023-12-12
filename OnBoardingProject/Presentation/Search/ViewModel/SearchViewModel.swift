@@ -29,6 +29,7 @@ class SearchViewModel {
     func transform(input: Input) -> Output {
         let searchResult = input.searchText
             .distinctUntilChanged()
+            .debounce(.milliseconds(500), scheduler: MainScheduler.asyncInstance)
             .withUnretained(self)
             .flatMapLatest { viewModel, query in
                 viewModel.nowPage = 1
