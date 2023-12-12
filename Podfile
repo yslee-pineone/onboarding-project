@@ -11,9 +11,11 @@ pod 'RxSwift'
 pod 'RxCocoa'
 pod 'NSObject+Rx'
 
+pod 'Moya'
+pod 'Moya/RxSwift'
+
 pod 'Then'
 pod 'SnapKit'
 pod 'Kingfisher'
-pod 'Alamofire'
 
 end

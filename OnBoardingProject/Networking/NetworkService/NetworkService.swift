@@ -7,39 +7,36 @@
 
 import Foundation
 
-import Alamofire
+import Moya
 
 import RxSwift
 import RxCocoa
 
 class NetworkService: NetworkServiceProtocol {
+    let provider = MoyaProvider<URLRequestConfiguration>()
+    
     func request<T: Decodable>(
-        urlComponents: URLComponents,
+        configuration: URLRequestConfiguration,
         decodingType: T.Type
-    ) -> Single<T>{
-        guard let url = urlComponents.url else {
-            return .error(NetworkingError.error_401)
-        }
-        
-        return Single.create { observer -> Disposable in
-           AF.request(url, method: .get)
-                .responseDecodable(of: decodingType.self) { data in
-                    switch data.result {
-                    case .success(let value):
-                        observer(.success(value))
-                    case .failure(let error):
-                        print(error)
-                        switch error {
-                        case .responseSerializationFailed(reason: _):
-                            observer(.failure(NetworkingError.error_400))
-                        default:
-                            observer(.failure(NetworkingError.error_499))
-                        }
-                       
+    ) -> Single<T> {
+        provider.rx.request(configuration)
+            .map { response in
+                switch response.statusCode {
+                case 200 ... 299:
+                    do {
+                        let json = try JSONDecoder().decode(decodingType, from: response.data)
+                        return json
+                    } catch {
+                        throw NetworkingError.error_400
                     }
+                case 400 ... 499:
+                    throw NetworkingError.error_499
+                case 500 ... 599:
+                    throw NetworkingError.error_500
+                default:
+                    throw NetworkingError.error_500
                 }
-            return Disposables.create()
-        }
-            
+            }
+            .timeout(.seconds(3), other: .error(NetworkingError.error_999), scheduler: MainScheduler.asyncInstance)
     }
 }

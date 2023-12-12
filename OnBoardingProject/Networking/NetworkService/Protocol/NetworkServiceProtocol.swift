@@ -11,7 +11,7 @@ import RxSwift
 
 protocol NetworkServiceProtocol {
     func request<T: Decodable>(
-        urlComponents: URLComponents,
+        configuration: URLRequestConfiguration,
         decodingType: T.Type
     ) -> Single<T>
 }

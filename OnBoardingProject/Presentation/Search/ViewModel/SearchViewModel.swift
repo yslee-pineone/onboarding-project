@@ -65,10 +65,10 @@ class SearchViewModel {
                     print(error, urlError)
                     
                     switch urlError {
-                    case .error_400, .error_401, .error_499:
-                        return list
-                    default:
+                    case .error_400, .error_499, .error_500:
                         return []
+                    default:
+                        return list
                     }
                 }
                 return list

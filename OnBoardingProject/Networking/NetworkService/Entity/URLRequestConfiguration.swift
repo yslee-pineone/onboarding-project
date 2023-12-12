@@ -7,29 +7,41 @@
 
 import Foundation
 
+import Moya
+
 enum URLRequestConfiguration {
-    enum URL: String {
-        case scheme = "https"
-        case host = "api.itbook.store"
+    static let baseURL = "https://api.itbook.store"
+    
+    case new
+    case search(query: String, page: String)
+    case detail(id: String)
+}
+
+extension URLRequestConfiguration: TargetType {
+    var baseURL: URL {
+        URL(string: URLRequestConfiguration.baseURL)!
     }
     
-    enum New: String {
-        case path = "/1.0/new"
-    }
-    
-    enum Search: String {
-        case path = "/1.0/search"
-        
-        func queryAdd(query: String, page: String) -> String {
-            self.rawValue + "/" + query + "/" + page
+    var path: String {
+        switch self {
+        case .new:
+            return "/1.0/new"
+        case let .search(query, page):
+            return "/1.0/search"  + "/" + query + "/" + page
+        case let .detail(id):
+            return "/1.0/books" + "/" + id
         }
     }
     
-    enum Detail: String {
-        case path = "/1.0/books"
-        
-        func queryAdd(id: String) -> String {
-            self.rawValue + "/" + id
-        }
+    var method: Moya.Method {
+        return .get
+    }
+    
+    var task: Task {
+        return .requestPlain
+    }
+    
+    var headers: [String : String]? {
+        return nil
     }
 }

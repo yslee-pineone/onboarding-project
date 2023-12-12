@@ -10,10 +10,14 @@ import Foundation
 enum NetworkingError: Error {
     /// 파싱에러
     case error_400
-    /// 잘못된 URL
-    case error_401
     /// 알 수 없는 에러
     case error_499
+    
+    /// 서버오류
+    case error_500
+    
+    /// 네트워크 안됨
+    case error_999
     
     var errorMSG: String {
         switch self {
