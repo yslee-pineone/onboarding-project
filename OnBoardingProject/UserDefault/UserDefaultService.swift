@@ -1,32 +1,32 @@
 //
-//  SearchModel.swift
+//  UserDefaultService.swift
 //  OnBoardingProject
 //
-//  Created by pineone-yslee on 12/6/23.
+//  Created by pineone-yslee on 12/13/23.
 //
 
 import Foundation
 
 import RxSwift
 
-class SearchModel {
-    let bookListLoad: BookListLoad
-    
-    init(
-        bookListLoad: BookListLoad = .init()
-    ) {
-        self.bookListLoad = bookListLoad
+class UserDefaultService {
+    static func memoRequest(bookID id: String) -> Single<String> {
+        return Single<String>.create { single in
+            if let contents = UserDefaults.standard.string(forKey: id) {
+                single(.success(contents))
+            } else {
+                single(.failure(UserDefaultError.notContents))
+            }
+            
+            return Disposables.create()
+        }
     }
     
-    func bookListSearch(
-        query: String, nextPage page: String
-    ) -> Single<Result<BookListData, Error>> {
-        return bookListLoad.searchBookListRequest(query: query, page: page)
-            .map {.success($0)}
-            .catch {.just(.failure($0))}
+    static func memoSave(bookID id:String, contents: String) {
+        UserDefaults.standard.setValue(contents, forKey: id)
     }
     
-    func searchWordSave(keywordList: [String]) {
+    static func searchWordSave(keywordList: [String]) {
         if !UserDefaults.standard.bool(forKey: "SearchWordSaveOff") {
             UserDefaults.standard.setValue(
                 keywordList,
@@ -35,7 +35,7 @@ class SearchModel {
         }
     }
     
-    func searchWordRequest() -> Single<[String]> {
+    static func searchWordRequest() -> Single<[String]> {
         return Single<[String]>.create { single in
             if !UserDefaults.standard.bool(forKey: "SearchWordSaveOff") {
                 if let contents = UserDefaults.standard.object(forKey: "SearchWordSave") as? [String]{

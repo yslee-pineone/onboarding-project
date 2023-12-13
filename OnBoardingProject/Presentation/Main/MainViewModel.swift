@@ -12,7 +12,6 @@ import RxCocoa
 import NSObject_Rx
 
 class MainViewModel: NSObject {
-    let model: MainModel
     let nowCellData = BehaviorRelay<[BookData]>(value: [])
     
     let bag = DisposeBag()
@@ -29,7 +28,7 @@ class MainViewModel: NSObject {
         input.refreshEvent
             .withUnretained(self)
             .flatMap { viewModel, _ in
-                viewModel.model.newBookLoad()
+                BookListLoad.newBookListRequest()
             }
             .withUnretained(self)
             .subscribe(onNext: { viewModel, data in
@@ -50,9 +49,9 @@ class MainViewModel: NSObject {
         )
     }
     
-    init(
-        model: MainModel = .init()
+    override init(
+      
     ) {
-        self.model = model
+        
     }
 }

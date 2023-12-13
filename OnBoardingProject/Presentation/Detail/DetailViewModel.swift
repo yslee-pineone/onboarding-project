@@ -12,7 +12,6 @@ import RxCocoa
 import NSObject_Rx
 
 class DetailViewModel: NSObject {
-    let model: DetailModel
     let bookID: String
     
     let nowBookData = BehaviorRelay<BookData>(
@@ -42,7 +41,8 @@ class DetailViewModel: NSObject {
     }
     
     func transform(input: Input) -> Output {
-        model.detailBookDataRequest(id: bookID)
+        BookListLoad.detailBookInfomationRequest(id: bookID)
+            .asObservable()
             .withUnretained(self)
             .subscribe(onNext: { viewModel, data in
                 viewModel.nowBookData.accept(data)
@@ -57,14 +57,14 @@ class DetailViewModel: NSObject {
         input.didDisappearMemoContents
             .withUnretained(self)
             .subscribe(onNext: { viewModel, contents in
-                viewModel.model.memoSave(bookID: viewModel.bookID, contents: contents)
+                UserDefaultService.memoSave(bookID: viewModel.bookID, contents: contents)
             })
             .disposed(by: bag)
         
         return Output(
             bookData: nowBookData
                 .asDriver(onErrorDriveWith: .empty()),
-            memoData: model.memoRequest(bookID: bookID)
+            memoData: UserDefaultService.memoRequest(bookID: bookID)
                 .asDriver(onErrorJustReturn: ""),
             errorMSG: errorTitle
                 .asDriver(onErrorDriveWith: .empty())
@@ -72,10 +72,8 @@ class DetailViewModel: NSObject {
     }
     
     init(
-        model: DetailModel = .init(),
         id: String
     ) {
-        self.model = model
         self.bookID = id
     }
 }

@@ -12,7 +12,6 @@ import RxCocoa
 import NSObject_Rx
 
 class SearchViewModel: NSObject {
-    let model: SearchModel
     let bag = DisposeBag()
     
     let nowSearchData = BehaviorRelay<[BookData]>(value: [])
@@ -46,7 +45,7 @@ class SearchViewModel: NSObject {
             .withUnretained(self)
             .flatMapLatest { viewModel, query in
                 viewModel.nowPage = 1
-                return viewModel.model.bookListSearch(query: query, nextPage: "\(viewModel.nowPage)")
+                return BookListLoad.bookListSearch(query: query, nextPage: "\(viewModel.nowPage)")
             }
         
         let nextResult = input.nextDisplayIndex
@@ -58,7 +57,7 @@ class SearchViewModel: NSObject {
             .withUnretained(self)
             .flatMapLatest { viewModel, query in
                 viewModel.nowPage += 1
-                return viewModel.model.bookListSearch(query: query, nextPage: "\(viewModel.nowPage)")
+                return BookListLoad.bookListSearch(query: query, nextPage: "\(viewModel.nowPage)")
             }
         
         Observable.merge(searchResult, nextResult)
@@ -100,12 +99,12 @@ class SearchViewModel: NSObject {
                 var now = viewModel.nowSaveWords.value
                 now.append(data)
                 
-                viewModel.model.searchWordSave(keywordList: now)
+                UserDefaultService.searchWordSave(keywordList: now)
                 viewModel.nowSaveWords.accept(now)
             })
             .disposed(by: rx.disposeBag)
         
-        let saveSearchWord = model.searchWordRequest()
+        let saveSearchWord = UserDefaultService.searchWordRequest()
         
         saveSearchWord
             .catchAndReturn([])
@@ -130,9 +129,9 @@ class SearchViewModel: NSObject {
         )
     }
     
-    init(
-        model: SearchModel = .init()
+    override init(
+       
     ) {
-        self.model = model
+      
     }
 }

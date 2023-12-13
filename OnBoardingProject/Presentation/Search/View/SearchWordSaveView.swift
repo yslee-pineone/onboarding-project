@@ -23,6 +23,10 @@ class SearchWordSaveView: UIView {
         $0.font = UIFont.systemFont(ofSize: FontStyle.mid, weight: .semibold)
     }
     
+    lazy var editBtn = UIButton(type: .system).then {
+        $0.setImage(UIImage(systemName: "ellipsis"), for: .normal)
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         layout()
@@ -33,9 +37,16 @@ class SearchWordSaveView: UIView {
     }
     
     private func layout() {
-        addSubview(collectionView)
+        addSubviews([collectionView, editBtn])
+        editBtn.snp.makeConstraints {
+            $0.trailing.equalToSuperview().inset(PaddingStyle.big)
+            $0.top.bottom.equalToSuperview()
+            $0.width.equalTo(28)
+        }
+        
         collectionView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.leading.top.bottom.equalToSuperview()
+            $0.trailing.equalTo(editBtn.snp.leading).offset(-PaddingStyle.standard)
         }
         
         collectionView.addSubview(titleLabel)
