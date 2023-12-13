@@ -9,8 +9,9 @@ import Foundation
 
 import RxSwift
 import RxCocoa
+import NSObject_Rx
 
-class DetailViewModel {
+class DetailViewModel: NSObject {
     let model: DetailModel
     let bookID: String
     

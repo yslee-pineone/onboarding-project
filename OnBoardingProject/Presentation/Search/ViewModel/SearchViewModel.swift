@@ -9,8 +9,9 @@ import Foundation
 
 import RxSwift
 import RxCocoa
+import NSObject_Rx
 
-class SearchViewModel {
+class SearchViewModel: NSObject {
     let model: SearchModel
     let bag = DisposeBag()
     
@@ -90,7 +91,7 @@ class SearchViewModel {
             .subscribe(onNext: { viewModel, data in
                 viewModel.nowSearchData.accept(data)
             })
-            .disposed(by: bag)
+            .disposed(by: rx.disposeBag)
         
         input.enterTap
             .withLatestFrom(input.searchText)
@@ -102,7 +103,7 @@ class SearchViewModel {
                 viewModel.model.searchWordSave(keywordList: now)
                 viewModel.nowSaveWords.accept(now)
             })
-            .disposed(by: bag)
+            .disposed(by: rx.disposeBag)
         
         let saveSearchWord = model.searchWordRequest()
         
@@ -110,7 +111,7 @@ class SearchViewModel {
             .catchAndReturn([])
             .asObservable()
             .bind(to: nowSaveWords)
-            .disposed(by: bag)
+            .disposed(by: rx.disposeBag)
         
         return Output(
             cellData: nowSearchData

@@ -9,8 +9,9 @@ import Foundation
 
 import RxSwift
 import RxCocoa
+import NSObject_Rx
 
-class MainViewModel {
+class MainViewModel: NSObject {
     let model: MainModel
     let nowCellData = BehaviorRelay<[BookData]>(value: [])
     
@@ -41,7 +42,7 @@ class MainViewModel {
                     print(error)
                 }
             })
-            .disposed(by: bag)
+            .disposed(by: rx.disposeBag)
         
         return Output(
             cellData: self.nowCellData
