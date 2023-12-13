@@ -55,7 +55,8 @@ class SearchWordSaveViewCell: UICollectionViewCell {
         
         mainBG.addSubview(titleLabel)
         titleLabel.snp.makeConstraints {
-            $0.edges.equalToSuperview().inset(PaddingStyle.big)
+            $0.top.bottom.equalToSuperview().inset(PaddingStyle.standardHalf)
+            $0.leading.trailing.equalToSuperview().inset(PaddingStyle.big)
         }
     }
 }
