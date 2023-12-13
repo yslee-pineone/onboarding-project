@@ -23,11 +23,11 @@ class UserDefaultService {
     }
     
     static func memoSave(bookID id:String, contents: String) {
-        UserDefaults.standard.setValue(contents, forKey: id)
+        return UserDefaults.standard.setValue(contents, forKey: id)
     }
     
     static func searchWordSave(keywordList: [String]) {
-        if !UserDefaults.standard.bool(forKey: "SearchWordSaveOff") {
+        if UserDefaultService.isAutoSave() {
             UserDefaults.standard.setValue(
                 keywordList,
                 forKey: "SearchWordSave"
@@ -37,8 +37,10 @@ class UserDefaultService {
     
     static func searchWordRequest() -> Single<[String]> {
         return Single<[String]>.create { single in
-            if !UserDefaults.standard.bool(forKey: "SearchWordSaveOff") {
-                if let contents = UserDefaults.standard.object(forKey: "SearchWordSave") as? [String]{
+            if UserDefaultService.isAutoSave() {
+                if let contents = UserDefaults.standard.object(forKey: "SearchWordSave") as? [String],
+                   !contents.isEmpty
+                {
                     single(.success(contents))
                 } else {
                     single(.failure(UserDefaultError.notContents))
@@ -48,5 +50,14 @@ class UserDefaultService {
             }
             return Disposables.create()
         }
+    }
+    
+    // 처음 값이 설정이 되어 있지 않을 때에도 true가 나와야 하기 때문에 !를 붙여서 사용
+    static func isAutoSave() -> Bool {
+        return !UserDefaults.standard.bool(forKey: "SearchWordSaveOff")
+    }
+    
+    static func isAutoSaveValueSet(on: Bool) {
+        UserDefaults.standard.setValue(!on, forKey: "SearchWordSaveOff")
     }
 }

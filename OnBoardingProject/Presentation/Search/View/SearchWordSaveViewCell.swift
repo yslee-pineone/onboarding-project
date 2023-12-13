@@ -6,7 +6,6 @@
 //
 
 import UIKit
-
 import Then
 import SnapKit
 import RxSwift
@@ -14,12 +13,12 @@ import RxSwift
 class SearchWordSaveViewCell: UICollectionViewCell {
     static let id = "SearchwordSaveViewCell"
     
-    let mainBG = UIView().then {
+    lazy var mainBG = UIView().then {
         $0.layer.cornerRadius = 16
         $0.backgroundColor = .systemGray5
     }
     
-    let titleLabel = UILabel().then {
+    lazy var titleLabel = UILabel().then {
         $0.textAlignment = .center
         $0.font = .systemFont(ofSize: FontStyle.small)
         $0.textColor = .label

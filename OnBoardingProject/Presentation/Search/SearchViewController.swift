@@ -6,18 +6,12 @@
 //
 
 import UIKit
-
 import SnapKit
 import RxSwift
 import RxCocoa
 import NSObject_Rx
 
 class SearchViewController: UIViewController {
-    let viewModel: SearchViewModel
-    
-    var searchBarViewController: SearchBarViewController!
-    let searchResultViewController: SearchResultViewController
-    
     lazy var searchWordSaveView = SearchWordSaveView(
         frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 80)
     )
@@ -29,6 +23,12 @@ class SearchViewController: UIViewController {
         $0.register(StandardTableViewCell.self, forCellReuseIdentifier: StandardTableViewCell.id)
         $0.backgroundColor = .systemBackground
     }
+    
+    var searchBarViewController: SearchBarViewController!
+    let searchResultViewController: SearchResultViewController
+    
+    let viewModel: SearchViewModel
+    let settingPopupTap = PublishSubject<SearchWordSaveViewSettingCategory>()
     
     init(
         viewModel: SearchViewModel,
@@ -69,18 +69,6 @@ class SearchViewController: UIViewController {
     private func bind() {
         let cellBrowerIconTap = PublishSubject<BookData>()
         
-        let input = SearchViewModel.Input(
-            searchText: searchBarViewController.searchBar.rx.text
-                .filter {$0 != nil}
-                .map {$0!},
-            nextDisplayIndex: searchResultViewController.tableView.rx.willDisplayCell
-                .map {$0.indexPath},
-            enterTap: searchBarViewController.searchBar.searchTextField.rx.controlEvent(.editingDidEndOnExit)
-                .map {_ in Void()},
-            saveCellTap: searchWordSaveView.collectionView.rx.modelSelected(String.self)
-                .asObservable()
-        )
-        
         let bookListTap = Observable.merge(
             searchResultViewController.tableView.rx.modelSelected(BookData.self)
                 .asObservable(),
@@ -101,9 +89,23 @@ class SearchViewController: UIViewController {
             .bind(to: rx.searchPresent)
             .disposed(by: rx.disposeBag)
         
+        let input = SearchViewModel.Input(
+            searchText: searchBarViewController.searchBar.rx.text
+                .filter {$0 != nil}
+                .map {$0!},
+            nextDisplayIndex: searchResultViewController.tableView.rx.willDisplayCell
+                .map {$0.indexPath},
+            enterTap: searchBarViewController.searchBar.searchTextField.rx.controlEvent(.editingDidEndOnExit)
+                .map {_ in Void()},
+            saveCellTap: searchWordSaveView.collectionView.rx.modelSelected(String.self)
+                .asObservable(),
+            settingMenuTap: settingPopupTap
+                .asObservable()
+        )
+        
         let output = viewModel.transform(input: input)
         output.cellData
-            .drive(searchResultViewController.tableView.rx.items) { tableView, row, data in
+            .bind(to: searchResultViewController.tableView.rx.items) { tableView, row, data in
                 guard let cell = tableView.dequeueReusableCell(
                     withIdentifier: SearchResultTableViewCell.id,
                     for: IndexPath(row: row, section: 0)) as? SearchResultTableViewCell
@@ -125,12 +127,12 @@ class SearchViewController: UIViewController {
         
         output.cellData
             .map {!$0.isEmpty}
-            .drive(searchResultViewController.noSearchListLabel.rx.isHidden)
+            .bind(to: searchResultViewController.noSearchListLabel.rx.isHidden)
             .disposed(by: rx.disposeBag)
         
         output.cellData
             .filter {!$0.isEmpty}
-            .drive(tableView.rx.items) { tableView, row, data in
+            .bind(to: tableView.rx.items) { tableView, row, data in
                 guard let cell = tableView.dequeueReusableCell(
                     withIdentifier: StandardTableViewCell.id,
                     for: IndexPath(row: row, section: 0)) as? StandardTableViewCell
@@ -151,7 +153,7 @@ class SearchViewController: UIViewController {
             .disposed(by: rx.disposeBag)
         
         output.saveCellData
-            .drive(searchWordSaveView.collectionView.rx.items) { collectionView, row, data in
+            .bind(to: searchWordSaveView.collectionView.rx.items) { collectionView, row, data in
                 guard let cell = collectionView.dequeueReusableCell(
                     withReuseIdentifier: SearchWordSaveViewCell.id,
                     for: IndexPath(row: row, section: 0)) as? SearchWordSaveViewCell
@@ -164,11 +166,23 @@ class SearchViewController: UIViewController {
         
         output.saveCellData
             .map {!$0.isEmpty}
-            .drive(searchWordSaveView.titleLabel.rx.isHidden)
+            .bind(to: searchWordSaveView.titleLabel.rx.isHidden)
             .disposed(by: rx.disposeBag)
         
         output.saveCellErrorMSG
-            .drive(searchWordSaveView.titleLabel.rx.text)
+            .bind(to: searchWordSaveView.titleLabel.rx.text)
+            .disposed(by: rx.disposeBag)
+        
+        searchWordSaveView.editBtn.rx.tap
+            .withLatestFrom(
+                Observable.combineLatest (
+                    output.saveCellData
+                        .asObservable(),
+                    output.isSearchKeywordSave
+                        .asObservable()
+                )
+            )
+            .bind(to: rx.menuPopup)
             .disposed(by: rx.disposeBag)
     }
 }
@@ -205,6 +219,36 @@ extension Reactive where Base: SearchViewController {
         return Binder(base){base, data in
             base.searchBarViewController.searchBar.text = data
             base.searchBarViewController.isActive = true
+        }
+    }
+    
+    var menuPopup: Binder<([String], Bool)> {
+        return Binder(base) { base, setting in
+            let alert = UIAlertController(title: "설정", message: nil, preferredStyle: .alert)
+            
+            if !setting.0.isEmpty {
+                alert.addAction(UIAlertAction(title: "모든 검색기록 지우기", style: .default, handler: { _ in
+                    base.settingPopupTap.onNext(.wordAllRemove)
+                }))
+                
+                alert.addAction(UIAlertAction(title: "선택해서 검색기록 지우기", style: .default, handler: { _ in
+                    base.settingPopupTap.onNext(.wordRemove)
+                }))
+            }
+            print(setting)
+            if setting.1 {
+                alert.addAction(UIAlertAction(title: "검색 기록 저장하지 않기", style: .default, handler: { _ in
+                    base.settingPopupTap.onNext(.saveStop)
+                }))
+            } else {
+                alert.addAction(UIAlertAction(title: "검색 기록 저장하기", style: .default, handler: { _ in
+                    base.settingPopupTap.onNext(.saveStart)
+                }))
+            }
+            
+            alert.addAction(UIAlertAction(title: "취소", style: .cancel))
+            
+            base.present(alert, animated: true)
         }
     }
 }

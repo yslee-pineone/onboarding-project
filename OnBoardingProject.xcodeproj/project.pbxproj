@@ -47,6 +47,7 @@
 		C3EE80622B2845CC0028BE3B /* SearchWordSaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE80612B2845CC0028BE3B /* SearchWordSaveView.swift */; };
 		C3EE80642B2848F00028BE3B /* SearchWordSaveViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE80632B2848F00028BE3B /* SearchWordSaveViewCell.swift */; };
 		C3EE80672B2950770028BE3B /* UserDefaultService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE80662B2950770028BE3B /* UserDefaultService.swift */; };
+		C3EE80692B2961170028BE3B /* SearchWordSaveViewSettingCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE80682B2961170028BE3B /* SearchWordSaveViewSettingCategory.swift */; };
 		F511477E3A8584DA95BCD4FC /* Pods_OnBoardingProject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 698D0B01EEDB991075DBCB3C /* Pods_OnBoardingProject.framework */; };
 /* End PBXBuildFile section */
 
@@ -96,6 +97,7 @@
 		C3EE80612B2845CC0028BE3B /* SearchWordSaveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchWordSaveView.swift; sourceTree = "<group>"; };
 		C3EE80632B2848F00028BE3B /* SearchWordSaveViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchWordSaveViewCell.swift; sourceTree = "<group>"; };
 		C3EE80662B2950770028BE3B /* UserDefaultService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultService.swift; sourceTree = "<group>"; };
+		C3EE80682B2961170028BE3B /* SearchWordSaveViewSettingCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchWordSaveViewSettingCategory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -264,6 +266,7 @@
 			children = (
 				C3EE7E042B1EF03B00DC64A1 /* BookListData.swift */,
 				C3EE7E2C2B1FFFDF00DC64A1 /* BookData.swift */,
+				C3EE80682B2961170028BE3B /* SearchWordSaveViewSettingCategory.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -453,6 +456,7 @@
 			files = (
 				C32DE17F2B269D41007DAC84 /* WebViewController.swift in Sources */,
 				C32DE17A2B269C10007DAC84 /* UIStackView+.swift in Sources */,
+				C3EE80692B2961170028BE3B /* SearchWordSaveViewSettingCategory.swift in Sources */,
 				C3EE7E372B203C0E00DC64A1 /* SearchViewController.swift in Sources */,
 				C32DE16D2B21B17B007DAC84 /* TabbarController.swift in Sources */,
 				C3EE7E3F2B20418900DC64A1 /* SearchResultViewController.swift in Sources */,

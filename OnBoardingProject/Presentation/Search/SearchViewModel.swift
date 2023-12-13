@@ -6,33 +6,117 @@
 //
 
 import Foundation
-
 import RxSwift
 import RxCocoa
 import NSObject_Rx
 
 class SearchViewModel: NSObject {
-    let bag = DisposeBag()
+    private let nowSearchData = BehaviorRelay<[BookData]>(value: [])
+    private let nowSaveWords = BehaviorRelay<[String]>(value: [])
+    private let nowKeywordAutoSave = BehaviorRelay<Bool>(value: false)
+    private let nowCellErrorMSG = BehaviorRelay<String>(value: "")
     
-    let nowSearchData = BehaviorRelay<[BookData]>(value: [])
-    let nowSaveWords = BehaviorRelay<[String]>(value: [])
-    
-    var nowPage = 1
+    private var nowPage = 1
     
     struct Input {
         let searchText: Observable<String>
         let nextDisplayIndex: Observable<IndexPath>
         let enterTap: Observable<Void>
         let saveCellTap: Observable<String>
+        let settingMenuTap: Observable<SearchWordSaveViewSettingCategory>
     }
     
     struct Output {
-        let cellData: Driver<[BookData]>
-        let saveCellData: Driver<[String]>
-        let saveCellErrorMSG: Driver<String>
+        let cellData: Observable<[BookData]>
+        let saveCellData: Observable<[String]>
+        let saveCellErrorMSG: Observable<String>
+        let isSearchKeywordSave: Observable<Bool>
     }
     
     func transform(input: Input) -> Output {
+        bookLoad(input)
+        settingMenuTap(input.settingMenuTap)
+        
+        nowKeywordAutoSave.accept(UserDefaultService.isAutoSave())
+        let saveSearchWord = UserDefaultService.searchWordRequest()
+            .asObservable()
+        
+        saveSearchWord
+            .catchAndReturn([])
+            .bind(to: nowSaveWords)
+            .disposed(by: rx.disposeBag)
+        
+        saveSearchWord
+            .filter {$0.isEmpty}
+            .map {_ in ""}
+            .catch { error in
+                let userDefaultError = error as? UserDefaultError
+                
+                return .just(userDefaultError?.errorMSG ?? UserDefaultError.defaultErrorMSG)
+            }
+            .bind(to: nowCellErrorMSG)
+            .disposed(by: rx.disposeBag)
+        
+        input.enterTap
+            .withLatestFrom(nowKeywordAutoSave)
+            .filter {$0}
+            .withLatestFrom(input.searchText)
+            .withUnretained(self)
+            .subscribe(onNext: { viewModel, data in
+                var now = viewModel.nowSaveWords.value
+                now.append(data)
+                
+                UserDefaultService.searchWordSave(keywordList: now)
+                viewModel.nowSaveWords.accept(now)
+            })
+            .disposed(by: rx.disposeBag)
+        
+        return Output(
+            cellData: nowSearchData
+                .asObservable(),
+            saveCellData: nowSaveWords
+                .asObservable(),
+            saveCellErrorMSG: nowCellErrorMSG
+                .asObservable(),
+            isSearchKeywordSave: nowKeywordAutoSave
+                .asObservable()
+        )
+    }
+    
+    private func settingMenuTap(_ tap: Observable<SearchWordSaveViewSettingCategory>) {
+        tap.filter {$0 == .saveStart || $0 == .saveStop}
+            .map {$0 == .saveStart}
+            .withUnretained(self)
+            .subscribe(onNext: { viewModel, isOn in
+                if !isOn {
+                    viewModel.nowSaveWords.accept([])
+                }
+                
+                UserDefaultService.isAutoSaveValueSet(on: isOn)
+                viewModel.nowKeywordAutoSave.accept(isOn)
+            })
+            .disposed(by: rx.disposeBag)
+        
+        tap.filter {$0 == .wordAllRemove}
+            .map{_ in []}
+            .bind(to: nowSaveWords)
+            .disposed(by: rx.disposeBag)
+        
+        tap.map {
+            switch $0 {
+            case .saveStart, .wordAllRemove:
+                return UserDefaultError.notContents.errorMSG
+            case .saveStop:
+                return UserDefaultError.searchWordSaveOff.errorMSG
+            default:
+                return ""
+            }
+        }
+        .bind(to: nowCellErrorMSG)
+        .disposed(by: rx.disposeBag)
+    }
+    
+    private func bookLoad(_ input: Input) {
         let searchText = Observable
             .merge(
                 input.searchText
@@ -75,7 +159,6 @@ class SearchViewModel: NSObject {
                 }
                 if case .failure(let error) = newData {
                     let urlError = error as? NetworkingError
-                    print(error, urlError)
                     
                     switch urlError {
                     case .error_400, .error_499, .error_500:
@@ -86,52 +169,13 @@ class SearchViewModel: NSObject {
                 }
                 return list
             }
-            .withUnretained(self)
-            .subscribe(onNext: { viewModel, data in
-                viewModel.nowSearchData.accept(data)
-            })
+            .bind(to: nowSearchData)
             .disposed(by: rx.disposeBag)
-        
-        input.enterTap
-            .withLatestFrom(input.searchText)
-            .withUnretained(self)
-            .subscribe(onNext: { viewModel, data in
-                var now = viewModel.nowSaveWords.value
-                now.append(data)
-                
-                UserDefaultService.searchWordSave(keywordList: now)
-                viewModel.nowSaveWords.accept(now)
-            })
-            .disposed(by: rx.disposeBag)
-        
-        let saveSearchWord = UserDefaultService.searchWordRequest()
-        
-        saveSearchWord
-            .catchAndReturn([])
-            .asObservable()
-            .bind(to: nowSaveWords)
-            .disposed(by: rx.disposeBag)
-        
-        return Output(
-            cellData: nowSearchData
-                .asDriver(onErrorDriveWith: .empty()),
-            saveCellData: nowSaveWords
-                .asDriver(onErrorDriveWith: .empty()),
-            saveCellErrorMSG: saveSearchWord
-                .filter {$0.isEmpty}
-                .map {_ in ""}
-                .catch { error in
-                    let userDefaultError = error as? UserDefaultError
-                    
-                    return .just(userDefaultError?.errorMSG ?? UserDefaultError.defaultErrorMSG)
-                }
-                .asDriver(onErrorDriveWith: .empty())
-        )
     }
     
     override init(
-       
+        
     ) {
-      
+        
     }
 }
