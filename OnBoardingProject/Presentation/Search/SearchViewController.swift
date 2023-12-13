@@ -10,6 +10,7 @@ import SnapKit
 import RxSwift
 import RxCocoa
 import NSObject_Rx
+import RxDataSources
 
 class SearchViewController: UIViewController {
     lazy var searchWordSaveView = SearchWordSaveView(
@@ -152,20 +153,23 @@ class SearchViewController: UIViewController {
             }
             .disposed(by: rx.disposeBag)
         
-        output.saveCellData
-            .bind(to: searchWordSaveView.collectionView.rx.items) { collectionView, row, data in
+        let dataSources = RxCollectionViewSectionedReloadDataSource<SearchKeywordSection>(
+            configureCell: { _, collectionView, index, data in
                 guard let cell = collectionView.dequeueReusableCell(
                     withReuseIdentifier: SearchWordSaveViewCell.id,
-                    for: IndexPath(row: row, section: 0)) as? SearchWordSaveViewCell
-                else {return UICollectionViewCell()}
+                    for: index
+                ) as? SearchWordSaveViewCell else {return UICollectionViewCell()}
                 
                 cell.titleLabel.text = data
                 return cell
-            }
+            })
+        
+        output.saveCellData
+            .bind(to: searchWordSaveView.collectionView.rx.items(dataSource: dataSources))
             .disposed(by: rx.disposeBag)
         
         output.saveCellData
-            .map {!$0.isEmpty}
+            .map {!$0.first!.items.isEmpty}
             .bind(to: searchWordSaveView.titleLabel.rx.isHidden)
             .disposed(by: rx.disposeBag)
         
@@ -177,6 +181,7 @@ class SearchViewController: UIViewController {
             .withLatestFrom(
                 Observable.combineLatest (
                     output.saveCellData
+                        .map {$0.first!.items}
                         .asObservable(),
                     output.isSearchKeywordSave
                         .asObservable()
@@ -224,24 +229,44 @@ extension Reactive where Base: SearchViewController {
     
     var menuPopup: Binder<([String], Bool)> {
         return Binder(base) { base, setting in
-            let alert = UIAlertController(title: "설정", message: nil, preferredStyle: .alert)
+            let alert = UIAlertController(
+                title: DefaultMSG.Search.Menu.title,
+                message: nil,
+                preferredStyle: .alert
+            )
             
             if !setting.0.isEmpty {
-                alert.addAction(UIAlertAction(title: "모든 검색기록 지우기", style: .default, handler: { _ in
-                    base.settingPopupTap.onNext(.wordAllRemove)
-                }))
+                alert.addAction(
+                    UIAlertAction(
+                        title: DefaultMSG.Search.Menu.removeAll,
+                        style: .default,
+                        handler: { _ in
+                            base.settingPopupTap.onNext(.wordAllRemove)
+                        }))
                 
-                alert.addAction(UIAlertAction(title: "선택해서 검색기록 지우기", style: .default, handler: { _ in
+                alert.addAction(
+                    UIAlertAction(
+                        title: DefaultMSG.Search.Menu.remove,
+                        style: .default,
+                        handler: { _ in
                     base.settingPopupTap.onNext(.wordRemove)
                 }))
             }
-            print(setting)
+            
             if setting.1 {
-                alert.addAction(UIAlertAction(title: "검색 기록 저장하지 않기", style: .default, handler: { _ in
+                alert.addAction(
+                    UIAlertAction(
+                        title: DefaultMSG.Search.Menu.notSave,
+                        style: .default,
+                        handler: { _ in
                     base.settingPopupTap.onNext(.saveStop)
                 }))
             } else {
-                alert.addAction(UIAlertAction(title: "검색 기록 저장하기", style: .default, handler: { _ in
+                alert.addAction(
+                    UIAlertAction(
+                        title: DefaultMSG.Search.Menu.okSave,
+                        style: .default,
+                        handler: { _ in
                     base.settingPopupTap.onNext(.saveStart)
                 }))
             }

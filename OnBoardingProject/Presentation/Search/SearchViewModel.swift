@@ -12,7 +12,7 @@ import NSObject_Rx
 
 class SearchViewModel: NSObject {
     private let nowSearchData = BehaviorRelay<[BookData]>(value: [])
-    private let nowSaveWords = BehaviorRelay<[String]>(value: [])
+    private let nowSaveWords = BehaviorRelay<[SearchKeywordSection]>(value: [])
     private let nowKeywordAutoSave = BehaviorRelay<Bool>(value: false)
     private let nowCellErrorMSG = BehaviorRelay<String>(value: "")
     
@@ -28,7 +28,7 @@ class SearchViewModel: NSObject {
     
     struct Output {
         let cellData: Observable<[BookData]>
-        let saveCellData: Observable<[String]>
+        let saveCellData: Observable<[SearchKeywordSection]>
         let saveCellErrorMSG: Observable<String>
         let isSearchKeywordSave: Observable<Bool>
     }
@@ -43,6 +43,9 @@ class SearchViewModel: NSObject {
         
         saveSearchWord
             .catchAndReturn([])
+            .map {
+                [SearchKeywordSection(items: $0)]
+            }
             .bind(to: nowSaveWords)
             .disposed(by: rx.disposeBag)
         
@@ -63,11 +66,13 @@ class SearchViewModel: NSObject {
             .withLatestFrom(input.searchText)
             .withUnretained(self)
             .subscribe(onNext: { viewModel, data in
-                var now = viewModel.nowSaveWords.value
-                now.append(data)
+                var now = viewModel.nowSaveWords.value.first!
+                var items = now.items
+                items.append(data)
+                now.items = items
                 
-                UserDefaultService.searchWordSave(keywordList: now)
-                viewModel.nowSaveWords.accept(now)
+                viewModel.nowSaveWords.accept([now])
+                UserDefaultService.searchWordSave(keywordList: items)
             })
             .disposed(by: rx.disposeBag)
         
@@ -89,7 +94,7 @@ class SearchViewModel: NSObject {
             .withUnretained(self)
             .subscribe(onNext: { viewModel, isOn in
                 if !isOn {
-                    viewModel.nowSaveWords.accept([])
+                    viewModel.nowSaveWords.accept([SearchKeywordSection(items: [])])
                 }
                 
                 UserDefaultService.isAutoSaveValueSet(on: isOn)
@@ -98,7 +103,7 @@ class SearchViewModel: NSObject {
             .disposed(by: rx.disposeBag)
         
         tap.filter {$0 == .wordAllRemove}
-            .map{_ in []}
+            .map{_ in [SearchKeywordSection(items: [])]}
             .bind(to: nowSaveWords)
             .disposed(by: rx.disposeBag)
         

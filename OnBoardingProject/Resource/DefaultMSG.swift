@@ -24,6 +24,14 @@ struct DefaultMSG {
         static let title = "Search Books"
         static let empty = "검색된 항목이 없습니다."
         static let searchStart = "검색어를 입력해보세요."
+        
+        struct Menu {
+            static let title = "설정"
+            static let removeAll = "검색어 모두 지우기"
+            static let remove = "검색어 선택 지우기"
+            static let notSave = "검색기록 저장하지 않기"
+            static let okSave = "검색기록 저장하기"
+        }
     }
     
     struct Error {
@@ -36,5 +44,4 @@ struct DefaultMSG {
             return "\(title) 웹페이지로 이동이 불가합니다."
         }
     }
-    
 }

@@ -10,6 +10,7 @@ target 'OnBoardingProject' do
 pod 'RxSwift'
 pod 'RxCocoa'
 pod 'NSObject+Rx'
+pod 'RxDataSources'
 
 pod 'Moya'
 pod 'Moya/RxSwift'
