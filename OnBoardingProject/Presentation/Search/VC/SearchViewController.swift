@@ -161,6 +161,15 @@ class SearchViewController: UIViewController {
                 return cell
             }
             .disposed(by: rx.disposeBag)
+        
+        output.saveCellData
+            .map {!$0.isEmpty}
+            .drive(searchWordSaveView.titleLabel.rx.isHidden)
+            .disposed(by: rx.disposeBag)
+        
+        output.saveCellErrorMSG
+            .drive(searchWordSaveView.titleLabel.rx.text)
+            .disposed(by: rx.disposeBag)
     }
 }
 

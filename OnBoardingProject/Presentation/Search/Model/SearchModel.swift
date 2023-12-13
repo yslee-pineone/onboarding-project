@@ -27,20 +27,25 @@ class SearchModel {
     }
     
     func searchWordSave(keywordList: [String]) {
-        UserDefaults.standard.setValue(
-            keywordList,
-            forKey: "SearchWordSave"
-        )
+        if !UserDefaults.standard.bool(forKey: "SearchWordSaveOff") {
+            UserDefaults.standard.setValue(
+                keywordList,
+                forKey: "SearchWordSave"
+            )
+        }
     }
     
     func searchWordRequest() -> Single<[String]> {
         return Single<[String]>.create { single in
-            if let contents = UserDefaults.standard.object(forKey: "SearchWordSave") as? [String] {
-                single(.success(contents))
+            if !UserDefaults.standard.bool(forKey: "SearchWordSaveOff") {
+                if let contents = UserDefaults.standard.object(forKey: "SearchWordSave") as? [String]{
+                    single(.success(contents))
+                } else {
+                    single(.failure(UserDefaultError.notContents))
+                }
             } else {
-                single(.failure(UserDefaultError.notContents))
+                single(.failure(UserDefaultError.searchWordSaveOff))
             }
-            
             return Disposables.create()
         }
     }

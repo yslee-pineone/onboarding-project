@@ -29,14 +29,19 @@ class SearchViewModel {
     struct Output {
         let cellData: Driver<[BookData]>
         let saveCellData: Driver<[String]>
+        let saveCellErrorMSG: Driver<String>
     }
     
     func transform(input: Input) -> Output {
-        let searchText = Observable.merge(input.searchText, input.saveCellTap)
+        let searchText = Observable
+            .merge(
+                input.searchText
+                    .debounce(.milliseconds(500), scheduler: MainScheduler.asyncInstance),
+                input.saveCellTap
+            )
         
         let searchResult = searchText
             .distinctUntilChanged()
-            .debounce(.milliseconds(500), scheduler: MainScheduler.asyncInstance)
             .withUnretained(self)
             .flatMapLatest { viewModel, query in
                 viewModel.nowPage = 1
@@ -54,7 +59,7 @@ class SearchViewModel {
                 viewModel.nowPage += 1
                 return viewModel.model.bookListSearch(query: query, nextPage: "\(viewModel.nowPage)")
             }
-           
+        
         Observable.merge(searchResult, nextResult)
             .withUnretained(self)
             .map { viewModel, newData in
@@ -99,7 +104,9 @@ class SearchViewModel {
             })
             .disposed(by: bag)
         
-        model.searchWordRequest()
+        let saveSearchWord = model.searchWordRequest()
+        
+        saveSearchWord
             .catchAndReturn([])
             .asObservable()
             .bind(to: nowSaveWords)
@@ -109,6 +116,15 @@ class SearchViewModel {
             cellData: nowSearchData
                 .asDriver(onErrorDriveWith: .empty()),
             saveCellData: nowSaveWords
+                .asDriver(onErrorDriveWith: .empty()),
+            saveCellErrorMSG: saveSearchWord
+                .filter {$0.isEmpty}
+                .map {_ in ""}
+                .catch { error in
+                    let userDefaultError = error as? UserDefaultError
+                    
+                    return .just(userDefaultError?.errorMSG ?? UserDefaultError.defaultErrorMSG)
+                }
                 .asDriver(onErrorDriveWith: .empty())
         )
     }

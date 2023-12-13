@@ -17,6 +17,12 @@ class SearchWordSaveView: UIView {
         $0.backgroundColor = .systemBackground
     }
     
+    lazy var titleLabel = UILabel().then {
+        $0.textColor = .systemGray4
+        $0.isHidden = true
+        $0.font = UIFont.systemFont(ofSize: FontStyle.mid, weight: .semibold)
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         layout()
@@ -30,6 +36,11 @@ class SearchWordSaveView: UIView {
         addSubview(collectionView)
         collectionView.snp.makeConstraints {
             $0.edges.equalToSuperview()
+        }
+        
+        collectionView.addSubview(titleLabel)
+        titleLabel.snp.makeConstraints {
+            $0.center.equalToSuperview()
         }
     }
     
