@@ -6,7 +6,6 @@
 //
 
 import UIKit
-
 import Kingfisher
 import Then
 import SnapKit

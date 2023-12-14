@@ -32,7 +32,6 @@ class TabbarController: UITabBarController {
     func createNavigationController(category: TabbarCategory) -> UINavigationController {
         let navigationController = UINavigationController()
         navigationController.tabBarItem = createTabbarItem(category: category)
-        let bookListLoad = BookListLoad()
         
         switch category {
         case .new:
