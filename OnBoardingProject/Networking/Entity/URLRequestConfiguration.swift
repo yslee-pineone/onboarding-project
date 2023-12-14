@@ -25,10 +25,10 @@ extension URLRequestConfiguration: TargetType {
         switch self {
         case .new:
             return "/1.0/new"
-        case let .search(query, page):
-            return "/1.0/search"  + "/" + query + "/" + page
-        case let .detail(id):
-            return "/1.0/books" + "/" + id
+        case .search(let query, let page):
+            return "/1.0/search/\(query)/\(page)"
+        case .detail(let id):
+            return "/1.0/books/\(id)"
         }
     }
     

@@ -17,8 +17,6 @@ enum UserDefaultError: Error {
             return "검색 내역이 없습니다."
         case .searchWordSaveOff:
             return "검색어 저장이 꺼져있습니다."
-        default:
-            return UserDefaultError.defaultErrorMSG
         }
     }
     
