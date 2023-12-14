@@ -156,12 +156,10 @@ class SearchViewModel: NSObject {
         
         input.settingMenuTap.map {
             switch $0 {
-            case .saveStart, .wordAllRemove:
+            case .saveStart, .wordAllRemove, .wordRemove:
                 return UserDefaultError.notContents.errorMSG
             case .saveStop:
                 return UserDefaultError.searchWordSaveOff.errorMSG
-            default:
-                return ""
             }
         }
         .bind(to: nowCellErrorMSG)
