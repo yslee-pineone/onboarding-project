@@ -61,6 +61,7 @@ class DetailViewModel: NSObject {
             bookData: nowBookData
                 .asObservable(),
             memoData: UserDefaultService.memoRequest(bookID: bookID)
+                .catchAndReturn("")
                 .asObservable(),
             errorMSG: errorTitle
                 .asObservable()
