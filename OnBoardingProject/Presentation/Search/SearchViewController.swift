@@ -86,8 +86,8 @@ class SearchViewController: UIViewController {
             .bind(to: rx.webViewControllerPush)
             .disposed(by: rx.disposeBag)
         
-        searchWordSaveView.collectionView.rx.modelSelected(String.self)
-            .bind(to: rx.searchPresent)
+        searchWordSaveView.doneBtn.rx.tap
+            .bind(to: rx.editModeOff)
             .disposed(by: rx.disposeBag)
         
         let input = SearchViewModel.Input(
@@ -99,8 +99,11 @@ class SearchViewController: UIViewController {
             enterTap: searchBarViewController.searchBar.searchTextField.rx.controlEvent(.editingDidEndOnExit)
                 .map {_ in Void()},
             saveCellTap: searchWordSaveView.collectionView.rx.modelSelected(String.self)
+                .withLatestFrom(searchWordSaveView.collectionView.rx.itemSelected) {($0,$1.row)}
                 .asObservable(),
             settingMenuTap: settingPopupTap
+                .asObservable(),
+            editModeDoneTap: searchWordSaveView.doneBtn.rx.tap
                 .asObservable()
         )
         
@@ -154,13 +157,13 @@ class SearchViewController: UIViewController {
             .disposed(by: rx.disposeBag)
         
         let dataSources = RxCollectionViewSectionedReloadDataSource<SearchKeywordSection>(
-            configureCell: { _, collectionView, index, data in
+            configureCell: { dataSources, collectionView, index, data in
                 guard let cell = collectionView.dequeueReusableCell(
                     withReuseIdentifier: SearchWordSaveViewCell.id,
                     for: index
                 ) as? SearchWordSaveViewCell else {return UICollectionViewCell()}
                 
-                cell.titleLabel.text = data
+                cell.cellSet(title: data, isEdit: dataSources.sectionModels.first?.isEdit ?? false)
                 return cell
             })
         
@@ -188,6 +191,20 @@ class SearchViewController: UIViewController {
                 )
             )
             .bind(to: rx.menuPopup)
+            .disposed(by: rx.disposeBag)
+        
+        searchWordSaveView.collectionView.rx.modelSelected(String.self)
+            .catchAndReturn("")
+            .withLatestFrom(output.saveCellData) { keyword, data -> String? in
+                if data.first!.isEdit {
+                    return nil
+                } else {
+                    return keyword
+                }
+            }
+            .filter {$0 != nil}
+            .map {$0!}
+            .bind(to: rx.searchPresent)
             .disposed(by: rx.disposeBag)
     }
 }
@@ -220,10 +237,16 @@ extension Reactive where Base: SearchViewController {
         }
     }
     
-    var searchPresent : Binder<String>{
+    var searchPresent: Binder<String>{
         return Binder(base){base, data in
             base.searchBarViewController.searchBar.text = data
             base.searchBarViewController.isActive = true
+        }
+    }
+    
+    var editModeOff: Binder<Void>{
+        return Binder(base){base, _ in
+            base.searchWordSaveView.editMode(isOn: false)
         }
     }
     
@@ -249,8 +272,9 @@ extension Reactive where Base: SearchViewController {
                         title: DefaultMSG.Search.Menu.remove,
                         style: .default,
                         handler: { _ in
-                    base.settingPopupTap.onNext(.wordRemove)
-                }))
+                            base.searchWordSaveView.editMode(isOn: true)
+                            base.settingPopupTap.onNext(.wordRemove)
+                        }))
             }
             
             if setting.1 {
@@ -259,16 +283,16 @@ extension Reactive where Base: SearchViewController {
                         title: DefaultMSG.Search.Menu.notSave,
                         style: .default,
                         handler: { _ in
-                    base.settingPopupTap.onNext(.saveStop)
-                }))
+                            base.settingPopupTap.onNext(.saveStop)
+                        }))
             } else {
                 alert.addAction(
                     UIAlertAction(
                         title: DefaultMSG.Search.Menu.okSave,
                         style: .default,
                         handler: { _ in
-                    base.settingPopupTap.onNext(.saveStart)
-                }))
+                            base.settingPopupTap.onNext(.saveStart)
+                        }))
             }
             
             alert.addAction(UIAlertAction(title: "취소", style: .cancel))

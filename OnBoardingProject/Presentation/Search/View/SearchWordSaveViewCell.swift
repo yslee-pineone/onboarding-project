@@ -13,15 +13,20 @@ import RxSwift
 class SearchWordSaveViewCell: UICollectionViewCell {
     static let id = "SearchwordSaveViewCell"
     
-    lazy var mainBG = UIView().then {
+    private lazy var mainBG = UIView().then {
         $0.layer.cornerRadius = 16
         $0.backgroundColor = .systemGray5
     }
     
-    lazy var titleLabel = UILabel().then {
+    private lazy var titleLabel = UILabel().then {
         $0.textAlignment = .center
         $0.font = .systemFont(ofSize: FontStyle.small)
         $0.textColor = .label
+    }
+    
+    private var deleteBtn = UIButton(type: .system).then {
+        $0.tintColor = .label
+        $0.setImage(UIImage(systemName: "multiply"), for: .normal)
     }
     
     var bag = DisposeBag()
@@ -39,6 +44,8 @@ class SearchWordSaveViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         bag = DisposeBag()
+        
+        deleteBtn.isHidden = true
     }
     
     private func attribute() {
@@ -46,10 +53,15 @@ class SearchWordSaveViewCell: UICollectionViewCell {
     }
     
     private func layout() {
-        contentView.addSubview(mainBG)
+        contentView.addSubviews([mainBG, deleteBtn])
         mainBG.snp.makeConstraints {
             $0.top.bottom.equalToSuperview().inset(PaddingStyle.standard)
             $0.leading.trailing.equalToSuperview().inset(PaddingStyle.big)
+        }
+        
+        deleteBtn.snp.makeConstraints {
+            $0.size.equalTo(20)
+            $0.top.trailing.equalTo(mainBG).inset(4)
         }
         
         mainBG.addSubview(titleLabel)
@@ -57,5 +69,10 @@ class SearchWordSaveViewCell: UICollectionViewCell {
             $0.top.bottom.equalToSuperview().inset(PaddingStyle.standardHalf)
             $0.leading.trailing.equalToSuperview().inset(PaddingStyle.big)
         }
+    }
+    
+    func cellSet(title: String, isEdit: Bool) {
+        titleLabel.text = title
+        deleteBtn.isHidden = !isEdit
     }
 }

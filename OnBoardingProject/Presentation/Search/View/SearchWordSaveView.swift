@@ -26,6 +26,11 @@ class SearchWordSaveView: UIView {
         $0.setImage(UIImage(systemName: "ellipsis"), for: .normal)
     }
     
+    lazy var doneBtn = UIButton(type: .system).then {
+        $0.setImage(UIImage(systemName: "square.and.arrow.down"), for: .normal)
+        $0.isHidden = true
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -40,8 +45,14 @@ class SearchWordSaveView: UIView {
     }
     
     private func layout() {
-        addSubviews([collectionView, editBtn])
+        addSubviews([collectionView, editBtn, doneBtn])
         editBtn.snp.makeConstraints {
+            $0.trailing.equalToSuperview().inset(PaddingStyle.big)
+            $0.top.bottom.equalToSuperview()
+            $0.width.equalTo(28)
+        }
+        
+        doneBtn.snp.makeConstraints {
             $0.trailing.equalToSuperview().inset(PaddingStyle.big)
             $0.top.bottom.equalToSuperview()
             $0.width.equalTo(28)
@@ -62,7 +73,6 @@ class SearchWordSaveView: UIView {
         let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(120), heightDimension: .absolute(80))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        
         let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(120), heightDimension: .absolute(80))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
@@ -70,5 +80,10 @@ class SearchWordSaveView: UIView {
         section.orthogonalScrollingBehavior = .continuous
         
         return UICollectionViewCompositionalLayout(section: section)
+    }
+    
+    func editMode(isOn: Bool) {
+        editBtn.isHidden = isOn
+        doneBtn.isHidden = !isOn
     }
 }

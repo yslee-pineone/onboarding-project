@@ -11,6 +11,7 @@ import RxDataSources
 
 struct SearchKeywordSection {
     var items: [Item]
+    var isEdit: Bool
 }
 
 extension SearchKeywordSection: SectionModelType {

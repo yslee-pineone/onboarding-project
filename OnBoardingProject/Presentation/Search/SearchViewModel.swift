@@ -22,8 +22,9 @@ class SearchViewModel: NSObject {
         let searchText: Observable<String>
         let nextDisplayIndex: Observable<IndexPath>
         let enterTap: Observable<Void>
-        let saveCellTap: Observable<String>
+        let saveCellTap: Observable<(String, Int)>
         let settingMenuTap: Observable<SearchWordSaveViewSettingCategory>
+        let editModeDoneTap: Observable<Void>
     }
     
     struct Output {
@@ -35,30 +36,8 @@ class SearchViewModel: NSObject {
     
     func transform(input: Input) -> Output {
         bookLoad(input)
-        settingMenuTap(input.settingMenuTap)
-        
-        nowKeywordAutoSave.accept(UserDefaultService.isAutoSave())
-        let saveSearchWord = UserDefaultService.searchWordRequest()
-            .asObservable()
-        
-        saveSearchWord
-            .catchAndReturn([])
-            .map {
-                [SearchKeywordSection(items: $0)]
-            }
-            .bind(to: nowSaveWords)
-            .disposed(by: rx.disposeBag)
-        
-        saveSearchWord
-            .filter {$0.isEmpty}
-            .map {_ in ""}
-            .catch { error in
-                let userDefaultError = error as? UserDefaultError
-                
-                return .just(userDefaultError?.errorMSG ?? UserDefaultError.defaultErrorMSG)
-            }
-            .bind(to: nowCellErrorMSG)
-            .disposed(by: rx.disposeBag)
+        settingMenuTap(input)
+        saveKeywordLoad()
         
         input.enterTap
             .withLatestFrom(nowKeywordAutoSave)
@@ -88,13 +67,39 @@ class SearchViewModel: NSObject {
         )
     }
     
-    private func settingMenuTap(_ tap: Observable<SearchWordSaveViewSettingCategory>) {
-        tap.filter {$0 == .saveStart || $0 == .saveStop}
+    private func saveKeywordLoad() {
+        nowKeywordAutoSave.accept(UserDefaultService.isAutoSave())
+        
+        let saveSearchWord = UserDefaultService.searchWordRequest()
+            .asObservable()
+        
+        saveSearchWord
+            .catchAndReturn([])
+            .map {
+                [SearchKeywordSection(items: $0, isEdit: false)]
+            }
+            .bind(to: nowSaveWords)
+            .disposed(by: rx.disposeBag)
+        
+        saveSearchWord
+            .filter {$0.isEmpty}
+            .map {_ in ""}
+            .catch { error in
+                let userDefaultError = error as? UserDefaultError
+                
+                return .just(userDefaultError?.errorMSG ?? UserDefaultError.defaultErrorMSG)
+            }
+            .bind(to: nowCellErrorMSG)
+            .disposed(by: rx.disposeBag)
+    }
+    
+    private func settingMenuTap(_ input: Input) {
+        input.settingMenuTap.filter {$0 == .saveStart || $0 == .saveStop}
             .map {$0 == .saveStart}
             .withUnretained(self)
             .subscribe(onNext: { viewModel, isOn in
                 if !isOn {
-                    viewModel.nowSaveWords.accept([SearchKeywordSection(items: [])])
+                    viewModel.nowSaveWords.accept([SearchKeywordSection(items: [], isEdit: false)])
                 }
                 
                 UserDefaultService.isAutoSaveValueSet(on: isOn)
@@ -102,12 +107,54 @@ class SearchViewModel: NSObject {
             })
             .disposed(by: rx.disposeBag)
         
-        tap.filter {$0 == .wordAllRemove}
-            .map{_ in [SearchKeywordSection(items: [])]}
+        input.settingMenuTap.filter {$0 == .wordAllRemove}
+            .withUnretained(self)
+            .subscribe(onNext: { viewModel, _ in
+                viewModel.nowSaveWords.accept([SearchKeywordSection(items: [], isEdit: false)])
+                UserDefaultService.searchWordSave(keywordList: [])
+            })
+            .disposed(by: rx.disposeBag)
+        
+        input.settingMenuTap.filter {$0 == .wordRemove}
+            .withLatestFrom(nowSaveWords)
+            .map { data in
+                [SearchKeywordSection(items: data.first!.items, isEdit: true)]
+            }
             .bind(to: nowSaveWords)
             .disposed(by: rx.disposeBag)
         
-        tap.map {
+        input.saveCellTap
+            .withLatestFrom(nowSaveWords) { cellTapData, saveData -> Int? in
+                if saveData.first!.isEdit {
+                    return cellTapData.1
+                } else {
+                    return nil
+                }
+            }
+            .filter {$0 != nil}
+            .map {$0!}
+            .withUnretained(self)
+            .subscribe(onNext: { viewModel, row in
+                var now = viewModel.nowSaveWords.value.first!
+                var items = now.items
+                
+                items.remove(at: row)
+                now.items = items
+                
+                viewModel.nowSaveWords.accept([now])
+                UserDefaultService.searchWordSave(keywordList: items)
+            })
+            .disposed(by: rx.disposeBag)
+        
+        input.editModeDoneTap
+            .withLatestFrom(nowSaveWords)
+            .map { data in
+                [SearchKeywordSection(items: data.first!.items, isEdit: false)]
+            }
+            .bind(to: nowSaveWords)
+            .disposed(by: rx.disposeBag)
+        
+        input.settingMenuTap.map {
             switch $0 {
             case .saveStart, .wordAllRemove:
                 return UserDefaultError.notContents.errorMSG
@@ -127,6 +174,15 @@ class SearchViewModel: NSObject {
                 input.searchText
                     .debounce(.milliseconds(500), scheduler: MainScheduler.asyncInstance),
                 input.saveCellTap
+                    .withLatestFrom(nowSaveWords) { cellTapData, saveData -> String? in
+                        if saveData.first!.isEdit {
+                            return nil
+                        } else {
+                            return cellTapData.0
+                        }
+                    }
+                    .filter {$0 != nil}
+                    .map {$0!}
             )
         
         let searchResult = searchText
