@@ -13,11 +13,11 @@ import NSObject_Rx
 import RxDataSources
 
 class SearchViewController: UIViewController {
-    lazy var searchWordSaveView = SearchWordSaveView(
+    fileprivate lazy var searchWordSaveView = SearchWordSaveView(
         frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 80)
     )
     
-    lazy var tableView = UITableView().then {
+    fileprivate lazy var tableView = UITableView().then {
         $0.tableHeaderView = searchWordSaveView
         $0.separatorStyle = .none
         $0.rowHeight = UITableView.automaticDimension
@@ -25,11 +25,11 @@ class SearchViewController: UIViewController {
         $0.backgroundColor = .systemBackground
     }
     
-    var searchBarViewController: SearchBarViewController!
-    let searchResultViewController: SearchResultViewController
+    fileprivate var searchBarViewController: SearchBarViewController!
+    private let searchResultViewController: SearchResultViewController
     
-    let viewModel: SearchViewModel
-    let settingPopupTap = PublishSubject<SearchWordSaveViewSettingCategory>()
+    private let viewModel: SearchViewModel
+    fileprivate let settingPopupTap = PublishSubject<SearchWordSaveViewSettingCategory>()
     
     init(
         viewModel: SearchViewModel,

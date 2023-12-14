@@ -10,7 +10,7 @@ import Then
 import SnapKit
 
 class StandardInfoView: UIView {
-    lazy var stackView = UIStackView().then {
+    private lazy var stackView = UIStackView().then {
         $0.layer.cornerRadius = 16
         $0.spacing = 4
         $0.distribution = .equalCentering
@@ -18,25 +18,25 @@ class StandardInfoView: UIView {
         $0.axis = .vertical
     }
     
-    lazy var mainTitle = UILabel().then {
+    private lazy var mainTitle = UILabel().then {
         $0.textColor = .label
         $0.textAlignment = .center
         $0.font = .systemFont(ofSize: FontStyle.titleBig, weight: .semibold)
     }
     
-    lazy var subTitle = UILabel().then {
+    private lazy var subTitle = UILabel().then {
         $0.textColor = .label
         $0.textAlignment = .center
         $0.font = .systemFont(ofSize: FontStyle.mid)
     }
     
-    lazy var idTitle = UILabel().then {
+    private  lazy var idTitle = UILabel().then {
         $0.textColor = .label
         $0.textAlignment = .center
         $0.font = .systemFont(ofSize: FontStyle.midSmall)
     }
     
-    lazy var priceTitle = UILabel().then {
+    private lazy var priceTitle = UILabel().then {
         $0.textColor = .label
         $0.textAlignment = .center
         $0.font = .systemFont(ofSize: FontStyle.midSmall, weight: .semibold)

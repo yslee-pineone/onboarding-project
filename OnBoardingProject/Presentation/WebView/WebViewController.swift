@@ -14,9 +14,9 @@ import RxCocoa
 import NSObject_Rx
 
 class WebViewController: UIViewController {
-    let viewModel: WebViewModel
+    private let viewModel: WebViewModel
     
-    lazy var webView = WebView().then {
+    fileprivate lazy var webView = WebView().then {
         $0.navigationDelegate = self
         $0.uiDelegate = self
     }
@@ -62,17 +62,17 @@ class WebViewController: UIViewController {
         output.loadingURL
             .filter {$0 != nil}
             .map {$0!}
-            .drive(rx.webViewLoad)
+            .bind(to: rx.webViewLoad)
             .disposed(by: rx.disposeBag)
         
         output.loadingURL
             .filter {$0 == nil}
             .withLatestFrom(output.title)
-            .drive(rx.webViewURLErrorPopup)
+            .bind(to: rx.webViewURLErrorPopup)
             .disposed(by: rx.disposeBag)
         
         output.title
-            .drive(rx.viewControllerTitleSet)
+            .bind(to: rx.viewControllerTitleSet)
             .disposed(by: rx.disposeBag)
     }
 }

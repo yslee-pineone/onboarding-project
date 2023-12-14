@@ -10,11 +10,11 @@ import Then
 import SnapKit
 
 class DetailLoadingView: UIView {
-    lazy var loadingIcon = UIActivityIndicatorView(style: .medium).then {
+    private lazy var loadingIcon = UIActivityIndicatorView(style: .medium).then {
         $0.color = .white
     }
     
-    lazy var loadingTitle = UILabel().then {
+    private lazy var loadingTitle = UILabel().then {
         $0.textColor = .white
         $0.font = .systemFont(ofSize: FontStyle.mid, weight: .bold)
         $0.text = DefaultMSG.Detail.loading

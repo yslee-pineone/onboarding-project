@@ -11,7 +11,7 @@ import Then
 import SnapKit
 
 class DetailView: UIView {
-    lazy var backGroundView = UIView().then {
+    private lazy var backGroundView = UIView().then {
         $0.backgroundColor = .systemGray4
     }
     
@@ -21,7 +21,7 @@ class DetailView: UIView {
     
     lazy var infoView = StandardInfoView()
     
-    lazy var borderView = UIView().then {
+    private lazy var borderView = UIView().then {
         $0.backgroundColor = .systemGray4
     }
     

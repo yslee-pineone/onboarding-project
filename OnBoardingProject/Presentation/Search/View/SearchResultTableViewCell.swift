@@ -14,7 +14,7 @@ import RxSwift
 class SearchResultTableViewCell: UITableViewCell {
     static let id = "SearchResultTableViewCell"
     
-    lazy var bookImageView = UIImageView().then {
+    private lazy var bookImageView = UIImageView().then {
         $0.contentMode = .scaleToFill
     }
     

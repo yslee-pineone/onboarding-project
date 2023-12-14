@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 
 class NetworkService: NetworkServiceProtocol {
-    let provider = MoyaProvider<URLRequestConfiguration>()
+    private let provider = MoyaProvider<URLRequestConfiguration>()
     
     func request<T: Decodable>(
         configuration: URLRequestConfiguration,

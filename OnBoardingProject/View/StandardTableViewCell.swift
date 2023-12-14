@@ -14,12 +14,12 @@ import RxSwift
 class StandardTableViewCell: UITableViewCell {
     static let id = "StandardTableViewCell"
     
-    lazy var mainView = UIView().then {
+    private lazy var mainView = UIView().then {
         $0.layer.cornerRadius = 16
         $0.backgroundColor = .systemGray6
     }
     
-    lazy var bookImageView = UIImageView().then {
+    private lazy var bookImageView = UIImageView().then {
         $0.contentMode = .scaleToFill
     }
     
@@ -30,7 +30,7 @@ class StandardTableViewCell: UITableViewCell {
         )
     }
     
-    lazy var stackView = UIStackView().then {
+    private lazy var stackView = UIStackView().then {
         $0.layer.cornerRadius = 16
         $0.sideCornerRound([.layerMinXMaxYCorner, .layerMaxXMaxYCorner])
         $0.layoutMargins = UIEdgeInsets(
@@ -47,25 +47,25 @@ class StandardTableViewCell: UITableViewCell {
         $0.axis = .vertical
     }
     
-    lazy var mainTitle = UILabel().then {
+    private lazy var mainTitle = UILabel().then {
         $0.textColor = .label
         $0.textAlignment = .center
         $0.font = .systemFont(ofSize: FontStyle.titleBig, weight: .semibold)
     }
     
-    lazy var subTitle = UILabel().then {
+    private lazy var subTitle = UILabel().then {
         $0.textColor = .label
         $0.textAlignment = .center
         $0.font = .systemFont(ofSize: FontStyle.mid)
     }
     
-    lazy var idTitle = UILabel().then {
+    private lazy var idTitle = UILabel().then {
         $0.textColor = .label
         $0.textAlignment = .center
         $0.font = .systemFont(ofSize: FontStyle.midSmall)
     }
     
-    lazy var priceTitle = UILabel().then {
+    private lazy var priceTitle = UILabel().then {
         $0.textColor = .label
         $0.textAlignment = .center
         $0.font = .systemFont(ofSize: FontStyle.midSmall, weight: .semibold)

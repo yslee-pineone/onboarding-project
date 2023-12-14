@@ -13,9 +13,9 @@ import RxCocoa
 import NSObject_Rx
 
 class MainViewController: UIViewController {
-    lazy var tableView = MainTableView()
+    fileprivate lazy var tableView = MainTableView()
     
-    let viewModel: MainViewModel
+    private let viewModel: MainViewModel
     
     init(
         viewModel: MainViewModel
@@ -60,7 +60,7 @@ class MainViewController: UIViewController {
         
         let output = viewModel.transform(input: input)
         output.cellData
-            .drive(tableView.rx.items) { tableView, row, data in
+            .bind(to: tableView.rx.items) { tableView, row, data in
                 guard let cell = tableView.dequeueReusableCell(
                     withIdentifier: StandardTableViewCell.id, 
                     for: IndexPath(row: row, section: 0)
@@ -82,13 +82,13 @@ class MainViewController: UIViewController {
         
         output.cellData
             .map {_ in}
-            .drive(rx.refreshEnd)
+            .bind(to: rx.refreshEnd)
             .disposed(by: rx.disposeBag)
         
         output.cellData
             .map {!$0.isEmpty}
             .skip(1)
-            .drive(tableView.noSearchListLabel.rx.isHidden)
+            .bind(to: tableView.noSearchListLabel.rx.isHidden)
             .disposed(by: rx.disposeBag)
         
         tableView.rx.modelSelected(BookData.self)

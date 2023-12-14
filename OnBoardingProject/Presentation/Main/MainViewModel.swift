@@ -11,16 +11,14 @@ import RxCocoa
 import NSObject_Rx
 
 class MainViewModel: NSObject {
-    let nowCellData = BehaviorRelay<[BookData]>(value: [])
-    
-    let bag = DisposeBag()
+    private let nowCellData = BehaviorRelay<[BookData]>(value: [])
     
     struct Input {
         let refreshEvent: Observable<Void>
     }
     
     struct Output {
-        let cellData: Driver<[BookData]>
+        let cellData: Observable<[BookData]>
     }
     
     func transform(input: Input) -> Output {
@@ -44,7 +42,7 @@ class MainViewModel: NSObject {
         
         return Output(
             cellData: self.nowCellData
-                .asDriver(onErrorDriveWith: .empty())
+                .asObservable()
         )
     }
     

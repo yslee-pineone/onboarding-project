@@ -11,9 +11,8 @@ import RxCocoa
 import NSObject_Rx
 
 class DetailViewModel: NSObject {
-    let bookID: String
-    
-    let nowBookData = BehaviorRelay<BookData>(
+    private let bookID: String
+    private let nowBookData = BehaviorRelay<BookData>(
         value: .init(
             error: DefaultMSG.Detail.loading, 
             mainTitle: DefaultMSG.Detail.loading,
@@ -25,18 +24,16 @@ class DetailViewModel: NSObject {
         )
     )
     
-    let errorTitle = PublishSubject<String>()
-    
-    let bag = DisposeBag()
+    private let errorTitle = PublishSubject<String>()
     
     struct Input {
         let didDisappearMemoContents: Observable<String>
     }
-    
+     
     struct Output {
-        let bookData: Driver<BookData>
-        let memoData: Driver<String>
-        let errorMSG: Driver<String>
+        let bookData: Observable<BookData>
+        let memoData: Observable<String>
+        let errorMSG: Observable<String>
     }
     
     func transform(input: Input) -> Output {
@@ -51,22 +48,22 @@ class DetailViewModel: NSObject {
                 guard let self = self else {return}
                 self.errorTitle.onNext(networkingError?.errorMSG ??  NetworkingError.defaultErrorMSG)
             })
-            .disposed(by: bag)
+            .disposed(by: rx.disposeBag)
         
         input.didDisappearMemoContents
             .withUnretained(self)
             .subscribe(onNext: { viewModel, contents in
                 UserDefaultService.memoSave(bookID: viewModel.bookID, contents: contents)
             })
-            .disposed(by: bag)
+            .disposed(by: rx.disposeBag)
         
         return Output(
             bookData: nowBookData
-                .asDriver(onErrorDriveWith: .empty()),
+                .asObservable(),
             memoData: UserDefaultService.memoRequest(bookID: bookID)
-                .asDriver(onErrorJustReturn: ""),
+                .asObservable(),
             errorMSG: errorTitle
-                .asDriver(onErrorDriveWith: .empty())
+                .asObservable()
         )
     }
     

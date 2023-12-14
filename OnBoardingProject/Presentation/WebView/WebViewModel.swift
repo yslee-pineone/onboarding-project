@@ -10,16 +10,16 @@ import RxSwift
 import RxCocoa
 
 class WebViewModel {
-    let bookTitle: String
-    let bookURL: URL?
+    private let bookTitle: String
+    private let bookURL: URL?
     
     struct Input {
         
     }
     
     struct Output {
-        let loadingURL: Driver<URL?>
-        let title: Driver<String>
+        let loadingURL: Observable<URL?>
+        let title: Observable<String>
     }
     
     func transform(input: Input) -> Output {

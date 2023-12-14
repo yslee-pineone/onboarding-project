@@ -12,12 +12,12 @@ import RxCocoa
 import NSObject_Rx
 
 class DetailViewController: UIViewController {
-    lazy var scrollView = UIScrollView()
-    lazy var detailView = DetailView()
-    lazy var loadingView: DetailLoadingView? = DetailLoadingView()
+    private lazy var scrollView = UIScrollView()
+    fileprivate lazy var detailView = DetailView()
+    fileprivate lazy var loadingView: DetailLoadingView? = DetailLoadingView()
     
-    let viewModel: DetailViewModel
-    let didDisappear = PublishSubject<String>()
+    private let viewModel: DetailViewModel
+    private let didDisappear = PublishSubject<String>()
     
     init(
         viewModel: DetailViewModel
@@ -112,25 +112,25 @@ class DetailViewController: UIViewController {
         let output = viewModel.transform(input: input)
         
         output.errorMSG
-            .drive(rx.errorPopup)
+            .bind(to: rx.errorPopup)
             .disposed(by: rx.disposeBag)
         
         let dataFilter = output.bookData
             .filter {$0.bookID != DefaultMSG.Detail.loading}
         
         dataFilter
-            .drive(rx.viewDataSet)
+            .bind(to: rx.viewDataSet)
             .disposed(by: rx.disposeBag)
         
         dataFilter
             .map {_ in Void()}
-            .drive(rx.loadingEnd)
+            .bind(to: rx.loadingEnd)
             .disposed(by: rx.disposeBag)
         
         dataFilter
             .withLatestFrom(output.memoData)
             .filter {$0 != DefaultMSG.Detail.memoPlaceHolder}
-            .drive(rx.memoSet)
+            .bind(to: rx.memoSet)
             .disposed(by: rx.disposeBag)
         
         detailView.infoView.urlTitle.rx.tap

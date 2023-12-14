@@ -17,7 +17,7 @@ class TabbarController: UITabBarController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func tabbarSet() {
+    private func tabbarSet() {
         let navigations = TabbarCategory.allCases.map { [weak self] category in
             self?.createNavigationController(category: category) ?? UINavigationController()
         }
@@ -25,11 +25,11 @@ class TabbarController: UITabBarController {
         setViewControllers(navigations, animated: true)
     }
     
-    func createTabbarItem(category: TabbarCategory) -> UITabBarItem {
+    private  func createTabbarItem(category: TabbarCategory) -> UITabBarItem {
         UITabBarItem(title: category.title, image: category.icon, tag: category.number)
     }
     
-    func createNavigationController(category: TabbarCategory) -> UINavigationController {
+    private  func createNavigationController(category: TabbarCategory) -> UINavigationController {
         let navigationController = UINavigationController()
         navigationController.tabBarItem = createTabbarItem(category: category)
         
