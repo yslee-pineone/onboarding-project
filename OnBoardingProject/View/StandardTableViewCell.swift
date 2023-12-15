@@ -34,10 +34,10 @@ class StandardTableViewCell: UITableViewCell {
         $0.layer.cornerRadius = 16
         $0.sideCornerRound([.layerMinXMaxYCorner, .layerMaxXMaxYCorner])
         $0.layoutMargins = UIEdgeInsets(
-            top: PaddingStyle.standard,
-            left: PaddingStyle.standard,
-            bottom: PaddingStyle.standard,
-            right: PaddingStyle.standard
+            top: 12,
+            left: 12,
+            bottom: 12,
+            right: 12
         )
         $0.isLayoutMarginsRelativeArrangement = true
         $0.backgroundColor = .systemGray5
@@ -96,14 +96,14 @@ class StandardTableViewCell: UITableViewCell {
     private func layout() {
         contentView.addSubview(mainView)
         mainView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview().inset(PaddingStyle.big)
-            $0.top.bottom.equalToSuperview().inset(PaddingStyle.standard)
+            $0.leading.trailing.equalToSuperview().inset(24)
+            $0.top.bottom.equalToSuperview().inset(12)
         }
         
         mainView.addSubviews([bookImageView, stackView, browserIcon])
         
         bookImageView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(PaddingStyle.standard)
+            $0.top.equalToSuperview().inset(12)
             $0.centerX.equalToSuperview()
             $0.width.equalTo(120)
             $0.height.equalTo(160)
@@ -111,20 +111,20 @@ class StandardTableViewCell: UITableViewCell {
         
         stackView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
-            $0.top.equalTo(bookImageView.snp.bottom).offset(PaddingStyle.standard)
+            $0.top.equalTo(bookImageView.snp.bottom).offset(12)
             $0.bottom.equalToSuperview()
         }
         
         browserIcon.snp.makeConstraints {
             $0.width.equalTo(30)
             $0.height.equalTo(30)
-            $0.top.trailing.equalToSuperview().inset(PaddingStyle.standard)
+            $0.top.trailing.equalToSuperview().inset(12)
         }
         
         stackView.addArrangedSubviews([mainTitle, subTitle, idTitle, priceTitle])
         
         mainView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(PaddingStyle.standard)
+            $0.top.equalToSuperview().inset(12)
         }
     }
     

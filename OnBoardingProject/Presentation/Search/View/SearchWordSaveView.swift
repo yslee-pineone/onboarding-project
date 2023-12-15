@@ -47,20 +47,20 @@ class SearchWordSaveView: UIView {
     private func layout() {
         addSubviews([collectionView, editBtn, doneBtn])
         editBtn.snp.makeConstraints {
-            $0.trailing.equalToSuperview().inset(PaddingStyle.big)
+            $0.trailing.equalToSuperview().inset(24)
             $0.top.bottom.equalToSuperview()
             $0.width.equalTo(28)
         }
         
         doneBtn.snp.makeConstraints {
-            $0.trailing.equalToSuperview().inset(PaddingStyle.big)
+            $0.trailing.equalToSuperview().inset(24)
             $0.top.bottom.equalToSuperview()
             $0.width.equalTo(28)
         }
         
         collectionView.snp.makeConstraints {
             $0.leading.top.bottom.equalToSuperview()
-            $0.trailing.equalTo(editBtn.snp.leading).offset(-PaddingStyle.standard)
+            $0.trailing.equalTo(editBtn.snp.leading).offset(-12)
         }
         
         collectionView.addSubview(titleLabel)

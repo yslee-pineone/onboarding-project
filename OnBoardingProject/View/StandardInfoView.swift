@@ -65,7 +65,7 @@ class StandardInfoView: UIView {
     private func layout() {
         addSubview(stackView)
         stackView.snp.makeConstraints {
-            $0.edges.equalToSuperview().inset(PaddingStyle.standard)
+            $0.edges.equalToSuperview().inset(12)
         }
         
         stackView.addArrangedSubviews([mainTitle, subTitle, idTitle, priceTitle, urlTitle])

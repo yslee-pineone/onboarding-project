@@ -28,7 +28,7 @@ class WebView: WKWebView {
         addSubview(loadingIcon)
         loadingIcon.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.centerY.equalToSuperview().offset(-PaddingStyle.big)
+            $0.centerY.equalToSuperview().offset(-24)
         }
     }
 }

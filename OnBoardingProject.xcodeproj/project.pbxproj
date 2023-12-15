@@ -22,7 +22,6 @@
 		C3DCAF272B1EBF4800CF40B9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3DCAF262B1EBF4800CF40B9 /* Assets.xcassets */; };
 		C3DCAF2A2B1EBF4800CF40B9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3DCAF282B1EBF4800CF40B9 /* LaunchScreen.storyboard */; };
 		C3EE7DD02B1ED54500DC64A1 /* FontStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7DCF2B1ED54500DC64A1 /* FontStyle.swift */; };
-		C3EE7DD22B1ED57300DC64A1 /* PaddingStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7DD12B1ED57300DC64A1 /* PaddingStyle.swift */; };
 		C3EE7DD62B1ED5B400DC64A1 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7DD52B1ED5B400DC64A1 /* MainViewController.swift */; };
 		C3EE7DDB2B1ED5D200DC64A1 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7DDA2B1ED5D200DC64A1 /* MainViewModel.swift */; };
 		C3EE7DF02B1EDCEA00DC64A1 /* TabbarCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EE7DEF2B1EDCEA00DC64A1 /* TabbarCategory.swift */; };
@@ -73,7 +72,6 @@
 		C3DCAF292B1EBF4800CF40B9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C3DCAF2B2B1EBF4800CF40B9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C3EE7DCF2B1ED54500DC64A1 /* FontStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontStyle.swift; sourceTree = "<group>"; };
-		C3EE7DD12B1ED57300DC64A1 /* PaddingStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingStyle.swift; sourceTree = "<group>"; };
 		C3EE7DD52B1ED5B400DC64A1 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		C3EE7DDA2B1ED5D200DC64A1 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		C3EE7DEF2B1EDCEA00DC64A1 /* TabbarCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarCategory.swift; sourceTree = "<group>"; };
@@ -239,7 +237,6 @@
 			children = (
 				C3EE7DCF2B1ED54500DC64A1 /* FontStyle.swift */,
 				C3EE7E482B2060C700DC64A1 /* DefaultMSG.swift */,
-				C3EE7DD12B1ED57300DC64A1 /* PaddingStyle.swift */,
 				C3DCAF262B1EBF4800CF40B9 /* Assets.xcassets */,
 			);
 			path = Resource;
@@ -495,7 +492,6 @@
 				C3EE80642B2848F00028BE3B /* SearchWordSaveViewCell.swift in Sources */,
 				C3EE7E392B203C7300DC64A1 /* SearchViewModel.swift in Sources */,
 				C32DE17D2B269D2E007DAC84 /* WebView.swift in Sources */,
-				C3EE7DD22B1ED57300DC64A1 /* PaddingStyle.swift in Sources */,
 				C3EE7E2D2B1FFFDF00DC64A1 /* BookData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

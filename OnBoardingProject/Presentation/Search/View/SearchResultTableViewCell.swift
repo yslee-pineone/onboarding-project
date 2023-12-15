@@ -46,14 +46,14 @@ class SearchResultTableViewCell: UITableViewCell {
         contentView.addSubviews([bookImageView, infoView])
         
         bookImageView.snp.makeConstraints {
-            $0.leading.top.equalToSuperview().inset(PaddingStyle.standard)
+            $0.leading.top.equalToSuperview().inset(12)
             $0.width.equalTo(100)
             $0.height.equalTo(140)
         }
         
         infoView.snp.makeConstraints {
-            $0.leading.equalTo(self.bookImageView.snp.trailing).offset(PaddingStyle.standard)
-            $0.top.bottom.trailing.equalToSuperview().inset(PaddingStyle.standard)
+            $0.leading.equalTo(self.bookImageView.snp.trailing).offset(12)
+            $0.top.bottom.trailing.equalToSuperview().inset(12)
         }
     }
     

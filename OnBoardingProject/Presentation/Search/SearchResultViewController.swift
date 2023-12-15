@@ -37,7 +37,7 @@ class SearchResultViewController: UITableViewController {
         tableView.addSubview(noSearchListLabel)
         noSearchListLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview().inset(PaddingStyle.big)
+            $0.top.equalToSuperview().inset(24)
         }
     }
 }

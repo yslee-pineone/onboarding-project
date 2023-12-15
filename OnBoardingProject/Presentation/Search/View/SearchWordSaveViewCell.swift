@@ -55,8 +55,8 @@ class SearchWordSaveViewCell: UICollectionViewCell {
     private func layout() {
         contentView.addSubviews([mainBG, deleteBtn])
         mainBG.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview().inset(PaddingStyle.standard)
-            $0.leading.trailing.equalToSuperview().inset(PaddingStyle.big)
+            $0.top.bottom.equalToSuperview().inset(12)
+            $0.leading.trailing.equalToSuperview().inset(24)
         }
         
         deleteBtn.snp.makeConstraints {
@@ -66,8 +66,8 @@ class SearchWordSaveViewCell: UICollectionViewCell {
         
         mainBG.addSubview(titleLabel)
         titleLabel.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview().inset(PaddingStyle.standardHalf)
-            $0.leading.trailing.equalToSuperview().inset(PaddingStyle.big)
+            $0.top.bottom.equalToSuperview().inset(6)
+            $0.leading.trailing.equalToSuperview().inset(24)
         }
     }
     

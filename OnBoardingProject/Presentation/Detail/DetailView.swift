@@ -51,7 +51,7 @@ class DetailView: UIView {
         
         backGroundView.snp.makeConstraints {
             $0.leading.trailing.equalTo(safeAreaLayoutGuide)
-            $0.top.equalTo(safeAreaLayoutGuide).inset(PaddingStyle.standard)
+            $0.top.equalTo(safeAreaLayoutGuide).inset(12)
             $0.height.equalTo(220)
         }
         
@@ -63,20 +63,20 @@ class DetailView: UIView {
         }
         
         infoView.snp.makeConstraints {
-            $0.top.equalTo(backGroundView.snp.bottom).offset(PaddingStyle.standardHalf)
-            $0.leading.trailing.equalToSuperview().inset(PaddingStyle.standard)
+            $0.top.equalTo(backGroundView.snp.bottom).offset(6)
+            $0.leading.trailing.equalToSuperview().inset(12)
         }
         
         borderView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.leading.trailing.equalTo(infoView).inset(PaddingStyle.standardHalf)
+            $0.leading.trailing.equalTo(infoView).inset(6)
             $0.height.equalTo(1)
-            $0.top.equalTo(infoView.snp.bottom).offset(PaddingStyle.standardHalf)
+            $0.top.equalTo(infoView.snp.bottom).offset(6)
         }
         
         memoInput.snp.makeConstraints {
-            $0.leading.trailing.bottom.equalTo(safeAreaLayoutGuide).inset(PaddingStyle.standard)
-            $0.top.equalTo(borderView.snp.bottom).offset(PaddingStyle.standardPlus)
+            $0.leading.trailing.bottom.equalTo(safeAreaLayoutGuide).inset(12)
+            $0.top.equalTo(borderView.snp.bottom).offset(18)
         }
     }
     

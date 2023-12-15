@@ -83,7 +83,7 @@ class DetailViewController: UIViewController {
         detailView.addSubview(loadingView)
         loadingView.snp.makeConstraints {
             $0.bottom.leading.trailing.equalToSuperview()
-            $0.top.equalToSuperview().inset(PaddingStyle.standard)
+            $0.top.equalToSuperview().inset(12)
         }
     }
     
