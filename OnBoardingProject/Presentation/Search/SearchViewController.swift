@@ -21,7 +21,7 @@ class SearchViewController: UIViewController {
         $0.tableHeaderView = searchWordSaveView
         $0.separatorStyle = .none
         $0.rowHeight = UITableView.automaticDimension
-        $0.register(StandardTableViewCell.self, forCellReuseIdentifier: StandardTableViewCell.id)
+        $0.register(cellType: StandardTableViewCell.self)
         $0.backgroundColor = .systemBackground
     }
     
@@ -110,7 +110,7 @@ class SearchViewController: UIViewController {
         let output = viewModel.transform(input: input)
         output.cellData
             .bind(to: searchResultViewController.tableView.rx.items(
-                cellIdentifier: SearchResultTableViewCell.id,
+                cellIdentifier: SearchResultTableViewCell.reuseIdentifier,
                 cellType: SearchResultTableViewCell.self
             )) { row, data, cell in
                 cell.cellDataSet(data: data)
@@ -133,7 +133,7 @@ class SearchViewController: UIViewController {
         output.cellData
             .filter {!$0.isEmpty}
             .bind(to: tableView.rx.items(
-                cellIdentifier: StandardTableViewCell.id,
+                cellIdentifier: StandardTableViewCell.reuseIdentifier,
                 cellType: StandardTableViewCell.self
             )) { row, data, cell in
                 cell.cellDataSet(data: data)
@@ -151,7 +151,7 @@ class SearchViewController: UIViewController {
         let dataSources = RxCollectionViewSectionedReloadDataSource<SearchKeywordSection>(
             configureCell: { dataSources, collectionView, index, data in
                 guard let cell = collectionView.dequeueReusableCell(
-                    withReuseIdentifier: SearchWordSaveViewCell.id,
+                    withReuseIdentifier: SearchWordSaveViewCell.reuseIdentifier,
                     for: index
                 ) as? SearchWordSaveViewCell else {return UICollectionViewCell()}
                 

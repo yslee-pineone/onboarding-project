@@ -26,7 +26,7 @@ class SearchResultViewController: UITableViewController {
     }
     
     private func attirbute() {
-        tableView.register(SearchResultTableViewCell.self, forCellReuseIdentifier: SearchResultTableViewCell.id)
+        tableView.register(cellType: SearchResultTableViewCell.self)
         tableView.rowHeight = UITableView.automaticDimension
         tableView.backgroundColor = .systemBackground
         tableView.delegate = nil

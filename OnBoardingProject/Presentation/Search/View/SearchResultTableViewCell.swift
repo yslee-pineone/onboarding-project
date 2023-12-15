@@ -10,10 +10,9 @@ import SnapKit
 import Then
 import Kingfisher
 import RxSwift
+import Reusable
 
-class SearchResultTableViewCell: UITableViewCell {
-    static let id = "SearchResultTableViewCell"
-    
+class SearchResultTableViewCell: UITableViewCell, Reusable {
     private lazy var bookImageView = UIImageView().then {
         $0.contentMode = .scaleToFill
     }

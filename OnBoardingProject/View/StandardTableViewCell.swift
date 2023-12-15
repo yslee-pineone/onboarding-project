@@ -10,10 +10,9 @@ import SnapKit
 import Then
 import Kingfisher
 import RxSwift
+import Reusable
 
-class StandardTableViewCell: UITableViewCell {
-    static let id = "StandardTableViewCell"
-    
+class StandardTableViewCell: UITableViewCell, Reusable {
     private lazy var mainView = UIView().then {
         $0.layer.cornerRadius = 16
         $0.backgroundColor = .systemGray6

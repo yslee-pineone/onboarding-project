@@ -61,7 +61,7 @@ class MainViewController: UIViewController {
         let output = viewModel.transform(input: input)
         output.cellData
             .bind(to: tableView.rx.items(
-                cellIdentifier: StandardTableViewCell.id,
+                cellIdentifier: StandardTableViewCell.reuseIdentifier,
                 cellType: StandardTableViewCell.self
             )) { row, data, cell in
                 cell.cellDataSet(data: data)

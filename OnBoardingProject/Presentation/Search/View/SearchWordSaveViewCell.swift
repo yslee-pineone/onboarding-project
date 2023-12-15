@@ -9,10 +9,9 @@ import UIKit
 import Then
 import SnapKit
 import RxSwift
+import Reusable
 
-class SearchWordSaveViewCell: UICollectionViewCell {
-    static let id = "SearchwordSaveViewCell"
-    
+class SearchWordSaveViewCell: UICollectionViewCell, Reusable {
     private lazy var mainBG = UIView().then {
         $0.layer.cornerRadius = 16
         $0.backgroundColor = .systemGray5

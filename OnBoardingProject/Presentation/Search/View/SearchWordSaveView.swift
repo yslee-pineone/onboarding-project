@@ -12,7 +12,7 @@ import SnapKit
 class SearchWordSaveView: UIView {
     lazy var collectionView = UICollectionView(frame: .null, collectionViewLayout: UICollectionViewLayout()).then {
         $0.collectionViewLayout = collectionViewLayout()
-        $0.register(SearchWordSaveViewCell.self, forCellWithReuseIdentifier: SearchWordSaveViewCell.id)
+        $0.register(cellType: SearchWordSaveViewCell.self)
         $0.backgroundColor = .systemBackground
     }
     

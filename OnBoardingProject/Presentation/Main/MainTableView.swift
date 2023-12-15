@@ -37,7 +37,7 @@ class MainTableView: UITableView {
         
         separatorStyle = .none
         rowHeight = UITableView.automaticDimension
-        register(StandardTableViewCell.self, forCellReuseIdentifier: StandardTableViewCell.id)
+        register(cellType: StandardTableViewCell.self)
         backgroundColor = .systemBackground
         refreshControl = refresh
     }
