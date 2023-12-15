@@ -44,10 +44,10 @@ class DetailViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
-        detailView.memoInput.resignFirstResponder()
         actionRelay
             .accept(.didDisappearMemoContents(memo: detailView.memoInput.text))
         NotificationCenter.default.removeObserver(self)
+        detailView.memoInput.resignFirstResponder()
     }
     
     private func attribute() {

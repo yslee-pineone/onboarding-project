@@ -13,11 +13,11 @@ import RxCocoa
 import NSObject_Rx
 
 class MainTableView: UITableView {
-    lazy var refresh = UIRefreshControl().then {
+    fileprivate lazy var refresh = UIRefreshControl().then {
         $0.tintColor = .label
     }
     
-    lazy var noSearchListLabel = UILabel().then {
+    fileprivate lazy var noSearchListLabel = UILabel().then {
         $0.textColor = .systemGray4
         $0.isHidden = true
         $0.font = UIFont.systemFont(ofSize: FontStyle.mid, weight: .semibold)

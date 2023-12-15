@@ -28,7 +28,6 @@ class DetailViewModel: NSObject {
             urlString: DefaultMSG.Detail.loading
         )
     )
-    
     private let errorTitle = PublishSubject<String>()
     
     struct Input {

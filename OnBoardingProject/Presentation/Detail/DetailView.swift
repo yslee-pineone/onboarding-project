@@ -20,11 +20,11 @@ class DetailView: UIView {
         $0.backgroundColor = .systemGray4
     }
     
-    lazy var bookImageView = UIImageView().then {
+    fileprivate lazy var bookImageView = UIImageView().then {
         $0.contentMode = .scaleToFill
     }
     
-    lazy var infoView = StandardInfoView()
+    fileprivate lazy var infoView = StandardInfoView()
     
     private lazy var borderView = UIView().then {
         $0.backgroundColor = .systemGray4
