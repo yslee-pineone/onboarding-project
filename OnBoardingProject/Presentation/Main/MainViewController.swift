@@ -15,7 +15,9 @@ import NSObject_Rx
 class MainViewController: UIViewController {
     fileprivate lazy var tableView = MainTableView()
     
-    private let viewModel: MainViewModel
+    typealias ViewModel = MainViewModel
+    private let viewModel: ViewModel
+    private let actionRelay = PublishRelay<MainViewActionType>()
     
     init(
         viewModel: MainViewModel
@@ -50,88 +52,47 @@ class MainViewController: UIViewController {
     }
     
     private func bind() {
-        let cellBrowerIconTap = PublishSubject<BookData>()
-        
         let input = MainViewModel.Input(
-            refreshEvent: tableView.refresh.rx.controlEvent(.valueChanged)
-                .startWith(Void())
-                .asObservable()
+            actionTrigger: actionRelay.asObservable()
         )
-        
         let output = viewModel.transform(input: input)
-        output.cellData
-            .bind(to: tableView.rx.items(
-                cellIdentifier: StandardTableViewCell.reuseIdentifier,
-                cellType: StandardTableViewCell.self
-            )) { row, data, cell in
-                cell.cellDataSet(data: data)
-                
-                cell.browserIcon.rx.tap
-                    .withLatestFrom(
-                        Observable<BookData>
-                            .just(data)
+        
+        tableView
+            .setupDI(relay: actionRelay)
+            .setupDI(observable: output.cellData)
+        
+        // RxFlow 적용 전 임시
+        actionRelay
+            .withUnretained(self)
+            .subscribe(onNext: { vc, data in
+                switch data {
+                case .browserIconTap(let bookdData):
+                    let viewModel = WebViewModel(
+                        title: bookdData.mainTitle,
+                        bookURL: bookdData.bookURL
                     )
-                    .bind(to: cellBrowerIconTap)
-                    .disposed(by: cell.bag)
-            }
+                    let webViewController = WebViewController(viewModel: viewModel)
+                    webViewController.hidesBottomBarWhenPushed = true
+                    
+                    vc.navigationController?.pushViewController(
+                        webViewController,
+                        animated: true
+                    )
+                    
+                case .cellTap(let id):
+                    let viewModel = DetailViewModel(id: id)
+                    let detailViewController = DetailViewController(viewModel: viewModel)
+                    detailViewController.hidesBottomBarWhenPushed = true
+                    
+                    vc.navigationController?.pushViewController(
+                        detailViewController,
+                        animated: true
+                    )
+                    
+                default:
+                    break
+                }
+            })
             .disposed(by: rx.disposeBag)
-        
-        output.cellData
-            .map {_ in}
-            .bind(to: rx.refreshEnd)
-            .disposed(by: rx.disposeBag)
-        
-        output.cellData
-            .map {!$0.isEmpty}
-            .skip(1)
-            .bind(to: tableView.noSearchListLabel.rx.isHidden)
-            .disposed(by: rx.disposeBag)
-        
-        tableView.rx.modelSelected(BookData.self)
-            .map {$0.bookID}
-            .subscribe(rx.detailViewControllerPush)
-            .disposed(by: rx.disposeBag)
-        
-        cellBrowerIconTap
-            .bind(to: rx.webViewControllerPush)
-            .disposed(by: rx.disposeBag)
-    }
-}
-
-extension Reactive where Base: MainViewController {
-    var refreshEnd: Binder<Void> {
-        return Binder(base) { base, _ in
-            base.tableView.refresh.endRefreshing()
-        }
-    }
-    
-    var detailViewControllerPush: Binder<String> {
-        return Binder(base) { base, id in
-            let viewModel = DetailViewModel(id: id)
-            let detailViewController = DetailViewController(viewModel: viewModel)
-            detailViewController.hidesBottomBarWhenPushed = true
-            
-            base.navigationController?.pushViewController(
-                detailViewController,
-                animated: true
-            )
-        }
-    }
-    
-    var webViewControllerPush: Binder<BookData> {
-        return Binder(base) { base, data in
-            let viewModel = WebViewModel(
-                title: data.mainTitle,
-                bookURL: data.bookURL
-            )
-            let webViewController = WebViewController(viewModel: viewModel)
-            
-            webViewController.hidesBottomBarWhenPushed = true
-            
-            base.navigationController?.pushViewController(
-                webViewController,
-                animated: true
-            )
-        }
     }
 }

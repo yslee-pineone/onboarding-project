@@ -10,11 +10,17 @@ import RxSwift
 import RxCocoa
 import NSObject_Rx
 
+enum MainViewActionType {
+    case refreshEvent
+    case browserIconTap(book: BookData)
+    case cellTap(bookID: String)
+}
+
 class MainViewModel: NSObject {
     private let nowCellData = BehaviorRelay<[BookData]>(value: [])
     
     struct Input {
-        let refreshEvent: Observable<Void>
+        let actionTrigger: Observable<MainViewActionType>
     }
     
     struct Output {
@@ -22,22 +28,8 @@ class MainViewModel: NSObject {
     }
     
     func transform(input: Input) -> Output {
-        input.refreshEvent
-            .withUnretained(self)
-            .flatMap { viewModel, _ in
-                BookListLoad.newBookListRequest()
-            }
-            .withUnretained(self)
-            .subscribe(onNext: { viewModel, data in
-                if case .success(let value) = data {
-                    viewModel.nowCellData.accept(value)
-                }
-                
-                if case .failure(let error) = data {
-                    viewModel.nowCellData.accept([])
-                    print(error)
-                }
-            })
+        input.actionTrigger
+            .bind(onNext: actionProcess)
             .disposed(by: rx.disposeBag)
         
         return Output(
@@ -46,8 +38,32 @@ class MainViewModel: NSObject {
         )
     }
     
+    private func actionProcess(_ type: MainViewActionType) {
+        switch type {
+        case .refreshEvent:
+            BookListLoad.newBookListRequest()
+                .asObservable()
+                .withUnretained(self)
+                .subscribe(onNext: { viewModel, data in
+                    if case .success(let value) = data {
+                        viewModel.nowCellData.accept(value)
+                    }
+                    
+                    if case .failure(let error) = data {
+                        viewModel.nowCellData.accept([])
+                        print(error)
+                    }
+                })
+                .disposed(by: rx.disposeBag)
+        case .browserIconTap(let bookData):
+            break
+        case .cellTap(let bookID):
+            break
+        }
+    }
+    
     override init(
-      
+        
     ) {
         
     }
