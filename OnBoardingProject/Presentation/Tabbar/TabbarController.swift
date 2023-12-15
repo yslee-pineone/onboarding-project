@@ -25,13 +25,9 @@ class TabbarController: UITabBarController {
         setViewControllers(navigations, animated: true)
     }
     
-    private  func createTabbarItem(category: TabbarCategory) -> UITabBarItem {
-        UITabBarItem(title: category.title, image: category.icon, tag: category.number)
-    }
-    
     private  func createNavigationController(category: TabbarCategory) -> UINavigationController {
         let navigationController = UINavigationController()
-        navigationController.tabBarItem = createTabbarItem(category: category)
+        navigationController.tabBarItem = UITabBarItem(title: category.title, image: category.icon, tag: category.number)
         
         switch category {
         case .new:
