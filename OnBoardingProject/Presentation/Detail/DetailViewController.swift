@@ -14,10 +14,9 @@ import NSObject_Rx
 class DetailViewController: UIViewController {
     private lazy var scrollView = UIScrollView()
     fileprivate lazy var detailView = DetailView()
-    fileprivate lazy var loadingView: DetailLoadingView? = DetailLoadingView()
     
     private let viewModel: DetailViewModel
-    private let didDisappear = PublishSubject<String>()
+    private let actionRelay = PublishRelay<DetailViewActionType>()
     
     init(
         viewModel: DetailViewModel
@@ -46,7 +45,8 @@ class DetailViewController: UIViewController {
         super.viewDidDisappear(animated)
         
         detailView.memoInput.resignFirstResponder()
-        didDisappear.onNext(detailView.memoInput.text)
+        actionRelay
+            .accept(.didDisappearMemoContents(memo: detailView.memoInput.text))
         NotificationCenter.default.removeObserver(self)
     }
     
@@ -77,14 +77,6 @@ class DetailViewController: UIViewController {
         detailView.snp.makeConstraints {
             $0.edges.width.height.equalToSuperview()
         }
-        
-        guard let loadingView = self.loadingView else {return}
-        
-        detailView.addSubview(loadingView)
-        loadingView.snp.makeConstraints {
-            $0.bottom.leading.trailing.equalToSuperview()
-            $0.top.equalToSuperview().inset(12)
-        }
     }
     
     private func toolBarSet() {
@@ -105,37 +97,39 @@ class DetailViewController: UIViewController {
     
     private func bind() {
         let input = DetailViewModel.Input(
-            didDisappearMemoContents: didDisappear
-                .asObservable()
+            actionTrigger: actionRelay.asObservable()
         )
-        
         let output = viewModel.transform(input: input)
         
+        detailView
+            .setupDI(relay: actionRelay)
+            .setupDI(observable: output.bookData)
+            .setupDI(memoData: output.memoData)
+        
+        // RxFlow 전 임시
         output.errorMSG
             .bind(to: rx.errorPopup)
             .disposed(by: rx.disposeBag)
         
-        let dataFilter = output.bookData
-            .filter {$0.bookID != DefaultMSG.Detail.loading}
-        
-        dataFilter
-            .bind(to: rx.viewDataSet)
-            .disposed(by: rx.disposeBag)
-        
-        dataFilter
-            .map {_ in Void()}
-            .bind(to: rx.loadingEnd)
-            .disposed(by: rx.disposeBag)
-        
-        dataFilter
-            .withLatestFrom(output.memoData)
-            .filter {$0 != DefaultMSG.Detail.memoPlaceHolder}
-            .bind(to: rx.memoSet)
-            .disposed(by: rx.disposeBag)
-        
-        detailView.infoView.urlTitle.rx.tap
-            .withLatestFrom(output.bookData)
-            .bind(to: rx.webViewControllerPush)
+        actionRelay
+            .withUnretained(self)
+            .subscribe(onNext: { vc, data in
+                if case .browserIconTap(let bookData) = data {
+                    guard let bookData = bookData else {return}
+                    let viewModel = WebViewModel(
+                        title: bookData.mainTitle,
+                        bookURL: bookData.bookURL
+                    )
+                    let webViewController = WebViewController(viewModel: viewModel)
+                    
+                    webViewController.hidesBottomBarWhenPushed = true
+                    
+                    vc.navigationController?.pushViewController(
+                        webViewController,
+                        animated: true
+                    )
+                }
+            })
             .disposed(by: rx.disposeBag)
     }
     
@@ -182,56 +176,6 @@ class DetailViewController: UIViewController {
 }
 
 extension Reactive where Base: DetailViewController {
-    var viewDataSet: Binder<BookData> {
-        return Binder(base) { base, data in
-            base.detailView.infoView.infoViewDataSet(data)
-            
-            if data.urlString != DefaultMSG.Detail.loading {
-                base.detailView.bookImageView.kf.setImage(with: data.imageURL)
-            }
-        }
-    }
-    
-    var memoSet: Binder<String> {
-        return Binder(base) { base, memoContents in
-            if memoContents != "" {
-                base.detailView.memoInput.text = memoContents
-                base.detailView.memoInput.textColor = .label
-            }
-        }
-    }
-    
-    var loadingEnd: Binder<Void> {
-        return Binder(base) { base, _ in
-            UIView.animate(
-                withDuration: 0.2,
-                animations: {
-                    base.loadingView?.alpha = 0
-                }, completion: { _ in
-                    base.loadingView?.removeFromSuperview()
-                    base.loadingView = nil
-                }
-            )
-        }
-    }
-    
-    var webViewControllerPush: Binder<BookData> {
-        return Binder(base) { base, data in
-            let viewModel = WebViewModel(
-                title: data.mainTitle,
-                bookURL: data.bookURL
-            )
-            let webViewController = WebViewController(viewModel: viewModel)
-            
-            webViewController.hidesBottomBarWhenPushed = true
-            
-            base.navigationController?.pushViewController(
-                webViewController,
-                animated: true
-            )
-        }
-    }
-    
     var errorPopup: Binder<String> {
         return Binder(base) { base, msg in
             let alertController = UIAlertController(title: msg, message: "", preferredStyle: .alert)

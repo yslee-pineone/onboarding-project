@@ -10,11 +10,16 @@ import RxSwift
 import RxCocoa
 import NSObject_Rx
 
+enum DetailViewActionType {
+    case didDisappearMemoContents(memo: String)
+    case browserIconTap(book: BookData?)
+}
+
 class DetailViewModel: NSObject {
     private let bookID: String
     private let nowBookData = BehaviorRelay<BookData>(
         value: .init(
-            error: DefaultMSG.Detail.loading, 
+            error: DefaultMSG.Detail.loading,
             mainTitle: DefaultMSG.Detail.loading,
             subTitle: DefaultMSG.Detail.loading,
             bookID: DefaultMSG.Detail.loading,
@@ -27,9 +32,9 @@ class DetailViewModel: NSObject {
     private let errorTitle = PublishSubject<String>()
     
     struct Input {
-        let didDisappearMemoContents: Observable<String>
+        let actionTrigger: Observable<DetailViewActionType>
     }
-     
+    
     struct Output {
         let bookData: Observable<BookData>
         let memoData: Observable<String>
@@ -50,11 +55,8 @@ class DetailViewModel: NSObject {
             })
             .disposed(by: rx.disposeBag)
         
-        input.didDisappearMemoContents
-            .withUnretained(self)
-            .subscribe(onNext: { viewModel, contents in
-                UserDefaultService.memoSave(bookID: viewModel.bookID, contents: contents)
-            })
+        input.actionTrigger
+            .bind(onNext: actionProcess)
             .disposed(by: rx.disposeBag)
         
         return Output(
@@ -66,6 +68,18 @@ class DetailViewModel: NSObject {
             errorMSG: errorTitle
                 .asObservable()
         )
+    }
+    
+    private func actionProcess(_ actionType: DetailViewActionType) {
+        switch actionType {
+        case .browserIconTap(let bookID):
+            break
+        case .didDisappearMemoContents(let contents):
+            UserDefaultService.memoSave(
+                bookID: bookID,
+                contents: contents == DefaultMSG.Detail.memoPlaceHolder ? "" : contents
+            )
+        }
     }
     
     init(
