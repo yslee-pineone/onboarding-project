@@ -109,12 +109,10 @@ class SearchViewController: UIViewController {
         
         let output = viewModel.transform(input: input)
         output.cellData
-            .bind(to: searchResultViewController.tableView.rx.items) { tableView, row, data in
-                guard let cell = tableView.dequeueReusableCell(
-                    withIdentifier: SearchResultTableViewCell.id,
-                    for: IndexPath(row: row, section: 0)) as? SearchResultTableViewCell
-                else {return UITableViewCell()}
-                
+            .bind(to: searchResultViewController.tableView.rx.items(
+                cellIdentifier: SearchResultTableViewCell.id,
+                cellType: SearchResultTableViewCell.self
+            )) { row, data, cell in
                 cell.cellDataSet(data: data)
                 
                 cell.infoView.urlTitle.rx.tap
@@ -124,8 +122,6 @@ class SearchViewController: UIViewController {
                     )
                     .bind(to: cellBrowerIconTap)
                     .disposed(by: cell.bag)
-                
-                return cell
             }
             .disposed(by: rx.disposeBag)
         
@@ -136,12 +132,10 @@ class SearchViewController: UIViewController {
         
         output.cellData
             .filter {!$0.isEmpty}
-            .bind(to: tableView.rx.items) { tableView, row, data in
-                guard let cell = tableView.dequeueReusableCell(
-                    withIdentifier: StandardTableViewCell.id,
-                    for: IndexPath(row: row, section: 0)) as? StandardTableViewCell
-                else {return UITableViewCell()}
-                
+            .bind(to: tableView.rx.items(
+                cellIdentifier: StandardTableViewCell.id,
+                cellType: StandardTableViewCell.self
+            )) { row, data, cell in
                 cell.cellDataSet(data: data)
                 
                 cell.browserIcon.rx.tap
@@ -151,8 +145,6 @@ class SearchViewController: UIViewController {
                     )
                     .bind(to: cellBrowerIconTap)
                     .disposed(by: cell.bag)
-                
-                return cell
             }
             .disposed(by: rx.disposeBag)
         
