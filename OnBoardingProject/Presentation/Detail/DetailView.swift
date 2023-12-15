@@ -9,6 +9,9 @@ import UIKit
 import Kingfisher
 import Then
 import SnapKit
+import RxSwift
+import RxCocoa
+import NSObject_Rx
 
 class DetailView: UIView {
     private lazy var backGroundView = UIView().then {
@@ -26,7 +29,6 @@ class DetailView: UIView {
     }
     
     lazy var memoInput = UITextView().then {
-        $0.delegate = self
         $0.textColor = .systemGray4
         $0.text = DefaultMSG.Detail.memoPlaceHolder
         $0.layer.borderWidth = 1
@@ -37,6 +39,7 @@ class DetailView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         layout()
+        placeHolderSet()
     }
     
     required init?(coder: NSCoder) {
@@ -76,20 +79,35 @@ class DetailView: UIView {
             $0.top.equalTo(borderView.snp.bottom).offset(PaddingStyle.standardPlus)
         }
     }
+    
+    private func placeHolderSet() {
+        memoInput.rx.didBeginEditing
+            .withLatestFrom(memoInput.rx.text)
+            .bind(to: rx.placeHolderOff)
+            .disposed(by: rx.disposeBag)
+        
+        memoInput.rx.didEndEditing
+            .bind(to: rx.placeHolderOn)
+            .disposed(by: rx.disposeBag)
+    }
 }
 
-extension DetailView: UITextViewDelegate {
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.text == DefaultMSG.Detail.memoPlaceHolder {
-            textView.text = nil
-            textView.textColor = .label
+extension Reactive where Base: DetailView {
+    var placeHolderOff: Binder<String?> {
+        return Binder(base) { base, text in
+            if text == DefaultMSG.Detail.memoPlaceHolder {
+                base.memoInput.text = nil
+                base.memoInput.textColor = .label
+            }
         }
     }
     
-    func textViewDidEndEditing(_ textView: UITextView) {
-        if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            textView.text = DefaultMSG.Detail.memoPlaceHolder
-            textView.textColor = .systemGray4
+    var placeHolderOn: Binder<Void> {
+        return Binder(base) { base, _ in
+            if base.memoInput.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                base.memoInput.text = DefaultMSG.Detail.memoPlaceHolder
+                base.memoInput.textColor = .systemGray4
+            }
         }
     }
 }
