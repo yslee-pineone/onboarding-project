@@ -10,6 +10,7 @@ import RxSwift
 import RxCocoa
 import SnapKit
 import Then
+import NSObject_Rx
 
 class SearchResultViewController: UITableViewController {
     lazy var noSearchListLabel = UILabel().then {
@@ -19,10 +20,14 @@ class SearchResultViewController: UITableViewController {
         $0.text = DefaultMSG.Search.empty
     }
     
+    typealias Model = [BookData]
+    let actionRelay = PublishRelay<SearchViewActionType>()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         attirbute()
         layout()
+        bind()
     }
     
     private func attirbute() {
@@ -39,5 +44,56 @@ class SearchResultViewController: UITableViewController {
             $0.centerX.equalToSuperview()
             $0.top.equalToSuperview().inset(24)
         }
+    }
+    
+    private func bind() {
+        tableView.rx.modelSelected(BookData.self)
+            .map {.cellTap(bookID: $0.bookID)}
+            .bind(to: actionRelay)
+            .disposed(by: rx.disposeBag)
+        
+        tableView.rx.willDisplayCell
+            .map {.nextDisplayIndex(index: $0.indexPath)}
+            .bind(to: actionRelay)
+            .disposed(by: rx.disposeBag)
+    }
+    
+    @discardableResult
+    func setupDI(relay: PublishRelay<SearchViewActionType>) -> Self {
+        actionRelay
+            .bind(to: relay)
+            .disposed(by: rx.disposeBag)
+        
+        return self
+    }
+    
+    @discardableResult
+    func setupDI(model: Observable<Model>) -> Self {
+        model
+            .bind(to: tableView.rx.items(
+                cellIdentifier: SearchResultTableViewCell.reuseIdentifier,
+                cellType: SearchResultTableViewCell.self
+            )) { [weak self] row, data, cell in
+                cell.cellDataSet(data: data)
+                
+                guard let self = self else {return}
+                
+                cell.infoView.urlTitle.rx.tap
+                    .withLatestFrom(
+                        Observable<BookData>
+                            .just(data)
+                    )
+                    .map {.browserIconTap(book: $0)}
+                    .bind(to: self.actionRelay)
+                    .disposed(by: cell.bag)
+            }
+            .disposed(by: rx.disposeBag)
+        
+        model
+            .map {!$0.isEmpty}
+            .bind(to: noSearchListLabel.rx.isHidden)
+            .disposed(by: rx.disposeBag)
+        
+        return self
     }
 }

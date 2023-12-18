@@ -55,8 +55,10 @@ class MainViewModel: NSObject {
                     }
                 })
                 .disposed(by: rx.disposeBag)
+            
         case .browserIconTap(let bookData):
             break
+            
         case .cellTap(let bookID):
             break
         }

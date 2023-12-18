@@ -73,6 +73,7 @@ class DetailViewModel: NSObject {
         switch actionType {
         case .browserIconTap(let bookID):
             break
+            
         case .didDisappearMemoContents(let contents):
             UserDefaultService.memoSave(
                 bookID: bookID,
