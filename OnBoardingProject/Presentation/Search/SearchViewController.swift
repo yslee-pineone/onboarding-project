@@ -13,23 +13,13 @@ import NSObject_Rx
 import RxDataSources
 
 class SearchViewController: UIViewController {
-    fileprivate lazy var searchWordSaveView = SearchWordSaveView(
-        frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 80)
-    )
-    
-    fileprivate lazy var tableView = UITableView().then {
-        $0.tableHeaderView = searchWordSaveView
-        $0.separatorStyle = .none
-        $0.rowHeight = UITableView.automaticDimension
-        $0.register(cellType: StandardTableViewCell.self)
-        $0.backgroundColor = .systemBackground
-    }
-    
+    fileprivate let tableView = SearchTableView()
     fileprivate var searchBarViewController: SearchBarViewController!
     private let searchResultViewController: SearchResultViewController
     
     private let viewModel: SearchViewModel
     fileprivate let settingPopupTap = PublishSubject<SearchWordSaveViewSettingCategory>()
+    let actionRelay = PublishRelay<SearchViewActionType>()
     
     init(
         viewModel: SearchViewModel,
@@ -68,135 +58,64 @@ class SearchViewController: UIViewController {
     }
     
     private func bind() {
-        let cellBrowerIconTap = PublishSubject<BookData>()
-        
-        let bookListTap = Observable.merge(
-            searchResultViewController.tableView.rx.modelSelected(BookData.self)
-                .asObservable(),
-            tableView.rx.modelSelected(BookData.self)
-                .asObservable()
-        )
-        
-        bookListTap
-            .map {$0.bookID}
-            .bind(to: rx.detailVCPush)
-            .disposed(by: rx.disposeBag)
-        
-        cellBrowerIconTap
-            .bind(to: rx.webViewControllerPush)
-            .disposed(by: rx.disposeBag)
-        
-        searchWordSaveView.doneBtn.rx.tap
-            .bind(to: rx.editModeOff)
+        // RxFlow 전 임시
+        settingPopupTap
+            .map {.settingMenuTap(category: $0)}
+            .bind(to: actionRelay)
             .disposed(by: rx.disposeBag)
         
         let input = SearchViewModel.Input(
-            searchText: searchBarViewController.searchBar.rx.text
-                .filter {$0 != nil}
-                .map {$0!},
-            nextDisplayIndex: searchResultViewController.tableView.rx.willDisplayCell
-                .map {$0.indexPath},
-            enterTap: searchBarViewController.searchBar.searchTextField.rx.controlEvent(.editingDidEndOnExit)
-                .map {_ in Void()},
-            saveCellTap: searchWordSaveView.collectionView.rx.modelSelected(String.self)
-                .withLatestFrom(searchWordSaveView.collectionView.rx.itemSelected) {($0,$1.row)}
-                .asObservable(),
-            settingMenuTap: settingPopupTap
-                .asObservable(),
-            editModeDoneTap: searchWordSaveView.doneBtn.rx.tap
-                .asObservable()
+            actionTrigger: actionRelay.asObservable()
         )
-        
         let output = viewModel.transform(input: input)
-        output.cellData
-            .bind(to: searchResultViewController.tableView.rx.items(
-                cellIdentifier: SearchResultTableViewCell.reuseIdentifier,
-                cellType: SearchResultTableViewCell.self
-            )) { row, data, cell in
-                cell.cellDataSet(data: data)
-                
-                cell.infoView.urlTitle.rx.tap
-                    .withLatestFrom(
-                        Observable<BookData>
-                            .just(data)
-                    )
-                    .bind(to: cellBrowerIconTap)
-                    .disposed(by: cell.bag)
-            }
-            .disposed(by: rx.disposeBag)
         
-        output.cellData
-            .map {!$0.isEmpty}
-            .bind(to: searchResultViewController.noSearchListLabel.rx.isHidden)
-            .disposed(by: rx.disposeBag)
+        tableView
+            .setupDI(relay: actionRelay)
+            .setupDI(observable: output.saveCellErrorMSG)
+            .setupDI(model: output.cellData)
+            .setupDI(observable: output.saveCellData)
         
-        output.cellData
-            .filter {!$0.isEmpty}
-            .bind(to: tableView.rx.items(
-                cellIdentifier: StandardTableViewCell.reuseIdentifier,
-                cellType: StandardTableViewCell.self
-            )) { row, data, cell in
-                cell.cellDataSet(data: data)
-                
-                cell.browserIcon.rx.tap
-                    .withLatestFrom(
-                        Observable<BookData>
-                            .just(data)
-                    )
-                    .bind(to: cellBrowerIconTap)
-                    .disposed(by: cell.bag)
-            }
-            .disposed(by: rx.disposeBag)
+        searchResultViewController
+            .setupDI(relay: actionRelay)
+            .setupDI(model: output.cellData)
         
-        let dataSources = RxCollectionViewSectionedReloadDataSource<SearchKeywordSection>(
-            configureCell: { dataSources, collectionView, index, data in
-                guard let cell = collectionView.dequeueReusableCell(
-                    withReuseIdentifier: SearchWordSaveViewCell.reuseIdentifier,
-                    for: index
-                ) as? SearchWordSaveViewCell else {return UICollectionViewCell()}
-                
-                cell.cellSet(title: data, isEdit: dataSources.sectionModels.first?.isEdit ?? false)
-                return cell
-            })
+        searchBarViewController
+            .setupDI(relay: actionRelay)
+            .setupDI(saveKeywordTap: output.saveKeywordSearch)
         
-        output.saveCellData
-            .bind(to: searchWordSaveView.collectionView.rx.items(dataSource: dataSources))
-            .disposed(by: rx.disposeBag)
-        
-        output.saveCellData
-            .map {!$0.first!.items.isEmpty}
-            .bind(to: searchWordSaveView.titleLabel.rx.isHidden)
-            .disposed(by: rx.disposeBag)
-        
-        output.saveCellErrorMSG
-            .bind(to: searchWordSaveView.titleLabel.rx.text)
-            .disposed(by: rx.disposeBag)
-        
-        searchWordSaveView.editBtn.rx.tap
-            .withLatestFrom(
-                Observable.combineLatest (
-                    output.saveCellData
-                        .map {$0.first!.items}
-                        .asObservable(),
-                    output.isSearchKeywordSave
-                        .asObservable()
-                )
-            )
-            .bind(to: rx.menuPopup)
-            .disposed(by: rx.disposeBag)
-        
-        searchWordSaveView.collectionView.rx.modelSelected(String.self)
-            .catchAndReturn("")
-            .withLatestFrom(output.saveCellData) { keyword, data -> String? in
-                if data.first!.isEdit {
-                    return nil
-                } else {
-                    return keyword
+        // RxFlow 전 임시
+        actionRelay
+            .withUnretained(self)
+            .subscribe(onNext: { vc, category in
+                switch category {
+                case .cellTap(let id):
+                    Observable.just(id)
+                        .bind(to: vc.rx.detailVCPush)
+                        .disposed(by: vc.rx.disposeBag)
+                    
+                case .browserIconTap(let id):
+                    Observable.just(id)
+                        .bind(to: vc.rx.webViewControllerPush)
+                        .disposed(by: vc.rx.disposeBag)
+                    
+                case .settingTap:
+                    Observable.just(Void())
+                        .withLatestFrom(
+                            Observable.combineLatest (
+                                output.saveCellData
+                                    .map {$0.first!.items}
+                                    .asObservable(),
+                                output.isSearchKeywordSave
+                                    .asObservable()
+                            )
+                        )
+                        .bind(to: vc.rx.menuPopup)
+                        .disposed(by: vc.rx.disposeBag)
+                    
+                default:
+                    break
                 }
-            }
-            .filter {$0 != nil}
-            .map {$0!}
-            .bind(to: rx.searchPresent)
+            })
             .disposed(by: rx.disposeBag)
     }
 }
@@ -229,19 +148,6 @@ extension Reactive where Base: SearchViewController {
         }
     }
     
-    var searchPresent: Binder<String>{
-        return Binder(base){base, data in
-            base.searchBarViewController.searchBar.text = data
-            base.searchBarViewController.isActive = true
-        }
-    }
-    
-    var editModeOff: Binder<Void>{
-        return Binder(base){base, _ in
-            base.searchWordSaveView.editMode(isOn: false)
-        }
-    }
-    
     var menuPopup: Binder<([String], Bool)> {
         return Binder(base) { base, setting in
             let alert = UIAlertController(
@@ -264,7 +170,7 @@ extension Reactive where Base: SearchViewController {
                         title: DefaultMSG.Search.Menu.remove,
                         style: .default,
                         handler: { _ in
-                            base.searchWordSaveView.editMode(isOn: true)
+                            base.tableView.searchWordSaveView.editMode(isOn: true)
                             base.settingPopupTap.onNext(.wordRemove)
                         }))
             }

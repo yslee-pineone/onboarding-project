@@ -17,6 +17,7 @@
 		C32DE17D2B269D2E007DAC84 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32DE17C2B269D2E007DAC84 /* WebView.swift */; };
 		C32DE17F2B269D41007DAC84 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32DE17E2B269D41007DAC84 /* WebViewController.swift */; };
 		C32DE1842B269F2F007DAC84 /* WebViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32DE1832B269F2F007DAC84 /* WebViewModel.swift */; };
+		C3D28F592B2C3C60001245DD /* SearchTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D28F582B2C3C60001245DD /* SearchTableView.swift */; };
 		C3DCAF1E2B1EBF4600CF40B9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DCAF1D2B1EBF4600CF40B9 /* AppDelegate.swift */; };
 		C3DCAF202B1EBF4600CF40B9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DCAF1F2B1EBF4600CF40B9 /* SceneDelegate.swift */; };
 		C3DCAF272B1EBF4800CF40B9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3DCAF262B1EBF4800CF40B9 /* Assets.xcassets */; };
@@ -65,6 +66,7 @@
 		C32DE17C2B269D2E007DAC84 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		C32DE17E2B269D41007DAC84 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		C32DE1832B269F2F007DAC84 /* WebViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewModel.swift; sourceTree = "<group>"; };
+		C3D28F582B2C3C60001245DD /* SearchTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableView.swift; sourceTree = "<group>"; };
 		C3DCAF1A2B1EBF4600CF40B9 /* OnBoardingProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnBoardingProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3DCAF1D2B1EBF4600CF40B9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C3DCAF1F2B1EBF4600CF40B9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -315,6 +317,7 @@
 		C3EE7E402B20435400DC64A1 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				C3D28F582B2C3C60001245DD /* SearchTableView.swift */,
 				C3EE7E412B20435C00DC64A1 /* SearchResultTableViewCell.swift */,
 				C3EE80612B2845CC0028BE3B /* SearchWordSaveView.swift */,
 				C3EE80632B2848F00028BE3B /* SearchWordSaveViewCell.swift */,
@@ -455,6 +458,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C32DE17F2B269D41007DAC84 /* WebViewController.swift in Sources */,
+				C3D28F592B2C3C60001245DD /* SearchTableView.swift in Sources */,
 				C32DE17A2B269C10007DAC84 /* UIStackView+.swift in Sources */,
 				C3EE80692B2961170028BE3B /* SearchWordSaveViewSettingCategory.swift in Sources */,
 				C3EE7E372B203C0E00DC64A1 /* SearchViewController.swift in Sources */,

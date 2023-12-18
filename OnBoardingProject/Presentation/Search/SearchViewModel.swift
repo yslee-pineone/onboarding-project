@@ -10,21 +10,27 @@ import RxSwift
 import RxCocoa
 import NSObject_Rx
 
+enum SearchViewActionType {
+    case searchText(text: String)
+    case nextDisplayIndex(index: IndexPath)
+    case enterTap
+    case saveCellTap(word: String, row: Int)
+    case settingMenuTap(category: SearchWordSaveViewSettingCategory)
+    case editModeDone
+    case cellTap(bookID: String)
+    case browserIconTap(book: BookData)
+    case settingTap
+}
+
 class SearchViewModel: NSObject {
     private let nowSearchData = BehaviorRelay<[BookData]>(value: [])
     private let nowSaveWords = BehaviorRelay<[SearchKeywordSection]>(value: [])
     private let nowKeywordAutoSave = BehaviorRelay<Bool>(value: false)
     private let nowCellErrorMSG = BehaviorRelay<String>(value: "")
-    
-    private var nowPage = 1
+    private let nowSearchKeyword = BehaviorRelay<(String, Int, Bool)>(value: ("", 0, false))
     
     struct Input {
-        let searchText: Observable<String>
-        let nextDisplayIndex: Observable<IndexPath>
-        let enterTap: Observable<Void>
-        let saveCellTap: Observable<(String, Int)>
-        let settingMenuTap: Observable<SearchWordSaveViewSettingCategory>
-        let editModeDoneTap: Observable<Void>
+        let actionTrigger: Observable<SearchViewActionType>
     }
     
     struct Output {
@@ -32,29 +38,17 @@ class SearchViewModel: NSObject {
         let saveCellData: Observable<[SearchKeywordSection]>
         let saveCellErrorMSG: Observable<String>
         let isSearchKeywordSave: Observable<Bool>
+        let saveKeywordSearch: Observable<String>
     }
     
     func transform(input: Input) -> Output {
-        bookLoad(input)
-        settingMenuTap(input)
         saveKeywordLoad()
+        bookLoad()
         
-        input.enterTap
-            .withLatestFrom(nowKeywordAutoSave)
-            .filter {$0}
-            .withLatestFrom(input.searchText)
-            .withUnretained(self)
-            .subscribe(onNext: { viewModel, data in
-                var now = viewModel.nowSaveWords.value.first!
-                var items = now.items
-                items.append(data)
-                now.items = items
-                
-                viewModel.nowSaveWords.accept([now])
-                UserDefaultService.searchWordSave(keywordList: items)
-            })
+        input.actionTrigger
+            .bind(onNext: actionProcess)
             .disposed(by: rx.disposeBag)
-        
+
         return Output(
             cellData: nowSearchData
                 .asObservable(),
@@ -63,8 +57,105 @@ class SearchViewModel: NSObject {
             saveCellErrorMSG: nowCellErrorMSG
                 .asObservable(),
             isSearchKeywordSave: nowKeywordAutoSave
-                .asObservable()
+                .asObservable(),
+            saveKeywordSearch: nowSearchKeyword
+                .filter {$0.2}
+                .map {$0.0}
         )
+    }
+    
+    private func actionProcess(_ type: SearchViewActionType) {
+        switch type {
+        case .browserIconTap(let book):
+            break
+            
+        case .cellTap(let bookID):
+            break
+            
+        case .settingTap:
+            break
+            
+        case .editModeDone:
+            Observable.just(Void())
+                .withLatestFrom(nowSaveWords)
+                .map { data in
+                    [SearchKeywordSection(items: data.first!.items, isEdit: false)]
+                }
+                .bind(to: nowSaveWords)
+                .disposed(by: rx.disposeBag)
+            
+        case .enterTap:
+            Observable.just(Void())
+                .withLatestFrom(nowKeywordAutoSave)
+                .filter {$0}
+                .withLatestFrom(nowSearchKeyword)
+                .withUnretained(self)
+                .subscribe(onNext: { viewModel, data in
+                    var now = viewModel.nowSaveWords.value.first!
+                    var items = now.items
+                    items.append(data.0)
+                    now.items = items
+                    
+                    viewModel.nowSaveWords.accept([now])
+                    UserDefaultService.searchWordSave(keywordList: items)
+                })
+                .disposed(by: rx.disposeBag)
+            
+        case .nextDisplayIndex(let index):
+            Observable.just(Void())
+                .withLatestFrom(nowSearchKeyword)
+                .filter { data in
+                    (data.1 * 10) - 3 <= (index.section * 10) + index.row
+                }
+                .map {($0.0, $0.1 + 1, $0.2)}
+                .bind(to: nowSearchKeyword)
+                .disposed(by: rx.disposeBag)
+            
+        case .saveCellTap(let word, let row):
+            Observable.just((word, row))
+                .withLatestFrom(nowSaveWords) { tap, now -> (String, Int)? in
+                    if !now.first!.isEdit {
+                        return tap
+                    } else {
+                        return nil
+                    }
+                }
+                .filter {$0 != nil}
+                .map {($0!.0, 1, true)}
+                .bind(to: nowSearchKeyword)
+                .disposed(by: rx.disposeBag)
+            
+            // edit mode
+            Observable.just((word, row))
+                .withLatestFrom(nowSaveWords)
+                .filter {$0.first!.isEdit}
+                .withUnretained(self)
+                .subscribe(onNext: { viewModel, _ in
+                    var now = viewModel.nowSaveWords.value.first!
+                    var items = now.items
+                    
+                    items.remove(at: row)
+                    now.items = items
+                    
+                    viewModel.nowSaveWords.accept([now])
+                    UserDefaultService.searchWordSave(keywordList: items)
+                })
+                .disposed(by: rx.disposeBag)
+            
+        case .searchText(let text):
+            Observable.just(text)
+                .map {($0, 1, false)}
+                .bind(to: nowSearchKeyword)
+                .disposed(by: rx.disposeBag)
+            
+        case .settingMenuTap(let category):
+            Observable.just(category)
+                .withUnretained(self)
+                .subscribe(onNext: { viewModel, type in
+                    viewModel.settingMenuTap(type)
+                })
+                .disposed(by: rx.disposeBag)
+        }
     }
     
     private func saveKeywordLoad() {
@@ -93,117 +184,53 @@ class SearchViewModel: NSObject {
             .disposed(by: rx.disposeBag)
     }
     
-    private func settingMenuTap(_ input: Input) {
-        input.settingMenuTap.filter {$0 == .saveStart || $0 == .saveStop}
-            .map {$0 == .saveStart}
-            .withUnretained(self)
-            .subscribe(onNext: { viewModel, isOn in
-                if !isOn {
-                    viewModel.nowSaveWords.accept([SearchKeywordSection(items: [], isEdit: false)])
+    private func settingMenuTap(_ category: SearchWordSaveViewSettingCategory) {
+        switch category {
+        case .saveStart, .saveStop:
+            let isOn = category == .saveStart
+            if !isOn {
+                nowSaveWords.accept([SearchKeywordSection(items: [], isEdit: false)])
+            }
+            
+            UserDefaultService.isAutoSaveValueSet(on: isOn)
+            nowKeywordAutoSave.accept(isOn)
+            
+        case .wordAllRemove:
+            nowSaveWords.accept([SearchKeywordSection(items: [], isEdit: false)])
+            UserDefaultService.searchWordSave(keywordList: [])
+            
+        case .wordRemove:
+            Observable.just(Void())
+                .withLatestFrom(nowSaveWords)
+                .map { data in
+                    [SearchKeywordSection(items: data.first!.items, isEdit: true)]
                 }
-                
-                UserDefaultService.isAutoSaveValueSet(on: isOn)
-                viewModel.nowKeywordAutoSave.accept(isOn)
-            })
-            .disposed(by: rx.disposeBag)
+                .bind(to: nowSaveWords)
+                .disposed(by: rx.disposeBag)
+        }
         
-        input.settingMenuTap.filter {$0 == .wordAllRemove}
-            .withUnretained(self)
-            .subscribe(onNext: { viewModel, _ in
-                viewModel.nowSaveWords.accept([SearchKeywordSection(items: [], isEdit: false)])
-                UserDefaultService.searchWordSave(keywordList: [])
-            })
-            .disposed(by: rx.disposeBag)
-        
-        input.settingMenuTap.filter {$0 == .wordRemove}
-            .withLatestFrom(nowSaveWords)
-            .map { data in
-                [SearchKeywordSection(items: data.first!.items, isEdit: true)]
-            }
-            .bind(to: nowSaveWords)
-            .disposed(by: rx.disposeBag)
-        
-        input.saveCellTap
-            .withLatestFrom(nowSaveWords) { cellTapData, saveData -> Int? in
-                if saveData.first!.isEdit {
-                    return cellTapData.1
-                } else {
-                    return nil
-                }
-            }
-            .filter {$0 != nil}
-            .map {$0!}
-            .withUnretained(self)
-            .subscribe(onNext: { viewModel, row in
-                var now = viewModel.nowSaveWords.value.first!
-                var items = now.items
-                
-                items.remove(at: row)
-                now.items = items
-                
-                viewModel.nowSaveWords.accept([now])
-                UserDefaultService.searchWordSave(keywordList: items)
-            })
-            .disposed(by: rx.disposeBag)
-        
-        input.editModeDoneTap
-            .withLatestFrom(nowSaveWords)
-            .map { data in
-                [SearchKeywordSection(items: data.first!.items, isEdit: false)]
-            }
-            .bind(to: nowSaveWords)
-            .disposed(by: rx.disposeBag)
-        
-        input.settingMenuTap.map {
-            switch $0 {
+        Observable<String>.create { observer in
+            switch category {
             case .saveStart, .wordAllRemove, .wordRemove:
-                return UserDefaultError.notContents.errorMSG
+                observer.onNext(UserDefaultError.notContents.errorMSG)
             case .saveStop:
-                return UserDefaultError.searchWordSaveOff.errorMSG
+                observer.onNext(UserDefaultError.searchWordSaveOff.errorMSG)
             }
+            
+            return Disposables.create()
         }
         .bind(to: nowCellErrorMSG)
         .disposed(by: rx.disposeBag)
+        
     }
     
-    private func bookLoad(_ input: Input) {
-        let searchText = Observable
-            .merge(
-                input.searchText
-                    .debounce(.milliseconds(500), scheduler: MainScheduler.asyncInstance),
-                input.saveCellTap
-                    .withLatestFrom(nowSaveWords) { cellTapData, saveData -> String? in
-                        if saveData.first!.isEdit {
-                            return nil
-                        } else {
-                            return cellTapData.0
-                        }
-                    }
-                    .filter {$0 != nil}
-                    .map {$0!}
-            )
-        
-        let searchResult = searchText
-            .distinctUntilChanged()
+    private func bookLoad() {
+        nowSearchKeyword
+            .debounce(.milliseconds(500), scheduler: MainScheduler.asyncInstance)
             .withUnretained(self)
             .flatMapLatest { viewModel, query in
-                viewModel.nowPage = 1
-                return BookListLoad.bookListSearch(query: query, nextPage: "\(viewModel.nowPage)")
+                return BookListLoad.bookListSearch(query: query.0, nextPage: "\(query.1)")
             }
-        
-        let nextResult = input.nextDisplayIndex
-            .withUnretained(self)
-            .filter { viewModel, index in
-                (viewModel.nowPage * 10) - 3 <= (index.section * 10) + index.row
-            }
-            .withLatestFrom(input.searchText)
-            .withUnretained(self)
-            .flatMapLatest { viewModel, query in
-                viewModel.nowPage += 1
-                return BookListLoad.bookListSearch(query: query, nextPage: "\(viewModel.nowPage)")
-            }
-        
-        Observable.merge(searchResult, nextResult)
             .withUnretained(self)
             .map { viewModel, newData in
                 var list = viewModel.nowSearchData.value
