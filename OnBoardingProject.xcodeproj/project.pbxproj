@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C32DE16D2B21B17B007DAC84 /* TabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32DE16C2B21B17B007DAC84 /* TabbarController.swift */; };
 		C32DE16F2B22A0D0007DAC84 /* MainTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32DE16E2B22A0D0007DAC84 /* MainTableView.swift */; };
 		C32DE1722B22A332007DAC84 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32DE1712B22A332007DAC84 /* DetailView.swift */; };
 		C32DE1742B22D13A007DAC84 /* DetailLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32DE1732B22D13A007DAC84 /* DetailLoadingView.swift */; };
@@ -17,6 +16,12 @@
 		C32DE17D2B269D2E007DAC84 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32DE17C2B269D2E007DAC84 /* WebView.swift */; };
 		C32DE17F2B269D41007DAC84 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32DE17E2B269D41007DAC84 /* WebViewController.swift */; };
 		C32DE1842B269F2F007DAC84 /* WebViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32DE1832B269F2F007DAC84 /* WebViewModel.swift */; };
+		C33DE1622B32AD2800B20B93 /* AppStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33DE1612B32AD2800B20B93 /* AppStep.swift */; };
+		C33DE1652B32AF5800B20B93 /* AppFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33DE1642B32AF5800B20B93 /* AppFlow.swift */; };
+		C33DE1672B32AFE900B20B93 /* MainFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33DE1662B32AFE900B20B93 /* MainFlow.swift */; };
+		C33DE1692B32AFEE00B20B93 /* SearchFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33DE1682B32AFEE00B20B93 /* SearchFlow.swift */; };
+		C33DE16B2B32B1A600B20B93 /* OnboardingFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33DE16A2B32B1A600B20B93 /* OnboardingFlow.swift */; };
+		C33DE16E2B32B57900B20B93 /* AppStepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33DE16D2B32B57900B20B93 /* AppStepper.swift */; };
 		C3D28F592B2C3C60001245DD /* SearchTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D28F582B2C3C60001245DD /* SearchTableView.swift */; };
 		C3DCAF1E2B1EBF4600CF40B9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DCAF1D2B1EBF4600CF40B9 /* AppDelegate.swift */; };
 		C3DCAF202B1EBF4600CF40B9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DCAF1F2B1EBF4600CF40B9 /* SceneDelegate.swift */; };
@@ -56,7 +61,6 @@
 		07A6756F7AC4ACD11833C3AB /* Pods-OnBoardingProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OnBoardingProject.release.xcconfig"; path = "Target Support Files/Pods-OnBoardingProject/Pods-OnBoardingProject.release.xcconfig"; sourceTree = "<group>"; };
 		698D0B01EEDB991075DBCB3C /* Pods_OnBoardingProject.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OnBoardingProject.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		839EC1A2ED4322D675CD9A3B /* Pods-OnBoardingProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OnBoardingProject.debug.xcconfig"; path = "Target Support Files/Pods-OnBoardingProject/Pods-OnBoardingProject.debug.xcconfig"; sourceTree = "<group>"; };
-		C32DE16C2B21B17B007DAC84 /* TabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarController.swift; sourceTree = "<group>"; };
 		C32DE16E2B22A0D0007DAC84 /* MainTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableView.swift; sourceTree = "<group>"; };
 		C32DE1712B22A332007DAC84 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		C32DE1732B22D13A007DAC84 /* DetailLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailLoadingView.swift; sourceTree = "<group>"; };
@@ -66,6 +70,12 @@
 		C32DE17C2B269D2E007DAC84 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		C32DE17E2B269D41007DAC84 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		C32DE1832B269F2F007DAC84 /* WebViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewModel.swift; sourceTree = "<group>"; };
+		C33DE1612B32AD2800B20B93 /* AppStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStep.swift; sourceTree = "<group>"; };
+		C33DE1642B32AF5800B20B93 /* AppFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFlow.swift; sourceTree = "<group>"; };
+		C33DE1662B32AFE900B20B93 /* MainFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFlow.swift; sourceTree = "<group>"; };
+		C33DE1682B32AFEE00B20B93 /* SearchFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFlow.swift; sourceTree = "<group>"; };
+		C33DE16A2B32B1A600B20B93 /* OnboardingFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingFlow.swift; sourceTree = "<group>"; };
+		C33DE16D2B32B57900B20B93 /* AppStepper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStepper.swift; sourceTree = "<group>"; };
 		C3D28F582B2C3C60001245DD /* SearchTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableView.swift; sourceTree = "<group>"; };
 		C3DCAF1A2B1EBF4600CF40B9 /* OnBoardingProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnBoardingProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3DCAF1D2B1EBF4600CF40B9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -141,6 +151,43 @@
 			path = WebView;
 			sourceTree = "<group>";
 		};
+		C33DE15F2B32AC3E00B20B93 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				C33DE16C2B32B56E00B20B93 /* Stepper */,
+				C33DE1632B32AF4F00B20B93 /* Flow */,
+				C33DE1602B32AC4C00B20B93 /* Step */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		C33DE1602B32AC4C00B20B93 /* Step */ = {
+			isa = PBXGroup;
+			children = (
+				C33DE1612B32AD2800B20B93 /* AppStep.swift */,
+			);
+			path = Step;
+			sourceTree = "<group>";
+		};
+		C33DE1632B32AF4F00B20B93 /* Flow */ = {
+			isa = PBXGroup;
+			children = (
+				C33DE1642B32AF5800B20B93 /* AppFlow.swift */,
+				C33DE16A2B32B1A600B20B93 /* OnboardingFlow.swift */,
+				C33DE1662B32AFE900B20B93 /* MainFlow.swift */,
+				C33DE1682B32AFEE00B20B93 /* SearchFlow.swift */,
+			);
+			path = Flow;
+			sourceTree = "<group>";
+		};
+		C33DE16C2B32B56E00B20B93 /* Stepper */ = {
+			isa = PBXGroup;
+			children = (
+				C33DE16D2B32B57900B20B93 /* AppStepper.swift */,
+			);
+			path = Stepper;
+			sourceTree = "<group>";
+		};
 		C3DCAF112B1EBF4600CF40B9 = {
 			isa = PBXGroup;
 			children = (
@@ -162,6 +209,7 @@
 		C3DCAF1C2B1EBF4600CF40B9 /* OnBoardingProject */ = {
 			isa = PBXGroup;
 			children = (
+				C33DE15F2B32AC3E00B20B93 /* Coordinator */,
 				C3EE7E192B1F1DD700DC64A1 /* Extension */,
 				C3EE7DC92B1ED4B000DC64A1 /* Application */,
 				C3EE7DE82B1ED67700DC64A1 /* Presentation */,
@@ -225,7 +273,6 @@
 		C3EE7DE82B1ED67700DC64A1 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
-				C3EE7E182B1F0DA000DC64A1 /* Tabbar */,
 				C32DE17B2B269D19007DAC84 /* WebView */,
 				C3EE7DD32B1ED5A700DC64A1 /* Main */,
 				C3EE7E1C2B1FFC3500DC64A1 /* Detail */,
@@ -259,6 +306,7 @@
 				C3EE7E042B1EF03B00DC64A1 /* BookListData.swift */,
 				C3EE7E2C2B1FFFDF00DC64A1 /* BookData.swift */,
 				C3EE80682B2961170028BE3B /* SearchWordSaveViewSettingCategory.swift */,
+				C3EE7DEF2B1EDCEA00DC64A1 /* TabbarCategory.swift */,
 				C3EE806A2B29A2C50028BE3B /* SearchKeywordSection.swift */,
 			);
 			path = Model;
@@ -271,15 +319,6 @@
 				C32DE1752B22D64E007DAC84 /* BookListLoadCategory.swift */,
 			);
 			path = BookListLoad;
-			sourceTree = "<group>";
-		};
-		C3EE7E182B1F0DA000DC64A1 /* Tabbar */ = {
-			isa = PBXGroup;
-			children = (
-				C3EE7DEF2B1EDCEA00DC64A1 /* TabbarCategory.swift */,
-				C32DE16C2B21B17B007DAC84 /* TabbarController.swift */,
-			);
-			path = Tabbar;
 			sourceTree = "<group>";
 		};
 		C3EE7E192B1F1DD700DC64A1 /* Extension */ = {
@@ -462,8 +501,8 @@
 				C32DE17A2B269C10007DAC84 /* UIStackView+.swift in Sources */,
 				C3EE80692B2961170028BE3B /* SearchWordSaveViewSettingCategory.swift in Sources */,
 				C3EE7E372B203C0E00DC64A1 /* SearchViewController.swift in Sources */,
-				C32DE16D2B21B17B007DAC84 /* TabbarController.swift in Sources */,
 				C3EE806B2B29A2C50028BE3B /* SearchKeywordSection.swift in Sources */,
+				C33DE1652B32AF5800B20B93 /* AppFlow.swift in Sources */,
 				C3EE7E3F2B20418900DC64A1 /* SearchResultViewController.swift in Sources */,
 				C3EE7DF02B1EDCEA00DC64A1 /* TabbarCategory.swift in Sources */,
 				C3EE7E132B1EFE4500DC64A1 /* StandardTableViewCell.swift in Sources */,
@@ -471,8 +510,10 @@
 				C3EE80672B2950770028BE3B /* UserDefaultService.swift in Sources */,
 				C3EE7E002B1EEFF100DC64A1 /* BookListLoad.swift in Sources */,
 				C3EE7DDB2B1ED5D200DC64A1 /* MainViewModel.swift in Sources */,
+				C33DE1672B32AFE900B20B93 /* MainFlow.swift in Sources */,
 				C3EE7E252B1FFE2E00DC64A1 /* DetailViewController.swift in Sources */,
 				C3EE7E082B1EF15C00DC64A1 /* URLRequestConfiguration.swift in Sources */,
+				C33DE1622B32AD2800B20B93 /* AppStep.swift in Sources */,
 				C3EE7E312B20135200DC64A1 /* UserDefaultError.swift in Sources */,
 				C3EE7E272B1FFE5600DC64A1 /* DetailViewModel.swift in Sources */,
 				C3EE7E052B1EF03B00DC64A1 /* BookListData.swift in Sources */,
@@ -487,10 +528,13 @@
 				C3DCAF202B1EBF4600CF40B9 /* SceneDelegate.swift in Sources */,
 				C32DE1742B22D13A007DAC84 /* DetailLoadingView.swift in Sources */,
 				C32DE1782B22FF11007DAC84 /* NetworkingError.swift in Sources */,
+				C33DE16E2B32B57900B20B93 /* AppStepper.swift in Sources */,
+				C33DE16B2B32B1A600B20B93 /* OnboardingFlow.swift in Sources */,
 				C3EE7DF62B1EEA9700DC64A1 /* NetworkService.swift in Sources */,
 				C3EE7E1B2B1F1DE100DC64A1 /* UIView+.swift in Sources */,
 				C32DE1722B22A332007DAC84 /* DetailView.swift in Sources */,
 				C3EE7DD02B1ED54500DC64A1 /* FontStyle.swift in Sources */,
+				C33DE1692B32AFEE00B20B93 /* SearchFlow.swift in Sources */,
 				C3EE7E492B2060C700DC64A1 /* DefaultMSG.swift in Sources */,
 				C3EE7E422B20435C00DC64A1 /* SearchResultTableViewCell.swift in Sources */,
 				C3EE80642B2848F00028BE3B /* SearchWordSaveViewCell.swift in Sources */,

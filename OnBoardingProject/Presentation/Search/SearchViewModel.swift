@@ -8,6 +8,7 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import RxFlow
 import NSObject_Rx
 
 enum SearchViewActionType {
@@ -22,7 +23,17 @@ enum SearchViewActionType {
     case settingTap
 }
 
-class SearchViewModel: NSObject {
+class SearchViewModel: NSObject, Stepper {
+    // MARK: - Stepper
+    var steps = PublishRelay<Step>()
+    
+    var initialStep: Step {
+        AppStep.searchIsRequired
+    }
+    
+    // MARK: - ViewModelType Protocol
+    typealias ViewModel = MainViewModel
+    
     private let nowSearchData = BehaviorRelay<[BookData]>(value: [])
     private let nowSaveWords = BehaviorRelay<[SearchKeywordSection]>(value: [])
     private let nowKeywordAutoSave = BehaviorRelay<Bool>(value: false)

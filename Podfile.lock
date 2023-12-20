@@ -23,6 +23,9 @@ PODS:
     - Differentiator (~> 5.0)
     - RxCocoa (~> 6.0)
     - RxSwift (~> 6.0)
+  - RxFlow (2.13.0):
+    - RxCocoa (>= 6.0.0)
+    - RxSwift (>= 6.0.0)
   - RxRelay (6.6.0):
     - RxSwift (= 6.6.0)
   - RxSwift (6.6.0)
@@ -37,6 +40,7 @@ DEPENDENCIES:
   - Reusable
   - RxCocoa
   - RxDataSources
+  - RxFlow
   - RxSwift
   - SnapKit
   - Then
@@ -51,6 +55,7 @@ SPEC REPOS:
     - Reusable
     - RxCocoa
     - RxDataSources
+    - RxFlow
     - RxRelay
     - RxSwift
     - SnapKit
@@ -65,11 +70,12 @@ SPEC CHECKSUMS:
   Reusable: 6bae6a5e8aa793c9c441db0213c863a64bce9136
   RxCocoa: 44a80de90e25b739b5aeaae3c8c371a32e3343cc
   RxDataSources: aa47cc1ed6c500fa0dfecac5c979b723542d79cf
+  RxFlow: 52f6f6379918392c1ea8cb62d8dcf2df9a5463dd
   RxRelay: 45eaa5db8ee4fb50e5ebd57deec0159e97fa51e6
   RxSwift: a4b44f7d24599f674deebd1818eab82e58410632
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
   Then: 844265ae87834bbe1147d91d5d41a404da2ec27d
 
-PODFILE CHECKSUM: 851c0dd26130668a428a6fb4f12437001dc73f85
+PODFILE CHECKSUM: 8126d288e2c246a436a602c1c565b310104c8c8c
 
 COCOAPODS: 1.14.3

@@ -8,6 +8,7 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import RxFlow
 import NSObject_Rx
 
 enum MainViewActionType {
@@ -16,7 +17,17 @@ enum MainViewActionType {
     case cellTap(bookID: String)
 }
 
-class MainViewModel: NSObject {
+class MainViewModel: NSObject, Stepper {
+    // MARK: - Stepper
+    var steps = PublishRelay<Step>()
+    
+    var initialStep: Step {
+        AppStep.mainIsRequired
+    }
+    
+    // MARK: - ViewModelType Protocol
+    typealias ViewModel = MainViewModel
+    
     private let nowCellData = BehaviorRelay<[BookData]>(value: [])
     
     struct Input {
