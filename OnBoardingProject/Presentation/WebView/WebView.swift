@@ -14,11 +14,11 @@ import RxCocoa
 import NSObject_Rx
 
 class WebView: WKWebView {
-    lazy var loadingIcon = UIActivityIndicatorView(style: .medium).then {
+    private lazy var loadingIcon = UIActivityIndicatorView(style: .medium).then {
         $0.color = .label
     }
     
-    let actionRelay = PublishRelay<WebViewActionType>()
+    private let actionRelay = PublishRelay<WebViewActionType>()
     
     override init(frame: CGRect, configuration: WKWebViewConfiguration) {
         super.init(frame: frame, configuration: configuration)

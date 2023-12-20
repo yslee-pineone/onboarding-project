@@ -18,8 +18,7 @@ class SearchViewController: UIViewController {
     private let searchResultViewController: SearchResultViewController
     
     private let viewModel: SearchViewModel
-    fileprivate let settingPopupTap = PublishSubject<SearchWordSaveViewSettingCategory>()
-    let actionRelay = PublishRelay<SearchViewActionType>()
+    fileprivate let actionRelay = PublishRelay<SearchViewActionType>()
     
     init(
         viewModel: SearchViewModel,
@@ -58,11 +57,6 @@ class SearchViewController: UIViewController {
     }
     
     private func bind() {
-        settingPopupTap
-            .map {.settingMenuTap(category: $0)}
-            .bind(to: actionRelay)
-            .disposed(by: rx.disposeBag)
-        
         let input = SearchViewModel.Input(
             actionTrigger: actionRelay.asObservable()
         )
@@ -151,7 +145,7 @@ extension Reactive where Base: SearchViewController {
                         title: DefaultMSG.Search.Menu.removeAll,
                         style: .default,
                         handler: { _ in
-                            base.settingPopupTap.onNext(.wordAllRemove)
+                            base.actionRelay.accept(.settingMenuTap(category: .wordAllRemove))
                         }))
                 
                 alert.addAction(
@@ -160,7 +154,7 @@ extension Reactive where Base: SearchViewController {
                         style: .default,
                         handler: { _ in
                             base.tableView.searchWordSaveView.editMode(isOn: true)
-                            base.settingPopupTap.onNext(.wordRemove)
+                            base.actionRelay.accept(.settingMenuTap(category: .wordRemove))
                         }))
             }
             
@@ -170,7 +164,7 @@ extension Reactive where Base: SearchViewController {
                         title: DefaultMSG.Search.Menu.notSave,
                         style: .default,
                         handler: { _ in
-                            base.settingPopupTap.onNext(.saveStop)
+                            base.actionRelay.accept(.settingMenuTap(category: .saveStop))
                         }))
             } else {
                 alert.addAction(
@@ -178,7 +172,7 @@ extension Reactive where Base: SearchViewController {
                         title: DefaultMSG.Search.Menu.okSave,
                         style: .default,
                         handler: { _ in
-                            base.settingPopupTap.onNext(.saveStart)
+                            base.actionRelay.accept(.settingMenuTap(category: .saveStart))
                         }))
             }
             

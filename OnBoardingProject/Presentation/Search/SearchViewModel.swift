@@ -78,20 +78,10 @@ class SearchViewModel: NSObject, Stepper {
     private func actionProcess(_ type: SearchViewActionType) {
         switch type {
         case .browserIconTap(let bookData):
-            Observable.just(bookData)
-                .map {
-                    AppStep.webViewIsRequired(title: $0.mainTitle, url: $0.bookURL)
-                }
-                .bind(to: steps)
-                .disposed(by: rx.disposeBag)
+            steps.accept(AppStep.webViewIsRequired(title: bookData.mainTitle, url: bookData.bookURL))
             
         case .cellTap(let bookID):
-            Observable.just(bookID)
-                .map {
-                    AppStep.detailIsRequired(id: $0)
-                }
-                .bind(to: steps)
-                .disposed(by: rx.disposeBag)
+            steps.accept(AppStep.detailIsRequired(id: bookID))
             
         case .settingTap:
             break
