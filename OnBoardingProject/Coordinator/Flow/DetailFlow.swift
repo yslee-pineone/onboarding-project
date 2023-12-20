@@ -37,6 +37,9 @@ class DetailFlow: Flow {
             
             return .none
             
+        case .detailComlete:
+            return .end(forwardToParentFlowWithStep: AppStep.detailComlete)
+            
         case .webViewIsRequired(let title, let url):
             return webViewPush(title: title, url: url, navigationController: navigationController)
             

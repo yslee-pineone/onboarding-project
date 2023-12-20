@@ -14,6 +14,7 @@ import NSObject_Rx
 enum DetailViewActionType {
     case didDisappearMemoContents(memo: String)
     case browserIconTap(book: BookData?)
+    case errorPopupOkBtnTap
 }
 
 class DetailViewModel: NSObject, Stepper {
@@ -91,6 +92,9 @@ class DetailViewModel: NSObject, Stepper {
                 bookID: bookID,
                 contents: contents == DefaultMSG.Detail.memoPlaceHolder ? "" : contents
             )
+            
+        case .errorPopupOkBtnTap:
+            steps.accept(AppStep.detailComlete)
         }
     }
     

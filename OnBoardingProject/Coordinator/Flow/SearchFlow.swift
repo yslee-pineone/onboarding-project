@@ -37,7 +37,7 @@ class SearchFlow: Flow {
         case .webViewIsRequired(let title, let url):
             return webViewPush(title: title, url: url, navigationController: navigationController)
             
-        case .webViewComplete:
+        case .webViewComplete, .detailComlete:
             navigationController.popViewController(animated: true)
             return .none
             

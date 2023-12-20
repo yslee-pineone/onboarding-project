@@ -62,6 +62,7 @@ class MainTableView: UITableView {
             .map {.cellTap(bookID: $0.bookID)}
             .bind(to: actionRelay)
             .disposed(by: rx.disposeBag)
+        
         refresh.rx.controlEvent(.valueChanged)
             .startWith(())
             .delay(.microseconds(500), scheduler: MainScheduler.asyncInstance)
@@ -75,6 +76,7 @@ class MainTableView: UITableView {
         actionRelay
             .bind(to: relay)
             .disposed(by: rx.disposeBag)
+        
         return self
     }
     

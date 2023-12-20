@@ -16,7 +16,7 @@ class DetailViewController: UIViewController {
     fileprivate lazy var detailView = DetailView()
     
     private let viewModel: DetailViewModel
-    private let actionRelay = PublishRelay<DetailViewActionType>()
+    fileprivate let actionRelay = PublishRelay<DetailViewActionType>()
     
     init(
         viewModel: DetailViewModel
@@ -162,7 +162,7 @@ extension Reactive where Base: DetailViewController {
                     title: "확인",
                     style: .default,
                     handler: { _ in
-                        base.navigationController?.popViewController(animated: true)
+                        base.actionRelay.accept(.errorPopupOkBtnTap)
                     }
                 )
             )
