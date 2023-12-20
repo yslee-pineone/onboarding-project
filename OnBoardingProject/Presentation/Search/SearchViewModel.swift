@@ -20,7 +20,6 @@ enum SearchViewActionType {
     case editModeDone
     case cellTap(bookID: String)
     case browserIconTap(book: BookData)
-    case settingTap
 }
 
 class SearchViewModel: NSObject, Stepper {
@@ -82,9 +81,6 @@ class SearchViewModel: NSObject, Stepper {
             
         case .cellTap(let bookID):
             steps.accept(AppStep.detailIsRequired(id: bookID))
-            
-        case .settingTap:
-            break
             
         case .editModeDone:
             Observable.just(Void())

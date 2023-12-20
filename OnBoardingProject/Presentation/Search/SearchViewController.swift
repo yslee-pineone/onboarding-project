@@ -76,61 +76,23 @@ class SearchViewController: UIViewController {
             .setupDI(relay: actionRelay)
             .setupDI(saveKeywordTap: output.saveKeywordSearch)
         
-        actionRelay
-            .withUnretained(self)
-            .subscribe(onNext: { vc, category in
-                switch category {
-                    
-                case .settingTap:
-                    Observable.just(Void())
-                        .withLatestFrom(
-                            Observable.combineLatest (
-                                output.saveCellData
-                                    .map {$0.first!.items}
-                                    .asObservable(),
-                                output.isSearchKeywordSave
-                                    .asObservable()
-                            )
-                        )
-                        .bind(to: vc.rx.menuPopup)
-                        .disposed(by: vc.rx.disposeBag)
-                    
-                default:
-                    break
-                }
-            })
+        // alert
+        tableView.searchWordSaveView.editBtn.rx.tap
+            .withLatestFrom(
+                Observable.combineLatest (
+                    output.saveCellData
+                        .map {$0.first!.items}
+                        .asObservable(),
+                    output.isSearchKeywordSave
+                        .asObservable()
+                )
+            )  
+            .bind(to: rx.menuPopup)
             .disposed(by: rx.disposeBag)
     }
 }
 
 extension Reactive where Base: SearchViewController {
-    var detailVCPush: Binder<String> {
-        return Binder(base) { base, id in
-            let viewModel = DetailViewModel(id: id)
-            let vc = DetailViewController(viewModel: viewModel)
-            vc.hidesBottomBarWhenPushed = true
-            
-            base.navigationController?.pushViewController(vc, animated: true)
-        }
-    }
-    
-    var webViewControllerPush: Binder<BookData> {
-        return Binder(base) { base, data in
-            let viewModel = WebViewModel(
-                title: data.mainTitle,
-                bookURL: data.bookURL
-            )
-            let webViewController = WebViewController(viewModel: viewModel)
-            
-            webViewController.hidesBottomBarWhenPushed = true
-            
-            base.navigationController?.pushViewController(
-                webViewController,
-                animated: true
-            )
-        }
-    }
-    
     var menuPopup: Binder<([String], Bool)> {
         return Binder(base) { base, setting in
             let alert = UIAlertController(

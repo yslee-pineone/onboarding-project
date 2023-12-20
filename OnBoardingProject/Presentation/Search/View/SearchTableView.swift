@@ -58,11 +58,6 @@ class SearchTableView: UITableView {
         searchWordSaveView.doneBtn.rx.tap
             .bind(to: rx.editModeOff)
             .disposed(by: rx.disposeBag)
-        
-        searchWordSaveView.editBtn.rx.tap
-            .map {.settingTap}
-            .bind(to: actionRelay)
-            .disposed(by: rx.disposeBag)
     }
     
     @discardableResult
@@ -122,6 +117,7 @@ class SearchTableView: UITableView {
                 .map {!$0.first!.items.isEmpty}
                 .bind(to: searchWordSaveView.titleLabel.rx.isHidden)
                 .disposed(by: rx.disposeBag)
+            
         } else if let msgObservable = observable as? Observable<String> {
             msgObservable
                 .bind(to: searchWordSaveView.titleLabel.rx.text)
