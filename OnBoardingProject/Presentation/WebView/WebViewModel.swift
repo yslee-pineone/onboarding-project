@@ -8,13 +8,28 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import RxFlow
 
-class WebViewModel {
+enum WebViewActionType {
+    
+}
+
+class WebViewModel: Stepper {
+    // MARK: - Stepper
+    var steps = PublishRelay<Step>()
+    
+    var initialStep: Step {
+        AppStep.webViewIsRequired(title: bookTitle, url: bookURL)
+    }
+    
+    // MARK: - ViewModelType Protocol
+    typealias ViewModel = WebViewModel
+    
     private let bookTitle: String
     private let bookURL: URL?
     
     struct Input {
-        
+        let actionTrigger: Observable<WebViewActionType>
     }
     
     struct Output {

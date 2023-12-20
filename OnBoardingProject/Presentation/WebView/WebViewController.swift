@@ -14,12 +14,12 @@ import RxCocoa
 import NSObject_Rx
 
 class WebViewController: UIViewController {
-    private let viewModel: WebViewModel
-    
     fileprivate lazy var webView = WebView().then {
-        $0.navigationDelegate = self
         $0.uiDelegate = self
     }
+    
+    private let viewModel: WebViewModel
+    private let actionRelay = PublishRelay<WebViewActionType>()
     
     init(
         viewModel: WebViewModel
@@ -56,14 +56,15 @@ class WebViewController: UIViewController {
     }
     
     private func bind() {
-        let input = WebViewModel.Input()
+        let input = WebViewModel.Input(
+            actionTrigger: actionRelay
+            .asObservable()
+        )
         let output = viewModel.transform(input: input)
         
-        output.loadingURL
-            .filter {$0 != nil}
-            .map {$0!}
-            .bind(to: rx.webViewLoad)
-            .disposed(by: rx.disposeBag)
+        webView
+            .setupDI(relay: actionRelay)
+            .setupDI(url: output.loadingURL)
         
         output.loadingURL
             .filter {$0 == nil}
@@ -74,16 +75,6 @@ class WebViewController: UIViewController {
         output.title
             .bind(to: rx.viewControllerTitleSet)
             .disposed(by: rx.disposeBag)
-    }
-}
-
-extension WebViewController: WKNavigationDelegate {
-    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-        self.webView.loadingIcon.startAnimating()
-    }
-    
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        self.webView.loadingIcon.stopAnimating()
     }
 }
 
@@ -143,13 +134,6 @@ extension WebViewController: WKUIDelegate {
 
 
 extension Reactive where Base: WebViewController {
-    var webViewLoad: Binder<URL> {
-        return Binder(base) { base, url in
-            let request = URLRequest(url: url)
-            base.webView.load(request)
-        }
-    }
-    
     var viewControllerTitleSet: Binder<String> {
         return Binder(base) { base, title in
             base.title = title

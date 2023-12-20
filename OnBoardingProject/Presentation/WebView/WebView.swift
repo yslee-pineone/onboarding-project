@@ -9,15 +9,21 @@ import UIKit
 import WebKit
 import Then
 import SnapKit
+import RxSwift
+import RxCocoa
+import NSObject_Rx
 
 class WebView: WKWebView {
     lazy var loadingIcon = UIActivityIndicatorView(style: .medium).then {
         $0.color = .label
     }
     
+    let actionRelay = PublishRelay<WebViewActionType>()
+    
     override init(frame: CGRect, configuration: WKWebViewConfiguration) {
         super.init(frame: frame, configuration: configuration)
         self.layout()
+        navigationDelegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -31,5 +37,41 @@ class WebView: WKWebView {
             $0.centerY.equalToSuperview().offset(-24)
         }
     }
+    
+    @discardableResult
+    func setupDI(relay: PublishRelay<WebViewActionType>) -> Self {
+        actionRelay
+            .bind(to: relay)
+            .disposed(by: rx.disposeBag)
+        return self
+    }
+    
+    @discardableResult
+    func setupDI(url: Observable<URL?>) -> Self {
+        url
+            .filter {$0 != nil}
+            .map {$0!}
+            .bind(to: rx.webViewLoad)
+            .disposed(by: rx.disposeBag)
+        return self
+    }
 }
- 
+
+extension WebView: WKNavigationDelegate {
+    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+        loadingIcon.startAnimating()
+    }
+    
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        loadingIcon.stopAnimating()
+    }
+}
+
+extension Reactive where Base: WebView {
+    var webViewLoad: Binder<URL> {
+        return Binder(base) { base, url in
+            let request = URLRequest(url: url)
+            base.load(request)
+        }
+    }
+}
