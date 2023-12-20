@@ -11,10 +11,10 @@ import RxCocoa
 import RxFlow
 
 enum WebViewActionType {
-    
+    case errorPopupOkBtnTap
 }
 
-class WebViewModel: Stepper {
+class WebViewModel: NSObject, Stepper {
     // MARK: - Stepper
     var steps = PublishRelay<Step>()
     
@@ -38,10 +38,21 @@ class WebViewModel: Stepper {
     }
     
     func transform(input: Input) -> Output {
+        input.actionTrigger
+            .bind(onNext: actionProcess)
+            .disposed(by: rx.disposeBag)
+        
         return Output(
             loadingURL: .just(bookURL),
             title: .just(bookTitle)
         )
+    }
+    
+    private func actionProcess(_ type: WebViewActionType) {
+        switch type {
+        case .errorPopupOkBtnTap:
+            steps.accept(AppStep.webViewComplete)
+        }
     }
     
     init(

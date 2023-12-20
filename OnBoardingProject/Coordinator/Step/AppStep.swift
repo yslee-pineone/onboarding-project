@@ -20,5 +20,5 @@ enum AppStep: Step {
     case detailComlete
     
     case webViewIsRequired(title: String, url: URL?)
-    case webViewComplate
+    case webViewComplete
 }

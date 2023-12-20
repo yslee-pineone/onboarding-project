@@ -19,7 +19,7 @@ class WebViewController: UIViewController {
     }
     
     private let viewModel: WebViewModel
-    private let actionRelay = PublishRelay<WebViewActionType>()
+    fileprivate let actionRelay = PublishRelay<WebViewActionType>()
     
     init(
         viewModel: WebViewModel
@@ -147,11 +147,12 @@ extension Reactive where Base: WebViewController {
                 message: DefaultMSG.WebView.urlErrorContents(title: title),
                 preferredStyle: .alert
             )
+            
             alert.addAction(UIAlertAction(
                 title: "닫기",
                 style: .cancel,
                 handler: { _ in
-                    base.navigationController?.popViewController(animated: true)
+                    base.actionRelay.accept(.errorPopupOkBtnTap)
                 }
             ))
             base.present(alert, animated: true)

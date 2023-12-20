@@ -6,9 +6,7 @@
 //
 
 import UIKit
-import RxSwift
 import RxFlow
-
 
 extension Flow {
     func detailPush(id: String, navigationController: UINavigationController) -> FlowContributors {

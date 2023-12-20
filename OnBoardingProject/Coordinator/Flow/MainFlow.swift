@@ -37,6 +37,10 @@ class MainFlow: Flow {
         case .webViewIsRequired(let title, let url):
             return webViewPush(title: title, url: url, navigationController: navigationController)
             
+        case .webViewComplete:
+            navigationController.popViewController(animated: true)
+            return .none
+            
         default:
             return .none
         }

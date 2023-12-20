@@ -37,6 +37,9 @@ class WebViewFlow: Flow {
             
             return .none
             
+        case .webViewComplete:
+            return .end(forwardToParentFlowWithStep: AppStep.webViewComplete)
+            
         default:
             return .none
         }
