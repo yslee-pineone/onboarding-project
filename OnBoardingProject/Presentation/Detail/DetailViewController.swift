@@ -106,30 +106,8 @@ class DetailViewController: UIViewController {
             .setupDI(observable: output.bookData)
             .setupDI(memoData: output.memoData)
         
-        // RxFlow 전 임시
         output.errorMSG
             .bind(to: rx.errorPopup)
-            .disposed(by: rx.disposeBag)
-        
-        actionRelay
-            .withUnretained(self)
-            .subscribe(onNext: { vc, data in
-                if case .browserIconTap(let bookData) = data {
-                    guard let bookData = bookData else {return}
-                    let viewModel = WebViewModel(
-                        title: bookData.mainTitle,
-                        bookURL: bookData.bookURL
-                    )
-                    let webViewController = WebViewController(viewModel: viewModel)
-                    
-                    webViewController.hidesBottomBarWhenPushed = true
-                    
-                    vc.navigationController?.pushViewController(
-                        webViewController,
-                        animated: true
-                    )
-                }
-            })
             .disposed(by: rx.disposeBag)
     }
     

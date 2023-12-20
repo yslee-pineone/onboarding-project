@@ -36,6 +36,10 @@ class DetailFlow: Flow {
             navigationController.pushViewController(vc, animated: true)
             
             return .none
+            
+        case .webViewIsRequired(let title, let url):
+            return webViewPush(title: title, url: url, navigationController: navigationController)
+            
         default:
             return .none
         }

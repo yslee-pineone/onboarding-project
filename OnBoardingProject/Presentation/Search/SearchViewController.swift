@@ -58,7 +58,6 @@ class SearchViewController: UIViewController {
     }
     
     private func bind() {
-        // RxFlow 전 임시
         settingPopupTap
             .map {.settingMenuTap(category: $0)}
             .bind(to: actionRelay)
@@ -83,15 +82,10 @@ class SearchViewController: UIViewController {
             .setupDI(relay: actionRelay)
             .setupDI(saveKeywordTap: output.saveKeywordSearch)
         
-        // RxFlow 전 임시
         actionRelay
             .withUnretained(self)
             .subscribe(onNext: { vc, category in
                 switch category {
-                case .browserIconTap(let id):
-                    Observable.just(id)
-                        .bind(to: vc.rx.webViewControllerPush)
-                        .disposed(by: vc.rx.disposeBag)
                     
                 case .settingTap:
                     Observable.just(Void())

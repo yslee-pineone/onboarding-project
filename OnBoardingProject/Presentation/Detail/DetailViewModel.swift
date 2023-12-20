@@ -82,8 +82,14 @@ class DetailViewModel: NSObject, Stepper {
     
     private func actionProcess(_ actionType: DetailViewActionType) {
         switch actionType {
-        case .browserIconTap(let bookID):
-            break
+        case .browserIconTap(let bookData):
+            Observable.just(bookData)
+                .filter {$0 != nil}
+                .map {
+                    AppStep.webViewIsRequired(title: $0!.mainTitle, url: $0!.bookURL)
+                }
+                .bind(to: steps)
+                .disposed(by: rx.disposeBag)
             
         case .didDisappearMemoContents(let contents):
             UserDefaultService.memoSave(

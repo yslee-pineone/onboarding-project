@@ -56,11 +56,11 @@ class MainViewModel: NSObject, Stepper {
                 .asObservable()
                 .withUnretained(self)
                 .subscribe(onNext: { viewModel, data in
-                    if case .success(let value) = data {
+                    switch data {
+                    case .success(let value):
                         viewModel.nowCellData.accept(value)
-                    }
-                    
-                    if case .failure(let error) = data {
+                        
+                    case .failure(let error):
                         viewModel.nowCellData.accept([])
                         print(error)
                     }
@@ -68,7 +68,12 @@ class MainViewModel: NSObject, Stepper {
                 .disposed(by: rx.disposeBag)
             
         case .browserIconTap(let bookData):
-            break
+            Observable.just(bookData)
+                .map {
+                    AppStep.webViewIsRequired(title: $0.mainTitle, url: $0.bookURL)
+                }
+                .bind(to: steps)
+                .disposed(by: rx.disposeBag)
             
         case .cellTap(let bookID):
             Observable.just(bookID)

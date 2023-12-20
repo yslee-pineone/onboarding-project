@@ -40,8 +40,6 @@ class DetailView: UIView {
     
     typealias Model = BookData
     private let actionRelay = PublishRelay<DetailViewActionType>()
-    
-    // RxFlow 전 임시
     var modelData: Model?
     
     override init(frame: CGRect) {
@@ -96,7 +94,6 @@ class DetailView: UIView {
             .bind(to: rx.viewDataSet)
             .disposed(by: rx.disposeBag)
         
-        // RxFlow 전 임시
         filterData
             .withUnretained(self)
             .subscribe(onNext: { view, data in

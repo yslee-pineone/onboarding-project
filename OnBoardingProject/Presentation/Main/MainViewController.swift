@@ -60,29 +60,5 @@ class MainViewController: UIViewController {
         tableView
             .setupDI(relay: actionRelay)
             .setupDI(observable: output.cellData)
-        
-        // RxFlow 적용 전 임시
-        actionRelay
-            .withUnretained(self)
-            .subscribe(onNext: { vc, data in
-                switch data {
-                case .browserIconTap(let bookdData):
-                    let viewModel = WebViewModel(
-                        title: bookdData.mainTitle,
-                        bookURL: bookdData.bookURL
-                    )
-                    let webViewController = WebViewController(viewModel: viewModel)
-                    webViewController.hidesBottomBarWhenPushed = true
-                    
-                    vc.navigationController?.pushViewController(
-                        webViewController,
-                        animated: true
-                    )
-        
-                default:
-                    break
-                }
-            })
-            .disposed(by: rx.disposeBag)
     }
 }

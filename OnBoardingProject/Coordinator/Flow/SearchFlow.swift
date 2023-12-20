@@ -32,22 +32,13 @@ class SearchFlow: Flow {
             return .none
             
         case .detailIsRequired(let bookID):
-            return detailPush(id: bookID)
+            return detailPush(id: bookID, navigationController: navigationController)
+            
+        case .webViewIsRequired(let title, let url):
+            return webViewPush(title: title, url: url, navigationController: navigationController)
             
         default:
             return .none
         }
-    }
-    
-    private func detailPush(id: String) -> FlowContributors {
-        let detailViewModel = DetailViewModel(id: id)
-        let detailFlow = DetailFlow(navigationController: navigationController, viewModel: detailViewModel)
-        
-        return .one(flowContributor:
-                .contribute(
-                    withNextPresentable: detailFlow,
-                    withNextStepper: detailViewModel
-                )
-        )
     }
 }
