@@ -11,7 +11,7 @@ import RxCocoa
 import RxFlow
 
 class SearchFlow: Flow {
-    var navigationController = UINavigationController()
+    let navigationController = UINavigationController()
     var root: RxFlow.Presentable {
         return navigationController
     }
@@ -31,8 +31,23 @@ class SearchFlow: Flow {
             
             return .none
             
+        case .detailIsRequired(let bookID):
+            return detailPush(id: bookID)
+            
         default:
             return .none
         }
+    }
+    
+    private func detailPush(id: String) -> FlowContributors {
+        let detailViewModel = DetailViewModel(id: id)
+        let detailFlow = DetailFlow(navigationController: navigationController, viewModel: detailViewModel)
+        
+        return .one(flowContributor:
+                .contribute(
+                    withNextPresentable: detailFlow,
+                    withNextStepper: detailViewModel
+                )
+        )
     }
 }

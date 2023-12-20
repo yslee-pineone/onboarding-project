@@ -8,6 +8,7 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import RxFlow
 import NSObject_Rx
 
 enum DetailViewActionType {
@@ -15,7 +16,17 @@ enum DetailViewActionType {
     case browserIconTap(book: BookData?)
 }
 
-class DetailViewModel: NSObject {
+class DetailViewModel: NSObject, Stepper {
+    // MARK: - Stepper
+    var steps = PublishRelay<Step>()
+    
+    var initialStep: Step {
+        AppStep.detailIsRequired(id: bookID)
+    }
+    
+    // MARK: - ViewModelType Protocol
+    typealias ViewModel = DetailViewModel
+    
     private let bookID: String
     private let nowBookData = BehaviorRelay<BookData>(
         value: .init(

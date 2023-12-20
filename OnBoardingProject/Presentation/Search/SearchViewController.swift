@@ -88,11 +88,6 @@ class SearchViewController: UIViewController {
             .withUnretained(self)
             .subscribe(onNext: { vc, category in
                 switch category {
-                case .cellTap(let id):
-                    Observable.just(id)
-                        .bind(to: vc.rx.detailVCPush)
-                        .disposed(by: vc.rx.disposeBag)
-                    
                 case .browserIconTap(let id):
                     Observable.just(id)
                         .bind(to: vc.rx.webViewControllerPush)

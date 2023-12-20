@@ -81,7 +81,12 @@ class SearchViewModel: NSObject, Stepper {
             break
             
         case .cellTap(let bookID):
-            break
+            Observable.just(bookID)
+                .map {
+                    AppStep.detailIsRequired(id: $0)
+                }
+                .bind(to: steps)
+                .disposed(by: rx.disposeBag)
             
         case .settingTap:
             break

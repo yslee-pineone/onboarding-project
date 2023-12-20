@@ -16,7 +16,7 @@ enum AppStep: Step {
     
     case searchIsRequired
     
-    case detailIsRequired(bookData: BookData)
+    case detailIsRequired(id: String)
     case detailComlete
     
     case webViewIsRequired(title: String, url: URL?)

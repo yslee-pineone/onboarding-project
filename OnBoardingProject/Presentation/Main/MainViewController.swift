@@ -78,17 +78,7 @@ class MainViewController: UIViewController {
                         webViewController,
                         animated: true
                     )
-                    
-                case .cellTap(let id):
-                    let viewModel = DetailViewModel(id: id)
-                    let detailViewController = DetailViewController(viewModel: viewModel)
-                    detailViewController.hidesBottomBarWhenPushed = true
-                    
-                    vc.navigationController?.pushViewController(
-                        detailViewController,
-                        animated: true
-                    )
-                    
+        
                 default:
                     break
                 }

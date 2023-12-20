@@ -22,6 +22,7 @@
 		C33DE1692B32AFEE00B20B93 /* SearchFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33DE1682B32AFEE00B20B93 /* SearchFlow.swift */; };
 		C33DE16B2B32B1A600B20B93 /* OnboardingFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33DE16A2B32B1A600B20B93 /* OnboardingFlow.swift */; };
 		C33DE16E2B32B57900B20B93 /* AppStepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33DE16D2B32B57900B20B93 /* AppStepper.swift */; };
+		C33DE1702B32B89E00B20B93 /* DetailFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33DE16F2B32B89E00B20B93 /* DetailFlow.swift */; };
 		C3D28F592B2C3C60001245DD /* SearchTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D28F582B2C3C60001245DD /* SearchTableView.swift */; };
 		C3DCAF1E2B1EBF4600CF40B9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DCAF1D2B1EBF4600CF40B9 /* AppDelegate.swift */; };
 		C3DCAF202B1EBF4600CF40B9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DCAF1F2B1EBF4600CF40B9 /* SceneDelegate.swift */; };
@@ -76,6 +77,7 @@
 		C33DE1682B32AFEE00B20B93 /* SearchFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFlow.swift; sourceTree = "<group>"; };
 		C33DE16A2B32B1A600B20B93 /* OnboardingFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingFlow.swift; sourceTree = "<group>"; };
 		C33DE16D2B32B57900B20B93 /* AppStepper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStepper.swift; sourceTree = "<group>"; };
+		C33DE16F2B32B89E00B20B93 /* DetailFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailFlow.swift; sourceTree = "<group>"; };
 		C3D28F582B2C3C60001245DD /* SearchTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableView.swift; sourceTree = "<group>"; };
 		C3DCAF1A2B1EBF4600CF40B9 /* OnBoardingProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnBoardingProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3DCAF1D2B1EBF4600CF40B9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 				C33DE16A2B32B1A600B20B93 /* OnboardingFlow.swift */,
 				C33DE1662B32AFE900B20B93 /* MainFlow.swift */,
 				C33DE1682B32AFEE00B20B93 /* SearchFlow.swift */,
+				C33DE16F2B32B89E00B20B93 /* DetailFlow.swift */,
 			);
 			path = Flow;
 			sourceTree = "<group>";
@@ -530,6 +533,7 @@
 				C32DE1782B22FF11007DAC84 /* NetworkingError.swift in Sources */,
 				C33DE16E2B32B57900B20B93 /* AppStepper.swift in Sources */,
 				C33DE16B2B32B1A600B20B93 /* OnboardingFlow.swift in Sources */,
+				C33DE1702B32B89E00B20B93 /* DetailFlow.swift in Sources */,
 				C3EE7DF62B1EEA9700DC64A1 /* NetworkService.swift in Sources */,
 				C3EE7E1B2B1F1DE100DC64A1 /* UIView+.swift in Sources */,
 				C32DE1722B22A332007DAC84 /* DetailView.swift in Sources */,
