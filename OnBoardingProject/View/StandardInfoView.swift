@@ -33,7 +33,7 @@ class StandardInfoView: UIView {
         $0.font = .systemFont(ofSize: FontStyle.mid)
     }
     
-    private  lazy var idTitle = UILabel().then {
+    private lazy var idTitle = UILabel().then {
         $0.textColor = .label
         $0.textAlignment = .center
         $0.font = .systemFont(ofSize: FontStyle.midSmall)
