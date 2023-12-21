@@ -21,7 +21,7 @@ class SearchViewController: UIViewController, ViewModelProtocol {
     
     // MARK: - Properties
 
-    fileprivate let tableView = SearchTableView()
+    fileprivate lazy var tableView = SearchTableView()
     fileprivate var searchBarViewController: SearchBarViewController!
     private let searchResultViewController: SearchResultViewController
     

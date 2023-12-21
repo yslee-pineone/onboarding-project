@@ -38,7 +38,11 @@ class SearchWordSaveView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        layout()
+        
+        // 레이아웃 오류 방지 용
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+            self.layout()
+        }
     }
     
     required init?(coder: NSCoder) {
