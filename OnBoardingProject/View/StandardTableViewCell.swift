@@ -13,6 +13,9 @@ import RxSwift
 import Reusable
 
 class StandardTableViewCell: UITableViewCell, Reusable {
+    
+    // MARK: - Propertie
+    
     private lazy var mainView = UIView().then {
         $0.layer.cornerRadius = 16
         $0.backgroundColor = .systemGray6
@@ -72,6 +75,8 @@ class StandardTableViewCell: UITableViewCell, Reusable {
     
     var bag = DisposeBag()
     
+    // MARK: - init
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         attribute()
@@ -81,6 +86,8 @@ class StandardTableViewCell: UITableViewCell, Reusable {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: - Methods
     
     override func prepareForReuse() {
         super.prepareForReuse()

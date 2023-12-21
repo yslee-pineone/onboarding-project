@@ -10,6 +10,9 @@ import Then
 import SnapKit
 
 class DetailLoadingView: UIView {
+    
+    // MARK: - Properties
+    
     private lazy var loadingIcon = UIActivityIndicatorView(style: .medium).then {
         $0.color = .white
     }
@@ -19,6 +22,8 @@ class DetailLoadingView: UIView {
         $0.font = .systemFont(ofSize: FontStyle.mid, weight: .bold)
         $0.text = DefaultMSG.Detail.loading
     }
+    
+    // MARK: - init
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -30,6 +35,8 @@ class DetailLoadingView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: - Methods
     
     private func attrubute() {
         backgroundColor = .gray.withAlphaComponent(0.5)

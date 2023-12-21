@@ -13,6 +13,9 @@ import Then
 import NSObject_Rx
 
 class SearchResultViewController: UITableViewController {
+    
+    // MARK: - Properties
+    
     lazy var noSearchListLabel = UILabel().then {
         $0.textColor = .systemGray4
         $0.isHidden = true
@@ -21,7 +24,10 @@ class SearchResultViewController: UITableViewController {
     }
     
     typealias Model = [BookData]
+    
     let actionRelay = PublishRelay<SearchViewActionType>()
+    
+    // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +35,8 @@ class SearchResultViewController: UITableViewController {
         layout()
         bind()
     }
+    
+    // MARK: - Methods
     
     private func attirbute() {
         tableView.register(cellType: SearchResultTableViewCell.self)

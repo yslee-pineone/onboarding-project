@@ -13,6 +13,10 @@ import RxCocoa
 import NSObject_Rx
 
 class MainTableView: UITableView {
+    typealias Model = [BookData]
+    
+    // MARK: - Properties
+    
     fileprivate lazy var refresh = UIRefreshControl().then {
         $0.tintColor = .label
     }
@@ -24,8 +28,9 @@ class MainTableView: UITableView {
         $0.text = DefaultMSG.Main.empty
     }
     
-    typealias Model = [BookData]
     private let actionRelay = PublishRelay<MainViewActionType>()
+    
+    // MARK: - init
     
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
@@ -37,6 +42,8 @@ class MainTableView: UITableView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: - Method
     
     private func attribute() {
         dataSource = nil
@@ -116,6 +123,8 @@ class MainTableView: UITableView {
         return self
     }
 }
+
+// MARK: - ReactiveMainTableView
 
 extension Reactive where Base: MainTableView {
     var refreshEnd: Binder<Void> {

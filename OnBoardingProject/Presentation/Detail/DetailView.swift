@@ -14,7 +14,12 @@ import RxCocoa
 import NSObject_Rx
 
 class DetailView: UIView {
+    typealias Model = BookData
+    
+    // MARK: - Properties
+    
     fileprivate lazy var loadingView: DetailLoadingView? = DetailLoadingView()
+    fileprivate lazy var infoView = StandardInfoView()
     
     private lazy var backGroundView = UIView().then {
         $0.backgroundColor = .systemGray4
@@ -23,8 +28,6 @@ class DetailView: UIView {
     fileprivate lazy var bookImageView = UIImageView().then {
         $0.contentMode = .scaleToFill
     }
-    
-    fileprivate lazy var infoView = StandardInfoView()
     
     private lazy var borderView = UIView().then {
         $0.backgroundColor = .systemGray4
@@ -38,9 +41,11 @@ class DetailView: UIView {
         $0.layer.cornerRadius = 16
     }
     
-    typealias Model = BookData
     private let actionRelay = PublishRelay<DetailViewActionType>()
+    
     var modelData: Model?
+    
+    // MARK: - init
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -51,6 +56,8 @@ class DetailView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: - Methods
     
     private func bind() {
         infoView.urlTitle.rx.tap
@@ -155,6 +162,8 @@ class DetailView: UIView {
         }
     }
 }
+
+// MARK: - ReactiveDetailView
 
 extension Reactive where Base: DetailView {
     var placeHolderOff: Binder<String?> {

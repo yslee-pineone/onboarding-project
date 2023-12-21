@@ -12,6 +12,9 @@ import RxSwift
 import Reusable
 
 class SearchWordSaveViewCell: UICollectionViewCell, Reusable {
+    
+    // MARK: - Propertie
+    
     private lazy var mainBG = UIView().then {
         $0.layer.cornerRadius = 16
         $0.backgroundColor = .systemGray5
@@ -30,6 +33,8 @@ class SearchWordSaveViewCell: UICollectionViewCell, Reusable {
     
     var bag = DisposeBag()
     
+    // MARK: - init, prepareForReuse
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         attribute()
@@ -46,6 +51,8 @@ class SearchWordSaveViewCell: UICollectionViewCell, Reusable {
         
         deleteBtn.isHidden = true
     }
+    
+    // MARK: - Methods
     
     private func attribute() {
         backgroundColor = .clear

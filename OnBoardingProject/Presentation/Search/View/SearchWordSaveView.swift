@@ -10,6 +10,9 @@ import Then
 import SnapKit
 
 class SearchWordSaveView: UIView {
+    
+    // MARK: - Propertie
+    
     lazy var collectionView = UICollectionView(frame: .null, collectionViewLayout: UICollectionViewLayout()).then {
         $0.collectionViewLayout = collectionViewLayout()
         $0.register(cellType: SearchWordSaveViewCell.self)
@@ -31,6 +34,8 @@ class SearchWordSaveView: UIView {
         $0.isHidden = true
     }
     
+    // MARK: - init
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         layout()
@@ -39,6 +44,8 @@ class SearchWordSaveView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: - Methods
     
     private func layout() {
         addSubviews([collectionView, editBtn, doneBtn])

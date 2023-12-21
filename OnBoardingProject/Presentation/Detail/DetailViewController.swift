@@ -164,6 +164,8 @@ class DetailViewController: UIViewController, ViewModelProtocol {
     }
 }
 
+// MARK: - ReactiveDetailViewController
+
 extension Reactive where Base: DetailViewController {
     var errorPopup: Binder<String> {
         return Binder(base) { base, msg in

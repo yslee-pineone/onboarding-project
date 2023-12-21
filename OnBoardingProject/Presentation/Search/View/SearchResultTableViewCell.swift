@@ -13,6 +13,9 @@ import RxSwift
 import Reusable
 
 class SearchResultTableViewCell: UITableViewCell, Reusable {
+    
+    // MARK: - Propertie
+    
     private lazy var bookImageView = UIImageView().then {
         $0.contentMode = .scaleToFill
     }
@@ -20,6 +23,8 @@ class SearchResultTableViewCell: UITableViewCell, Reusable {
     lazy var infoView = StandardInfoView()
     
     var bag = DisposeBag()
+    
+    // MARK: - init, prepareForReuse
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -35,6 +40,8 @@ class SearchResultTableViewCell: UITableViewCell, Reusable {
         super.prepareForReuse()
         bag = DisposeBag()
     }
+    
+    // MARK: - Methods
     
     private func attribute() {
         separatorInset = .init(top: 0, left: 0, bottom: 0, right: 0)

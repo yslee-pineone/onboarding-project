@@ -103,6 +103,8 @@ class SearchViewController: UIViewController, ViewModelProtocol {
     }
 }
 
+// MARK: - ReactiveSearchViewController
+
 extension Reactive where Base: SearchViewController {
     var menuPopup: Binder<([String], Bool)> {
         return Binder(base) { base, setting in

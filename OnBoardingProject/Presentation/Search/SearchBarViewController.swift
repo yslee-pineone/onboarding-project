@@ -12,8 +12,14 @@ import SnapKit
 import NSObject_Rx
 
 class SearchBarViewController: UISearchController {
+    
+    // MARK: - Properties
+    
     typealias Model = [BookData]
+    
     let actionRelay = PublishRelay<SearchViewActionType>()
+    
+    // MARK: - Lifecycle
     
     override init(searchResultsController: UIViewController?) {
         super.init(searchResultsController: searchResultsController)
@@ -24,6 +30,8 @@ class SearchBarViewController: UISearchController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: - Methods
     
     private func attribute() {
         searchBar.placeholder = DefaultMSG.Search.searchStart
@@ -60,6 +68,8 @@ class SearchBarViewController: UISearchController {
         return self
     }
 }
+
+// MARK: - ReactiveSearchBarViewController
 
 extension Reactive where Base: SearchBarViewController {
     var searchPresent: Binder<String>{

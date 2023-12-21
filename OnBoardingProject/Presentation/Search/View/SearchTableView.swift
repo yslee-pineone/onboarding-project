@@ -12,12 +12,18 @@ import RxDataSources
 import NSObject_Rx
 
 class SearchTableView: UITableView {
+    
+    // MARK: - Propertie
+    
      lazy var searchWordSaveView = SearchWordSaveView(
         frame: CGRect(x: 0, y: 0, width: frame.size.width, height: 80)
     )
     
     typealias Model = [BookData]
+    
     let actionRelay = PublishRelay<SearchViewActionType>()
+    
+    // MARK: - init
     
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
@@ -28,6 +34,8 @@ class SearchTableView: UITableView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: - Methods
     
     private func attribute() {
         separatorStyle = .none
@@ -127,6 +135,8 @@ class SearchTableView: UITableView {
         return self
     }
 }
+
+// MARK: - ReactiveSearchTableView
 
 extension Reactive where Base: SearchTableView {
     var editModeOff: Binder<Void>{

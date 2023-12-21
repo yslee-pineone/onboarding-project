@@ -89,6 +89,8 @@ class WebViewController: UIViewController, ViewModelProtocol {
     }
 }
 
+// MARK: - WKUIDelegate
+
 extension WebViewController: WKUIDelegate {
     func webView(
         _ webView: WKWebView,
@@ -143,6 +145,7 @@ extension WebViewController: WKUIDelegate {
     }
 }
 
+// MARK: - ReactiveWebViewController
 
 extension Reactive where Base: WebViewController {
     var viewControllerTitleSet: Binder<String> {

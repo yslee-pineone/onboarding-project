@@ -14,11 +14,16 @@ import RxCocoa
 import NSObject_Rx
 
 class WebView: WKWebView {
+    
+    // MARK: - Properties
+    
     private lazy var loadingIcon = UIActivityIndicatorView(style: .medium).then {
         $0.color = .label
     }
     
     private let actionRelay = PublishRelay<WebViewActionType>()
+    
+    // MARK: - init
     
     override init(frame: CGRect, configuration: WKWebViewConfiguration) {
         super.init(frame: frame, configuration: configuration)
@@ -29,6 +34,8 @@ class WebView: WKWebView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: - Method
     
     private func layout() {
         addSubview(loadingIcon)
@@ -56,6 +63,8 @@ class WebView: WKWebView {
         return self
     }
 }
+
+// MARK: - WKNavigationDelegate
 
 extension WebView: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
