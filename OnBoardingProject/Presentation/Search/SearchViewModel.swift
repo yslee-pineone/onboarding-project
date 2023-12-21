@@ -199,6 +199,7 @@ class SearchViewModel: NSObject, Stepper, ViewModelType {
         case .saveStart, .saveStop:
             let isOn = category == .saveStart
             if !isOn {
+                UserDefaultService.searchWordSave(keywordList: [])
                 nowSaveWords.accept([SearchKeywordSection(items: [], isEdit: false)])
             }
             
