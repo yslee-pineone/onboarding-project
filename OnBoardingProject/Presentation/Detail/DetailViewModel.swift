@@ -17,7 +17,7 @@ enum DetailViewActionType {
     case errorPopupOkBtnTap
 }
 
-class DetailViewModel: NSObject, Stepper {
+class DetailViewModel: NSObject, Stepper, ViewModelType {
     // MARK: - Stepper
     var steps = PublishRelay<Step>()
     

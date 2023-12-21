@@ -17,7 +17,7 @@ enum MainViewActionType {
     case cellTap(bookID: String)
 }
 
-class MainViewModel: NSObject, Stepper {
+class MainViewModel: NSObject, Stepper, ViewModelType {
     // MARK: - Stepper
     var steps = PublishRelay<Step>()
     

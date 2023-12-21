@@ -22,7 +22,7 @@ enum SearchViewActionType {
     case browserIconTap(book: BookData)
 }
 
-class SearchViewModel: NSObject, Stepper {
+class SearchViewModel: NSObject, Stepper, ViewModelType {
     // MARK: - Stepper
     var steps = PublishRelay<Step>()
     
@@ -31,7 +31,7 @@ class SearchViewModel: NSObject, Stepper {
     }
     
     // MARK: - ViewModelType Protocol
-    typealias ViewModel = MainViewModel
+    typealias ViewModel = SearchViewModel
     
     private let nowSearchData = BehaviorRelay<[BookData]>(value: [])
     private let nowSaveWords = BehaviorRelay<[SearchKeywordSection]>(value: [])

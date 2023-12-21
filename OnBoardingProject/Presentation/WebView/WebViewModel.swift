@@ -14,7 +14,7 @@ enum WebViewActionType {
     case errorPopupOkBtnTap
 }
 
-class WebViewModel: NSObject, Stepper {
+class WebViewModel: NSObject, Stepper, ViewModelType {
     // MARK: - Stepper
     var steps = PublishRelay<Step>()
     
