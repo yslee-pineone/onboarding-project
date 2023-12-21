@@ -13,13 +13,22 @@ import RxSwift
 import RxCocoa
 import NSObject_Rx
 
-class WebViewController: UIViewController {
+class WebViewController: UIViewController, ViewModelProtocol {
+    typealias ViewModel = WebViewModel
+    
+    // MARK: - ViewModelProtocol
+    
+    var viewModel: ViewModel!
+    
+    // MARK: - Properties
+    
     fileprivate lazy var webView = WebView().then {
         $0.uiDelegate = self
     }
     
-    private let viewModel: WebViewModel
     fileprivate let actionRelay = PublishRelay<WebViewActionType>()
+    
+    // MARK: - Lifecycle
     
     init(
         viewModel: WebViewModel
@@ -42,6 +51,8 @@ class WebViewController: UIViewController {
         attribute()
         bind()
     }
+    
+    // MARK: - Methods
     
     private func attribute() {
         view.backgroundColor = .systemBackground

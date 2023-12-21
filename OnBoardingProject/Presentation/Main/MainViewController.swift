@@ -12,12 +12,20 @@ import RxSwift
 import RxCocoa
 import NSObject_Rx
 
-class MainViewController: UIViewController {
+class MainViewController: UIViewController, ViewModelProtocol {
+    typealias ViewModel = MainViewModel
+    
+    // MARK: - ViewModelProtocol
+    
+    var viewModel: ViewModel!
+    
+    // MARK: - Properties
+    
     fileprivate lazy var tableView = MainTableView()
     
-    typealias ViewModel = MainViewModel
-    private let viewModel: ViewModel
     private let actionRelay = PublishRelay<MainViewActionType>()
+    
+    // MARK: - Lifecycle
     
     init(
         viewModel: MainViewModel
@@ -36,6 +44,8 @@ class MainViewController: UIViewController {
         layout()
         bind()
     }
+    
+    // MARK: - Methods
     
     private func attribute() {
         view.backgroundColor = .systemBackground

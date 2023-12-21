@@ -12,13 +12,22 @@ import RxCocoa
 import NSObject_Rx
 import RxDataSources
 
-class SearchViewController: UIViewController {
+class SearchViewController: UIViewController, ViewModelProtocol {
+    typealias ViewModel = SearchViewModel
+    
+    // MARK: - ViewModelProtocol
+    
+    var viewModel: ViewModel!
+    
+    // MARK: - Properties
+
     fileprivate let tableView = SearchTableView()
     fileprivate var searchBarViewController: SearchBarViewController!
     private let searchResultViewController: SearchResultViewController
     
-    private let viewModel: SearchViewModel
     fileprivate let actionRelay = PublishRelay<SearchViewActionType>()
+    
+    // MARK: - Lifecycle
     
     init(
         viewModel: SearchViewModel,
@@ -40,6 +49,8 @@ class SearchViewController: UIViewController {
         layout()
         bind()
     }
+    
+    // MARK: - Methods
     
     private func attribute() {
         view.backgroundColor = .systemBackground

@@ -15,7 +15,9 @@ enum WebViewActionType {
 }
 
 class WebViewModel: NSObject, Stepper, ViewModelType {
+    
     // MARK: - Stepper
+    
     var steps = PublishRelay<Step>()
     
     var initialStep: Step {
@@ -23,6 +25,7 @@ class WebViewModel: NSObject, Stepper, ViewModelType {
     }
     
     // MARK: - ViewModelType Protocol
+    
     typealias ViewModel = WebViewModel
     
     private let bookTitle: String

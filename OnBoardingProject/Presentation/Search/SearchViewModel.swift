@@ -23,7 +23,9 @@ enum SearchViewActionType {
 }
 
 class SearchViewModel: NSObject, Stepper, ViewModelType {
+    
     // MARK: - Stepper
+    
     var steps = PublishRelay<Step>()
     
     var initialStep: Step {
@@ -31,6 +33,7 @@ class SearchViewModel: NSObject, Stepper, ViewModelType {
     }
     
     // MARK: - ViewModelType Protocol
+    
     typealias ViewModel = SearchViewModel
     
     private let nowSearchData = BehaviorRelay<[BookData]>(value: [])

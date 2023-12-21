@@ -11,12 +11,21 @@ import RxSwift
 import RxCocoa
 import NSObject_Rx
 
-class DetailViewController: UIViewController {
+class DetailViewController: UIViewController, ViewModelProtocol {
+    typealias ViewModel = DetailViewModel
+    
+    // MARK: - ViewModelProtocol
+    
+    var viewModel: ViewModel!
+    
+    // MARK: - Properties
+    
     private lazy var scrollView = UIScrollView()
     fileprivate lazy var detailView = DetailView()
     
-    private let viewModel: DetailViewModel
     fileprivate let actionRelay = PublishRelay<DetailViewActionType>()
+    
+    // MARK: - Lifecycle
     
     init(
         viewModel: DetailViewModel
@@ -49,6 +58,8 @@ class DetailViewController: UIViewController {
         NotificationCenter.default.removeObserver(self)
         detailView.memoInput.resignFirstResponder()
     }
+    
+    // MARK: - Methods
     
     private func attribute() {
         view.backgroundColor = .systemBackground

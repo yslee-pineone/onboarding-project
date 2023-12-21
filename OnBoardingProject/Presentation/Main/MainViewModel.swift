@@ -18,7 +18,9 @@ enum MainViewActionType {
 }
 
 class MainViewModel: NSObject, Stepper, ViewModelType {
+    
     // MARK: - Stepper
+    
     var steps = PublishRelay<Step>()
     
     var initialStep: Step {
@@ -26,6 +28,7 @@ class MainViewModel: NSObject, Stepper, ViewModelType {
     }
     
     // MARK: - ViewModelType Protocol
+    
     typealias ViewModel = MainViewModel
     
     private let nowCellData = BehaviorRelay<[BookData]>(value: [])

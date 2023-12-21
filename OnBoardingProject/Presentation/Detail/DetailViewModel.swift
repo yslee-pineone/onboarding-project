@@ -18,7 +18,9 @@ enum DetailViewActionType {
 }
 
 class DetailViewModel: NSObject, Stepper, ViewModelType {
+    
     // MARK: - Stepper
+    
     var steps = PublishRelay<Step>()
     
     var initialStep: Step {
@@ -26,6 +28,7 @@ class DetailViewModel: NSObject, Stepper, ViewModelType {
     }
     
     // MARK: - ViewModelType Protocol
+    
     typealias ViewModel = DetailViewModel
     
     private let bookID: String
