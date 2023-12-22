@@ -115,7 +115,7 @@ class MainTableView: UITableView {
             .disposed(by: rx.disposeBag)
         
         observable
-            .map {_ in true}
+            .map {!$0.isEmpty}
             .bind(to: noSearchListLabel.rx.isHidden)
             .disposed(by: rx.disposeBag)
         

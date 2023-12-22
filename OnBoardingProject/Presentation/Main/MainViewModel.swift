@@ -32,12 +32,13 @@ class MainViewModel: NSObject, Stepper, ViewModelType {
     
     typealias ViewModel = MainViewModel
     
-    private let nowCellData = Action<Bool, [BookData]> {
-        if $0 {
+    private lazy var nowCellData = Action<Bool, [BookData]> { [weak self] isLoad in
+        if isLoad {
             return BookListLoad.newBookListRequest()
         } else {
             // 로드 실패 시 return 값으로 빈 배열을 반환하기 위해 사용
             // 로드 시도 -> 실패? -> nowCellData(false)로 빈 배열 반환
+            self?.nowErrorMsg.accept(NetworkingError.error_800.errorMSG)
             return .just([])
         }
     }
@@ -75,13 +76,15 @@ class MainViewModel: NSObject, Stepper, ViewModelType {
                     // 빈 배열 반환을 위한 재요청
                     self?.nowCellData.execute(false)
                     
-                    guard let error = error as? NetworkingError,
-                          let self = self
+                    guard let error = error as? ActionError,
+                          case .underlyingError(let oneError) = error,
+                          let networkingError = oneError as? NetworkingError
                     else {
                         self?.nowErrorMsg.accept(NetworkingError.defaultErrorMSG)
                         return
                     }
-                    self.nowErrorMsg.accept(error.errorMSG)
+                    
+                    self?.nowErrorMsg.accept(networkingError.errorMSG)
                 })
                 .disposed(by: rx.disposeBag)
             
