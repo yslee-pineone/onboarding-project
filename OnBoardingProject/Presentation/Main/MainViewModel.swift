@@ -10,6 +10,7 @@ import RxSwift
 import RxCocoa
 import RxFlow
 import NSObject_Rx
+import Action
 
 enum MainViewActionType {
     case refreshEvent
@@ -31,7 +32,16 @@ class MainViewModel: NSObject, Stepper, ViewModelType {
     
     typealias ViewModel = MainViewModel
     
-    private let nowCellData = BehaviorRelay<[BookData]>(value: [])
+    private let nowCellData = Action<Bool, [BookData]> {
+        if $0 {
+            return BookListLoad.newBookListRequest()
+        } else {
+            // 로드 실패 시 return 값으로 빈 배열을 반환하기 위해 사용
+            // 로드 시도 -> 실패? -> nowCellData(false)로 빈 배열 반환
+            return .just([])
+        }
+    }
+    private let nowErrorMsg = BehaviorRelay<String>(value: "")
     
     struct Input {
         let actionTrigger: Observable<MainViewActionType>
@@ -39,6 +49,7 @@ class MainViewModel: NSObject, Stepper, ViewModelType {
     
     struct Output {
         let cellData: Observable<[BookData]>
+        let errorMsg: Observable<String>
     }
     
     func transform(input: Input) -> Output {
@@ -47,7 +58,10 @@ class MainViewModel: NSObject, Stepper, ViewModelType {
             .disposed(by: rx.disposeBag)
         
         return Output(
-            cellData: self.nowCellData
+            cellData: nowCellData
+                .elements
+                .asObservable(),
+            errorMsg: nowErrorMsg
                 .asObservable()
         )
     }
@@ -55,18 +69,19 @@ class MainViewModel: NSObject, Stepper, ViewModelType {
     private func actionProcess(_ type: MainViewActionType) {
         switch type {
         case .refreshEvent:
-            BookListLoad.newBookListRequest()
-                .asObservable()
-                .withUnretained(self)
-                .subscribe(onNext: { viewModel, data in
-                    switch data {
-                    case .success(let value):
-                        viewModel.nowCellData.accept(value)
-                        
-                    case .failure(let error):
-                        viewModel.nowCellData.accept([])
-                        print(error)
+            // event를 전송하면서, Observable을 바로 사용
+            nowCellData.execute(true)
+                .subscribe(onError: {[weak self] error in
+                    // 빈 배열 반환을 위한 재요청
+                    self?.nowCellData.execute(false)
+                    
+                    guard let error = error as? NetworkingError,
+                          let self = self
+                    else {
+                        self?.nowErrorMsg.accept(NetworkingError.defaultErrorMSG)
+                        return
                     }
+                    self.nowErrorMsg.accept(error.errorMSG)
                 })
                 .disposed(by: rx.disposeBag)
             

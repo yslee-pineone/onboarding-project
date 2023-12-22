@@ -12,13 +12,12 @@ import RxCocoa
 class BookListLoad {
     private static let networkService: NetworkServiceProtocol = NetworkService()
     
-    static func newBookListRequest() -> Single<Result<[BookData], Error>> {
+    static func newBookListRequest() -> Single<[BookData]> {
         return BookListLoad.networkService.request(
             configuration: .new,
             decodingType: BookListData.self
         )
-        .map {.success($0.books)}
-        .catch {.just(.failure($0))}
+        .map {$0.books}
     }
     
     static func searchBookListRequest(query: String, page: String) -> Single<BookListData> {

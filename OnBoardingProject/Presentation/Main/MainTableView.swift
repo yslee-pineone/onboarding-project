@@ -115,9 +115,27 @@ class MainTableView: UITableView {
             .disposed(by: rx.disposeBag)
         
         observable
-            .map {!$0.isEmpty}
-            .skip(1)
+            .map {_ in true}
             .bind(to: noSearchListLabel.rx.isHidden)
+            .disposed(by: rx.disposeBag)
+        
+        return self
+    }
+    
+    @discardableResult
+    func setupDI(errorMSG: Observable<String>) -> Self {
+        errorMSG
+            .bind(to: noSearchListLabel.rx.text)
+            .disposed(by: rx.disposeBag)
+        
+        errorMSG
+            .map {_ in false}
+            .bind(to: noSearchListLabel.rx.isHidden)
+            .disposed(by: rx.disposeBag)
+        
+        errorMSG
+            .map {_ in}
+            .bind(to: rx.refreshEnd)
             .disposed(by: rx.disposeBag)
         
         return self

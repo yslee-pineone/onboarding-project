@@ -12,6 +12,7 @@ pod 'RxCocoa'
 pod 'NSObject+Rx'
 pod 'RxDataSources'
 pod 'RxFlow'
+pod 'Action'
 
 pod 'Moya'
 pod 'Moya/RxSwift'

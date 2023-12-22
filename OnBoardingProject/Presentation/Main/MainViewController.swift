@@ -70,5 +70,6 @@ class MainViewController: UIViewController, ViewModelProtocol {
         tableView
             .setupDI(relay: actionRelay)
             .setupDI(observable: output.cellData)
+            .setupDI(errorMSG: output.errorMsg)
     }
 }
