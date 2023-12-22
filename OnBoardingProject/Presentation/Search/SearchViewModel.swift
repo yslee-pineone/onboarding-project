@@ -40,7 +40,9 @@ class SearchViewModel: NSObject, Stepper, ViewModelType {
     private let nowSearchData = BehaviorRelay<[BookData]>(value: [])
     private let nowSaveWords = BehaviorRelay<[SearchKeywordSection]>(value: [])
     private let nowKeywordAutoSave = BehaviorRelay<Bool>(value: false)
-    private let nowCellErrorMSG = BehaviorRelay<String>(value: "")
+    private let nowCellErrorMSG = Action<UserDefaultError, String> {
+        .just($0.errorMSG)
+    }
     private let nowSearchKeyword = BehaviorRelay<(String, Int, Bool)>(value: ("", 0, false))
     private let nowSearchErrorMSG = Action<NetworkingError, String> {
         .just($0.errorMSG)
@@ -73,7 +75,7 @@ class SearchViewModel: NSObject, Stepper, ViewModelType {
             saveCellData: nowSaveWords
                 .asObservable(),
             saveCellErrorMSG: nowCellErrorMSG
-                .asObservable(),
+                .elements,
             isSearchKeywordSave: nowKeywordAutoSave
                 .asObservable(),
             saveKeywordSearch: nowSearchKeyword
@@ -191,13 +193,10 @@ class SearchViewModel: NSObject, Stepper, ViewModelType {
         
         saveSearchWord
             .filter {$0.isEmpty}
-            .map {_ in ""}
-            .catch { error in
+            .subscribe(onError: { [weak self] error in
                 let userDefaultError = error as? UserDefaultError
-                
-                return .just(userDefaultError?.errorMSG ?? UserDefaultError.defaultErrorMSG)
-            }
-            .bind(to: nowCellErrorMSG)
+                self?.nowCellErrorMSG.execute(userDefaultError ?? UserDefaultError.defaultError)
+            })
             .disposed(by: rx.disposeBag)
     }
     
@@ -227,19 +226,12 @@ class SearchViewModel: NSObject, Stepper, ViewModelType {
                 .disposed(by: rx.disposeBag)
         }
         
-        Observable<String>.create { observer in
-            switch category {
-            case .saveStart, .wordAllRemove, .wordRemove:
-                observer.onNext(UserDefaultError.notContents.errorMSG)
-            case .saveStop:
-                observer.onNext(UserDefaultError.searchWordSaveOff.errorMSG)
-            }
-            
-            return Disposables.create()
+        switch category {
+        case .saveStart, .wordAllRemove, .wordRemove:
+            nowCellErrorMSG.execute(UserDefaultError.notContents)
+        case .saveStop:
+            nowCellErrorMSG.execute(UserDefaultError.searchWordSaveOff)
         }
-        .bind(to: nowCellErrorMSG)
-        .disposed(by: rx.disposeBag)
-        
     }
     
     private func bookLoad() {
