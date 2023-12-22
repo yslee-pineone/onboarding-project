@@ -10,6 +10,7 @@ import RxSwift
 import RxCocoa
 import RxFlow
 import NSObject_Rx
+import Action
 
 enum DetailViewActionType {
     case didDisappearMemoContents(memo: String)
@@ -32,17 +33,10 @@ class DetailViewModel: NSObject, Stepper, ViewModelType {
     typealias ViewModel = DetailViewModel
     
     private let bookID: String
-    private let nowBookData = BehaviorRelay<BookData>(
-        value: .init(
-            error: DefaultMSG.Detail.loading,
-            mainTitle: DefaultMSG.Detail.loading,
-            subTitle: DefaultMSG.Detail.loading,
-            bookID: DefaultMSG.Detail.loading,
-            price: DefaultMSG.Detail.loading,
-            imageString: DefaultMSG.Detail.loading,
-            urlString: DefaultMSG.Detail.loading
-        )
-    )
+    private let nowBookData = Action<String, BookData> {
+        BookListLoad.detailBookInfomationRequest(id: $0)
+    }
+    
     private let errorTitle = PublishSubject<String>()
     
     struct Input {
@@ -56,12 +50,15 @@ class DetailViewModel: NSObject, Stepper, ViewModelType {
     }
     
     func transform(input: Input) -> Output {
-        BookListLoad.detailBookInfomationRequest(id: bookID)
-            .asObservable()
-            .withUnretained(self)
-            .subscribe(onNext: { viewModel, data in
-                viewModel.nowBookData.accept(data)
-            }, onError: { [weak self] error in
+        // transform 호출 후 바로 값을 보내게 되면 Observable이 놓칠 수 있기 때문에 0.1초 뒤에 발송
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.nowBookData.execute("\(self.bookID)")
+        }
+        
+        nowBookData
+            .executionObservables
+            .flatMap{$0}
+            .subscribe(onError: { [weak self] error in
                 let networkingError = error as? NetworkingError
                 
                 guard let self = self else {return}
@@ -75,6 +72,7 @@ class DetailViewModel: NSObject, Stepper, ViewModelType {
         
         return Output(
             bookData: nowBookData
+                .elements
                 .asObservable(),
             memoData: UserDefaultService.memoRequest(bookID: bookID)
                 .catchAndReturn("")
