@@ -22,9 +22,10 @@ enum NetworkingError: String, Error {
     /// 네트워크 안됨
     case error_999 = "네트워크에 연결되어 있지 않습니다."
     
+    /// 기본 에러
+    case defaultError = "오류가 발생하였습니다."
+    
     var errorMSG: String {
         self.rawValue
     }
-    
-    static let defaultErrorMSG = "오류가 발생하였습니다."
 }

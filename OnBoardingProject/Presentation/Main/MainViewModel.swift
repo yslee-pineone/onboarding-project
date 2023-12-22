@@ -38,11 +38,13 @@ class MainViewModel: NSObject, Stepper, ViewModelType {
         } else {
             // 로드 실패 시 return 값으로 빈 배열을 반환하기 위해 사용
             // 로드 시도 -> 실패? -> nowCellData(false)로 빈 배열 반환
-            self?.nowErrorMsg.accept(NetworkingError.error_800.errorMSG)
+            self?.nowErrorMsg.execute(.error_800)
             return .just([])
         }
     }
-    private let nowErrorMsg = BehaviorRelay<String>(value: "")
+    private let nowErrorMsg = Action<NetworkingError, String> {
+        .just($0.errorMSG)
+    }
     
     struct Input {
         let actionTrigger: Observable<MainViewActionType>
@@ -60,10 +62,9 @@ class MainViewModel: NSObject, Stepper, ViewModelType {
         
         return Output(
             cellData: nowCellData
-                .elements
-                .asObservable(),
+                .elements,
             errorMsg: nowErrorMsg
-                .asObservable()
+                .elements
         )
     }
     
@@ -80,11 +81,11 @@ class MainViewModel: NSObject, Stepper, ViewModelType {
                           case .underlyingError(let oneError) = error,
                           let networkingError = oneError as? NetworkingError
                     else {
-                        self?.nowErrorMsg.accept(NetworkingError.defaultErrorMSG)
+                        self?.nowErrorMsg.execute(.defaultError)
                         return
                     }
                     
-                    self?.nowErrorMsg.accept(networkingError.errorMSG)
+                    self?.nowErrorMsg.execute(networkingError)
                 })
                 .disposed(by: rx.disposeBag)
             

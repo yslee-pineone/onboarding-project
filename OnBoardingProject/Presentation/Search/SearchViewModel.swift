@@ -195,7 +195,7 @@ class SearchViewModel: NSObject, Stepper, ViewModelType {
             .filter {$0.isEmpty}
             .subscribe(onError: { [weak self] error in
                 let userDefaultError = error as? UserDefaultError
-                self?.nowCellErrorMSG.execute(userDefaultError ?? UserDefaultError.defaultError)
+                self?.nowCellErrorMSG.execute(userDefaultError ?? .defaultError)
             })
             .disposed(by: rx.disposeBag)
     }
@@ -228,9 +228,9 @@ class SearchViewModel: NSObject, Stepper, ViewModelType {
         
         switch category {
         case .saveStart, .wordAllRemove, .wordRemove:
-            nowCellErrorMSG.execute(UserDefaultError.notContents)
+            nowCellErrorMSG.execute(.notContents)
         case .saveStop:
-            nowCellErrorMSG.execute(UserDefaultError.searchWordSaveOff)
+            nowCellErrorMSG.execute(.searchWordSaveOff)
         }
     }
     
@@ -248,7 +248,7 @@ class SearchViewModel: NSObject, Stepper, ViewModelType {
                 switch newData {
                 case .success(let successData):
                     if successData.books.isEmpty {
-                        viewModel.nowSearchErrorMSG.execute(NetworkingError.error_800)
+                        viewModel.nowSearchErrorMSG.execute(.error_800)
                         return []
                     } else if successData.page == "1" {
                         return successData.books

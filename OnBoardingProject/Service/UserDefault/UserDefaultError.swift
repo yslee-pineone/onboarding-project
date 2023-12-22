@@ -15,6 +15,4 @@ enum UserDefaultError: String, Error {
     var errorMSG: String {
         self.rawValue
     }
-    
-    static let defaultErrorMSG = "오류가 발생하였습니다."
 }

@@ -37,7 +37,9 @@ class DetailViewModel: NSObject, Stepper, ViewModelType {
         BookListLoad.detailBookInfomationRequest(id: $0)
     }
     
-    private let errorTitle = PublishSubject<String>()
+    private let errorTitle = Action<NetworkingError, String> {
+        .just($0.errorMSG)
+    }
     
     struct Input {
         let actionTrigger: Observable<DetailViewActionType>
@@ -62,7 +64,7 @@ class DetailViewModel: NSObject, Stepper, ViewModelType {
                 let networkingError = error as? NetworkingError
                 
                 guard let self = self else {return}
-                self.errorTitle.onNext(networkingError?.errorMSG ??  NetworkingError.defaultErrorMSG)
+                self.errorTitle.execute(networkingError ??  .defaultError)
             })
             .disposed(by: rx.disposeBag)
         
@@ -78,7 +80,7 @@ class DetailViewModel: NSObject, Stepper, ViewModelType {
                 .catchAndReturn("")
                 .asObservable(),
             errorMSG: errorTitle
-                .asObservable()
+                .elements
         )
     }
     
