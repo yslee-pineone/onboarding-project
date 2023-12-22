@@ -19,6 +19,7 @@ class NetworkService: NetworkServiceProtocol {
     ) -> Single<T> {
         provider.rx.request(configuration)
             .map { response in
+                print(response)
                 switch response.statusCode {
                 case 200 ... 299:
                     do {
@@ -34,6 +35,14 @@ class NetworkService: NetworkServiceProtocol {
                 default:
                     throw NetworkingError.error_500
                 }
+            }
+            .catch { error in
+                // 네트워크 연결 안됨 에러
+                guard let error = error as? MoyaError,
+                      error.errorCode == 6
+                else {return .error(error)}
+                
+                return .error(NetworkingError.error_999)
             }
             .timeout(.seconds(3), other: .error(NetworkingError.error_999), scheduler: MainScheduler.asyncInstance)
     }
