@@ -19,7 +19,6 @@ class NetworkService: NetworkServiceProtocol {
     ) -> Single<T> {
         provider.rx.request(configuration)
             .map { response in
-                print(response)
                 switch response.statusCode {
                 case 200 ... 299:
                     do {
@@ -28,10 +27,13 @@ class NetworkService: NetworkServiceProtocol {
                     } catch {
                         throw NetworkingError.error_400
                     }
+                    
                 case 400 ... 499:
                     throw NetworkingError.error_499
+                    
                 case 500 ... 599:
                     throw NetworkingError.error_500
+                    
                 default:
                     throw NetworkingError.error_500
                 }

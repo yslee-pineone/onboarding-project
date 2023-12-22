@@ -104,4 +104,18 @@ class SearchResultViewController: UITableViewController {
         
         return self
     }
+    
+    @discardableResult
+    func setupDI(searchErrorMSG: Observable<String>) -> Self {
+        searchErrorMSG
+            .bind(to: noSearchListLabel.rx.text)
+            .disposed(by: rx.disposeBag)
+        
+        searchErrorMSG
+            .map {_ in false}
+            .bind(to: noSearchListLabel.rx.isHidden)
+            .disposed(by: rx.disposeBag)
+      
+        return self
+    }
 }

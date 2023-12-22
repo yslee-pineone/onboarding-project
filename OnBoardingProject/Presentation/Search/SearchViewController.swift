@@ -82,6 +82,7 @@ class SearchViewController: UIViewController, ViewModelProtocol {
         searchResultViewController
             .setupDI(relay: actionRelay)
             .setupDI(model: output.cellData)
+            .setupDI(searchErrorMSG: output.searchErrorMSG)
         
         searchBarViewController
             .setupDI(relay: actionRelay)

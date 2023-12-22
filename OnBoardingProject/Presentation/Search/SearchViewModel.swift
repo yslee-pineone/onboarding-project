@@ -10,6 +10,7 @@ import RxSwift
 import RxCocoa
 import RxFlow
 import NSObject_Rx
+import Action
 
 enum SearchViewActionType {
     case searchText(text: String)
@@ -41,6 +42,9 @@ class SearchViewModel: NSObject, Stepper, ViewModelType {
     private let nowKeywordAutoSave = BehaviorRelay<Bool>(value: false)
     private let nowCellErrorMSG = BehaviorRelay<String>(value: "")
     private let nowSearchKeyword = BehaviorRelay<(String, Int, Bool)>(value: ("", 0, false))
+    private let nowSearchErrorMSG = Action<NetworkingError, String> {
+        .just($0.errorMSG)
+    }
     
     struct Input {
         let actionTrigger: Observable<SearchViewActionType>
@@ -52,6 +56,7 @@ class SearchViewModel: NSObject, Stepper, ViewModelType {
         let saveCellErrorMSG: Observable<String>
         let isSearchKeywordSave: Observable<Bool>
         let saveKeywordSearch: Observable<String>
+        let searchErrorMSG: Observable<String>
     }
     
     func transform(input: Input) -> Output {
@@ -73,7 +78,9 @@ class SearchViewModel: NSObject, Stepper, ViewModelType {
                 .asObservable(),
             saveKeywordSearch: nowSearchKeyword
                 .filter {$0.2}
-                .map {$0.0}
+                .map {$0.0},
+            searchErrorMSG: nowSearchErrorMSG
+                .elements
         )
     }
     
@@ -246,25 +253,32 @@ class SearchViewModel: NSObject, Stepper, ViewModelType {
             .map { viewModel, newData in
                 var list = viewModel.nowSearchData.value
                 
-                if case let .success(successData) = newData {
-                    if successData.page == "1" {
+                switch newData {
+                case .success(let successData):
+                    if successData.books.isEmpty {
+                        viewModel.nowSearchErrorMSG.execute(NetworkingError.error_800)
+                        return []
+                    } else if successData.page == "1" {
                         return successData.books
                     } else {
                         list.append(contentsOf: successData.books)
                         return list
                     }
-                }
-                if case .failure(let error) = newData {
-                    let urlError = error as? NetworkingError
+                    
+                case .failure(let error):
+                    guard let urlError = error as? NetworkingError else {
+                        return list
+                    }
                     
                     switch urlError {
-                    case .error_400, .error_499, .error_500:
+                    case .error_999:
+                        viewModel.nowSearchErrorMSG.execute(urlError)
                         return []
+                        
                     default:
                         return list
                     }
                 }
-                return list
             }
             .bind(to: nowSearchData)
             .disposed(by: rx.disposeBag)
