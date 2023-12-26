@@ -10,7 +10,6 @@
 		C32DE16F2B22A0D0007DAC84 /* MainTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32DE16E2B22A0D0007DAC84 /* MainTableView.swift */; };
 		C32DE1722B22A332007DAC84 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32DE1712B22A332007DAC84 /* DetailView.swift */; };
 		C32DE1742B22D13A007DAC84 /* DetailLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32DE1732B22D13A007DAC84 /* DetailLoadingView.swift */; };
-		C32DE1762B22D64E007DAC84 /* BookListLoadCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32DE1752B22D64E007DAC84 /* BookListLoadCategory.swift */; };
 		C32DE1782B22FF11007DAC84 /* NetworkingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32DE1772B22FF11007DAC84 /* NetworkingError.swift */; };
 		C32DE17A2B269C10007DAC84 /* UIStackView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32DE1792B269C10007DAC84 /* UIStackView+.swift */; };
 		C32DE17D2B269D2E007DAC84 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32DE17C2B269D2E007DAC84 /* WebView.swift */; };
@@ -70,7 +69,6 @@
 		C32DE16E2B22A0D0007DAC84 /* MainTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableView.swift; sourceTree = "<group>"; };
 		C32DE1712B22A332007DAC84 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		C32DE1732B22D13A007DAC84 /* DetailLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailLoadingView.swift; sourceTree = "<group>"; };
-		C32DE1752B22D64E007DAC84 /* BookListLoadCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListLoadCategory.swift; sourceTree = "<group>"; };
 		C32DE1772B22FF11007DAC84 /* NetworkingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingError.swift; sourceTree = "<group>"; };
 		C32DE1792B269C10007DAC84 /* UIStackView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+.swift"; sourceTree = "<group>"; };
 		C32DE17C2B269D2E007DAC84 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
@@ -348,7 +346,6 @@
 			isa = PBXGroup;
 			children = (
 				C3EE7DFF2B1EEFF100DC64A1 /* BookListLoad.swift */,
-				C32DE1752B22D64E007DAC84 /* BookListLoadCategory.swift */,
 			);
 			path = BookListLoad;
 			sourceTree = "<group>";
@@ -554,7 +551,6 @@
 				C3EE7E272B1FFE5600DC64A1 /* DetailViewModel.swift in Sources */,
 				C3EE7E052B1EF03B00DC64A1 /* BookListData.swift in Sources */,
 				C392FF4E2B340E12006A679B /* UserDefaultCategory.swift in Sources */,
-				C32DE1762B22D64E007DAC84 /* BookListLoadCategory.swift in Sources */,
 				C3EE7DF82B1EEAA100DC64A1 /* NetworkServiceProtocol.swift in Sources */,
 				C33DE1742B32C23F00B20B93 /* Flow+.swift in Sources */,
 				C32DE1842B269F2F007DAC84 /* WebViewModel.swift in Sources */,
