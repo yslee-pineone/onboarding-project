@@ -41,6 +41,7 @@ class SearchBarViewController: UISearchController {
         searchBar.rx.text
             .filter {$0 != nil}
             .map {.searchText(text: $0!)}
+            .debounce(.milliseconds(500), scheduler: MainScheduler.asyncInstance)
             .bind(to: actionRelay)
             .disposed(by: rx.disposeBag)
         

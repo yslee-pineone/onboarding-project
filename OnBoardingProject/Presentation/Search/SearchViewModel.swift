@@ -63,12 +63,11 @@ class SearchViewModel: NSObject, Stepper, ViewModelType {
     
     func transform(input: Input) -> Output {
         saveKeywordLoad()
-        bookLoad()
         
         input.actionTrigger
             .bind(onNext: actionProcess)
             .disposed(by: rx.disposeBag)
-
+        
         return Output(
             cellData: nowSearchData
                 .asObservable(),
@@ -95,85 +94,53 @@ class SearchViewModel: NSObject, Stepper, ViewModelType {
             steps.accept(AppStep.detailIsRequired(id: bookID))
             
         case .editModeDone:
-            Observable.just(Void())
-                .withLatestFrom(nowSaveWords)
-                .map { data in
-                    [SearchKeywordSection(items: data.first!.items, isEdit: false)]
-                }
-                .bind(to: nowSaveWords)
-                .disposed(by: rx.disposeBag)
+            let data = [SearchKeywordSection(items: nowSaveWords.value.first!.items, isEdit: false)]
+            nowSaveWords.accept(data)
             
         case .enterTap:
-            Observable.just(Void())
-                .withLatestFrom(nowKeywordAutoSave)
-                .filter {$0}
-                .withLatestFrom(nowSearchKeyword)
-                .withUnretained(self)
-                .subscribe(onNext: { viewModel, data in
-                    var now = viewModel.nowSaveWords.value.first!
-                    var items = now.items
-                    items.append(data.0)
-                    now.items = items
-                    
-                    viewModel.nowSaveWords.accept([now])
-                    UserDefaultService.searchWordSave(keywordList: items)
-                })
-                .disposed(by: rx.disposeBag)
-            
+            if nowKeywordAutoSave.value {
+                let data = nowSearchKeyword.value
+                var now = nowSaveWords.value.first!
+                var items = now.items
+                items.append(data.0)
+                now.items = items
+                
+                nowSaveWords.accept([now])
+                UserDefaultService.searchWordSave(keywordList: items)
+            }
+           
         case .nextDisplayIndex(let index):
-            Observable.just(Void())
-                .withLatestFrom(nowSearchKeyword)
-                .filter { data in
-                    (data.1 * 10) - 3 <= (index.section * 10) + index.row
-                }
-                .map {($0.0, $0.1 + 1, $0.2)}
-                .bind(to: nowSearchKeyword)
-                .disposed(by: rx.disposeBag)
+            let nowSaveWordsValue = nowSearchKeyword.value
+            
+            if (nowSaveWordsValue.1 * 10) - 3 <= (index.section * 10) + index.row {
+                nowSearchKeyword.accept((nowSaveWordsValue.0, nowSaveWordsValue.1 + 1, nowSaveWordsValue.2))
+                bookLoad()
+            }
             
         case .saveCellTap(let word, let row):
-            Observable.just((word, row))
-                .withLatestFrom(nowSaveWords) { tap, now -> (String, Int)? in
-                    if !now.first!.isEdit {
-                        return tap
-                    } else {
-                        return nil
-                    }
-                }
-                .filter {$0 != nil}
-                .map {($0!.0, 1, true)}
-                .bind(to: nowSearchKeyword)
-                .disposed(by: rx.disposeBag)
+            let nowSaveWordsValue = nowSaveWords.value
             
-            // edit mode
-            Observable.just((word, row))
-                .withLatestFrom(nowSaveWords)
-                .filter {$0.first!.isEdit}
-                .withUnretained(self)
-                .subscribe(onNext: { viewModel, _ in
-                    var now = viewModel.nowSaveWords.value.first!
-                    var items = now.items
-                    
-                    items.remove(at: row)
-                    now.items = items
-                    
-                    viewModel.nowSaveWords.accept([now])
-                    UserDefaultService.searchWordSave(keywordList: items)
-                })
-                .disposed(by: rx.disposeBag)
+            if !nowSaveWordsValue.first!.isEdit {
+                nowSearchKeyword.accept((word, 1, true))
+                bookLoad()
+            } else {
+                // edit mode
+                var now = nowSaveWords.value.first!
+                var items = now.items
+                
+                items.remove(at: row)
+                now.items = items
+                
+                nowSaveWords.accept([now])
+                UserDefaultService.searchWordSave(keywordList: items)
+            }
             
         case .searchText(let text):
-            Observable.just(text)
-                .map {($0, 1, false)}
-                .bind(to: nowSearchKeyword)
-                .disposed(by: rx.disposeBag)
+            nowSearchKeyword.accept((text, 1, false))
+            bookLoad()
             
         case .settingMenuTap(let category):
-            Observable.just(category)
-                .withUnretained(self)
-                .subscribe(onNext: { viewModel, type in
-                    viewModel.settingMenuTap(type)
-                })
-                .disposed(by: rx.disposeBag)
+            settingMenuTap(category)
         }
     }
     
@@ -218,62 +185,48 @@ class SearchViewModel: NSObject, Stepper, ViewModelType {
             UserDefaultService.searchWordSave(keywordList: [])
             
         case .wordRemove:
-            Observable.just(Void())
-                .withLatestFrom(nowSaveWords)
-                .map { data in
-                    [SearchKeywordSection(items: data.first!.items, isEdit: true)]
-                }
-                .bind(to: nowSaveWords)
-                .disposed(by: rx.disposeBag)
+            let data = [SearchKeywordSection(items: nowSaveWords.value.first!.items, isEdit: true)]
+            nowSaveWords.accept(data)
         }
         
         switch category {
         case .saveStart, .wordAllRemove, .wordRemove:
             nowCellErrorMSG.execute(.notContents)
+            
         case .saveStop:
             nowCellErrorMSG.execute(.searchWordSaveOff)
         }
     }
     
     private func bookLoad() {
-        nowSearchKeyword
-            .debounce(.milliseconds(500), scheduler: MainScheduler.asyncInstance)
-            .withUnretained(self)
-            .flatMapLatest { viewModel, query in
-                return BookListLoad.bookListSearch(query: query.0, nextPage: "\(query.1)")
-            }
-            .withUnretained(self)
-            .map { viewModel, newData in
-                var list = viewModel.nowSearchData.value
-                
-                switch newData {
-                case .success(let successData):
-                    if successData.books.isEmpty {
-                        viewModel.nowSearchErrorMSG.execute(.error_800)
-                        return []
-                    } else if successData.page == "1" {
-                        return successData.books
-                    } else {
-                        list.append(contentsOf: successData.books)
-                        return list
-                    }
+        let nowSearchKeyword = nowSearchKeyword.value
+        BookListLoad.bookListSearch(query: nowSearchKeyword.0, nextPage: "\(nowSearchKeyword.1)")
+            .subscribe(onSuccess: { [weak self] data in
+                if data.books.isEmpty {
+                    self?.nowSearchErrorMSG.execute(.error_800)
+                    self?.nowSearchData.accept([])
+                } else if data.page == "1" {
+                    self?.nowSearchData.accept(data.books)
+                } else {
+                    var list = self?.nowSearchData.value
                     
-                case .failure(let error):
-                    guard let urlError = error as? NetworkingError else {
-                        return list
-                    }
-                    
-                    switch urlError {
-                    case .error_999:
-                        viewModel.nowSearchErrorMSG.execute(urlError)
-                        return []
-                        
-                    default:
-                        return list
-                    }
+                    list?.append(contentsOf: data.books)
+                    self?.nowSearchData.accept(list ?? [])
                 }
-            }
-            .bind(to: nowSearchData)
+            }, onFailure: { [weak self] error in
+                guard let urlError = error as? NetworkingError else {
+                    self?.nowSearchErrorMSG.execute(.error_499)
+                    return
+                }
+                
+                switch urlError {
+                case .error_999:
+                    self?.nowSearchErrorMSG.execute(urlError)
+                    
+                default:
+                    self?.nowSearchErrorMSG.execute(.error_499)
+                }
+            })
             .disposed(by: rx.disposeBag)
     }
     

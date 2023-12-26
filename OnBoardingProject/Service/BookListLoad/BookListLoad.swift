@@ -36,10 +36,7 @@ class BookListLoad {
     
     static func bookListSearch(
         query: String, nextPage page: String
-    ) -> Single<Result<BookListData, Error>> {
+    ) -> Single<BookListData> {
         return BookListLoad.searchBookListRequest(query: query, page: page)
-            .map {.success($0)}
-            .catch {.just(.failure($0))}
     }
-    
 }
