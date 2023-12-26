@@ -193,6 +193,7 @@ class SearchViewModel: NSObject, Stepper, ViewModelType {
         
         saveSearchWord
             .filter {$0.isEmpty}
+            .delaySubscription(.milliseconds(50), scheduler: MainScheduler.asyncInstance)
             .subscribe(onError: { [weak self] error in
                 let userDefaultError = error as? UserDefaultError
                 self?.nowCellErrorMSG.execute(userDefaultError ?? .defaultError)
