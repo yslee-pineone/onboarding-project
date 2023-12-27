@@ -99,14 +99,7 @@ class SearchViewModel: NSObject, Stepper, ViewModelType {
             
         case .enterTap:
             if nowKeywordAutoSave.value {
-                let data = nowSearchKeyword.value
-                var now = nowSaveWords.value.first!
-                var items = now.items
-                items.append(data.0)
-                now.items = items
-                
-                nowSaveWords.accept([now])
-                UserDefaultService.searchWordSave(keywordList: items)
+                saveKeywordListChange()
             }
            
         case .nextDisplayIndex(let index):
@@ -121,6 +114,7 @@ class SearchViewModel: NSObject, Stepper, ViewModelType {
             
             if !nowSaveWordsValue.first!.isEdit {
                 bookLoad((word, 1, true))
+                saveKeywordListChange()
                 
             } else {
                 // edit mode
@@ -140,6 +134,22 @@ class SearchViewModel: NSObject, Stepper, ViewModelType {
         case .settingMenuTap(let category):
             settingMenuTap(category)
         }
+    }
+    
+    private func saveKeywordListChange() {
+        let data = nowSearchKeyword.value
+        var now = nowSaveWords.value.first!
+        var items = now.items
+        
+        if let index = items.firstIndex(of: data.0) {
+            items.remove(at: index)
+        }
+        
+        // O(n)을 차지하는데 더 좋은 방법을 고민해봐야 할 듯
+        items.insert(data.0, at: 0)
+        now.items = items
+        nowSaveWords.accept([now])
+        UserDefaultService.searchWordSave(keywordList: items)
     }
     
     private func saveKeywordLoad() {
