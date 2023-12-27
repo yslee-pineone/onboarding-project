@@ -30,7 +30,9 @@ class SearchWordSaveView: UIView {
     }
     
     lazy var doneBtn = UIButton(type: .system).then {
-        $0.setImage(UIImage(systemName: "square.and.arrow.down"), for: .normal)
+        $0.titleLabel?.font = .systemFont(ofSize: FontStyle.small, weight: .semibold)
+        $0.titleLabel?.numberOfLines = 2
+        $0.setTitle("삭제\n완료", for: .normal)
         $0.isHidden = true
     }
     
@@ -56,13 +58,13 @@ class SearchWordSaveView: UIView {
         editBtn.snp.makeConstraints {
             $0.trailing.equalToSuperview().inset(24)
             $0.top.bottom.equalToSuperview()
-            $0.width.equalTo(28)
+            $0.width.equalTo(48)
         }
         
         doneBtn.snp.makeConstraints {
             $0.trailing.equalToSuperview().inset(24)
             $0.top.bottom.equalToSuperview()
-            $0.width.equalTo(28)
+            $0.width.equalTo(48)
         }
         
         collectionView.snp.makeConstraints {
