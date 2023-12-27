@@ -113,16 +113,15 @@ class SearchViewModel: NSObject, Stepper, ViewModelType {
             let nowSaveWordsValue = nowSearchKeyword.value
             
             if (nowSaveWordsValue.1 * 10) - 3 <= (index.section * 10) + index.row {
-                nowSearchKeyword.accept((nowSaveWordsValue.0, nowSaveWordsValue.1 + 1, nowSaveWordsValue.2))
-                bookLoad()
+                bookLoad((nowSaveWordsValue.0, nowSaveWordsValue.1 + 1, nowSaveWordsValue.2))
             }
             
         case .saveCellTap(let word, let row):
             let nowSaveWordsValue = nowSaveWords.value
             
             if !nowSaveWordsValue.first!.isEdit {
-                nowSearchKeyword.accept((word, 1, true))
-                bookLoad()
+                bookLoad((word, 1, true))
+                
             } else {
                 // edit mode
                 var now = nowSaveWords.value.first!
@@ -136,8 +135,7 @@ class SearchViewModel: NSObject, Stepper, ViewModelType {
             }
             
         case .searchText(let text):
-            nowSearchKeyword.accept((text, 1, false))
-            bookLoad()
+            bookLoad((text, 1, false))
             
         case .settingMenuTap(let category):
             settingMenuTap(category)
@@ -198,7 +196,9 @@ class SearchViewModel: NSObject, Stepper, ViewModelType {
         }
     }
     
-    private func bookLoad() {
+    private func bookLoad(_ data: (String, Int, Bool)) {
+        nowSearchKeyword.accept(data)
+        
         let nowSearchKeyword = nowSearchKeyword.value
         BookListLoad.bookListSearch(query: nowSearchKeyword.0, nextPage: "\(nowSearchKeyword.1)")
             .subscribe(onSuccess: { [weak self] data in
