@@ -46,6 +46,7 @@ class SearchBarViewController: UISearchController {
             .disposed(by: rx.disposeBag)
         
         searchBar.searchTextField.rx.controlEvent(.editingDidEndOnExit)
+            .delay(.milliseconds(600), scheduler: MainScheduler.asyncInstance)
             .map {_ in .enterTap}
             .bind(to: actionRelay)
             .disposed(by: rx.disposeBag)
