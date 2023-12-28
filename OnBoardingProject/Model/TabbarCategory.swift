@@ -7,31 +7,17 @@
 
 import UIKit
 
-enum TabbarCategory: String, CaseIterable {
+enum TabbarCategory: String {
     case new = "New"
     case search = "Search"
     
-    var icon: UIImage? {
+    var tabbarItem: UITabBarItem {
         switch self {
         case .new:
-            return UIImage(systemName: "book")
+            return UITabBarItem(title: self.rawValue, image: UIImage(systemName: "book"), tag: 0)
             
         case .search:
-            return UIImage(systemName: "magnifyingglass")
-        }
-    }
-    
-    var title: String {
-        return self.rawValue
-    }
-    
-    var number: Int {
-        switch self {
-        case .new:
-            return 0
-            
-        case .search:
-            return 1
+            return UITabBarItem(title: self.rawValue, image: UIImage(systemName: "magnifyingglass"), tag: 1)
         }
     }
 }

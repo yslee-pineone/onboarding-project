@@ -38,17 +38,8 @@ class OnboardingFlow: Flow {
         Flows.use([mainFlow, searchFlow], when: .created) { [weak self] root in
             let tabbarVC = root
             
-            tabbarVC[0].tabBarItem = UITabBarItem(
-                title: TabbarCategory.new.title,
-                image: TabbarCategory.new.icon,
-                tag: TabbarCategory.new.number
-            )
-            
-            tabbarVC[1].tabBarItem = UITabBarItem(
-                title: TabbarCategory.search.title,
-                image: TabbarCategory.search.icon,
-                tag: TabbarCategory.search.number
-            )
+            tabbarVC[0].tabBarItem = TabbarCategory.new.tabbarItem
+            tabbarVC[1].tabBarItem = TabbarCategory.search.tabbarItem
             
             self?.tabbarController.setViewControllers(tabbarVC, animated: true)
         }
