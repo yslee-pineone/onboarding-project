@@ -71,7 +71,6 @@ class MainTableView: UITableView {
             .disposed(by: rx.disposeBag)
         
         refresh.rx.controlEvent(.valueChanged)
-            .startWith(())
             .delay(.microseconds(500), scheduler: MainScheduler.asyncInstance)
             .map {.refreshEvent}
             .bind(to: actionRelay)
@@ -115,6 +114,7 @@ class MainTableView: UITableView {
             .disposed(by: rx.disposeBag)
         
         observable
+            .skip(1)
             .map {!$0.isEmpty}
             .bind(to: noSearchListLabel.rx.isHidden)
             .disposed(by: rx.disposeBag)

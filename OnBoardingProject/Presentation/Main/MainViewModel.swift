@@ -32,15 +32,9 @@ class MainViewModel: NSObject, Stepper, ViewModelType {
     
     typealias ViewModel = MainViewModel
     
-    private lazy var nowCellData = Action<Bool, [BookData]> { [weak self] isLoad in
-        if isLoad {
-            return BookListLoad.newBookListRequest()
-        } else {
-            // 로드 실패 시 return 값으로 빈 배열을 반환하기 위해 사용
-            // 로드 시도 -> 실패? -> nowCellData(false)로 빈 배열 반환
-            self?.nowErrorMsg.execute(.error_800)
-            return .just([])
-        }
+    private let nowCellData = BehaviorRelay<[BookData]>(value: [])
+    private let cellDataLoading = Action<Void, [BookData]> { _ in
+        BookListLoad.newBookListRequest()
     }
     private let nowErrorMsg = Action<NetworkingError, String> {
         .just($0.errorMSG)
@@ -62,7 +56,7 @@ class MainViewModel: NSObject, Stepper, ViewModelType {
         
         return Output(
             cellData: nowCellData
-                .elements,
+                .asObservable(),
             errorMsg: nowErrorMsg
                 .elements
         )
@@ -71,11 +65,12 @@ class MainViewModel: NSObject, Stepper, ViewModelType {
     private func actionProcess(_ type: MainViewActionType) {
         switch type {
         case .refreshEvent:
-            // event를 전송하면서, Observable을 바로 사용
-            nowCellData.execute(true)
-                .subscribe(onError: {[weak self] error in
-                    // 빈 배열 반환을 위한 재요청
-                    self?.nowCellData.execute(false)
+            cellDataLoading.execute(())
+                .subscribe(onNext: { [weak self] data in
+                    self?.nowCellData.accept(data)
+                    
+                },onError: {[weak self] error in
+                    self?.nowCellData.accept([])
                     
                     guard let error = error as? ActionError,
                           case .underlyingError(let oneError) = error,
@@ -100,6 +95,8 @@ class MainViewModel: NSObject, Stepper, ViewModelType {
     override init(
         
     ) {
-        
+        super.init()
+        // 초기 로딩 시도
+        actionProcess(.refreshEvent)
     }
 }
